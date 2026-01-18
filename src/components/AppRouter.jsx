@@ -2,8 +2,6 @@ import { createBrowserRouter } from 'react-router-dom'
 import AdminLayout from './layout/AdminLayout'
 import LoginPage from '../pages/loginPage/entry/LoginPage'
 import DashBoardPage from '../pages/dashBoardPage/entry/DashBoardPage'
-import CSVCreatePage from '../pages/CSVCreatePage/entry/CSVCreatePage'
-import CSVDetailPage from '../pages/CSVDetailPage/entry/CSVDetailPage'
 import FormCreatePage from '../pages/formCreatePage/entry/FormCreatePage'
 import FormDetailPage from '../pages/formDetailPage/entry/FormDetailPage'
 import UserDetailPage from '../pages/userDetailPage/entry/UserDetailPage'
@@ -22,18 +20,18 @@ export const AppRouter = createBrowserRouter([
         path: 'dashboard',
         element: <DashBoardPage />,
       },
-      {
-        path: 'newcsv',
-        element: <CSVCreatePage />,
-      },
+      // {
+      //   path: 'newcsv',
+      //   element: <CsvCreatePage />,
+      // },
       {
         path: 'newform',
         element: <FormCreatePage />,
       },
-      {
-        path: 'editcsv/:id',
-        element: <CSVDetailPage />,
-      },
+      // {
+      //   path: 'editcsv/:id',
+      //   element: <CsvDetailPage />,
+      // },
       {
         path: 'editform/:id',
         element: <FormDetailPage />,
