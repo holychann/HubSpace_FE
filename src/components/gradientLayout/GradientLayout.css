@@ -1,0 +1,45 @@
+/* 모바일 */
+.gradient-layout {
+  width: 100vw;
+  min-height: 100vh;
+
+  /* svg 배경 적용 */
+  background-image: url('../../assets/auth/auth-gradient-background.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* 화면 전체 채움 (가로 스크롤 방지) */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  /* 중앙 배치 */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* 태블릿 */
+@media (min-width: 768px) {
+  .gradient-layout {
+    padding: 40px;
+    justify-content: center;
+  }
+}
+
+/* 데스크탑 */
+@media (min-width: 1024px) {
+  .gradient-layout {
+    padding: 40px;
+    padding-top: 103px;
+    justify-content: flex-start;
+  }
+}
