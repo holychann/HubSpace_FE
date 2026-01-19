@@ -1,0 +1,74 @@
+/* 그라데이션 테두리 버튼 */
+/* 모바일 */
+.gradient-button {
+  color: var(--color-text);
+  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-weight: var(--font-bold);
+  line-height: normal;
+  font-size: 14px;
+
+  position: relative;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+
+  /* 중앙 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 31px;
+
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+/* 테두리만 구현 */
+.gradient-button::before {
+  content: '';
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  border-radius: 10px;
+  padding: 1px;
+
+  background: conic-gradient(
+    from 90deg,
+    rgba(167, 53, 255, 1) 0deg,
+    rgba(9, 61, 229, 1) 110.769deg,
+    rgba(26, 197, 255, 1) 223.269deg,
+    rgba(167, 52, 255, 1) 360deg
+  );
+
+  /* 테두리만 남기고 투명하게 */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+
+  /* 텍스트 뒤로 베치 */
+  z-index: 0;
+}
+
+/* 태블릿 */
+@media (min-width: 768px) {
+  .gradient-button {
+    font-size: 16px;
+    height: 39px;
+  }
+}
+
+/* 데스크탑 */
+@media (min-width: 1024px) {
+  .gradient-button {
+    font-size: 20px;
+    height: 52px;
+  }
+}
