@@ -1,102 +1,102 @@
-.login {
-  width: 100vw;
-  min-height: 100svh;
-  background-color: #b6cae2; /* 임시 */
-
-  /* 중앙 배치 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-
-  /* 화면 전체 채움 (가로 스크롤 방지) */
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  display: flex;
-  flex-direction: column;
-}
-
 .login__logo {
-  color: #000;
-  font-family: Pretendard;
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+  width: 183px;
+  height: 69px;
+  background-image: url('../../../assets/auth/auth-logo.svg');
 
-  text-align: center;
-  margin-bottom: 12px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  margin-top: 60px;
+  margin-bottom: 25px;
 }
 
 .login__title {
   color: #000;
-  font-family: Pretendard;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-size: 16px;
 
+  font-weight: var(--font-medium);
+  line-height: normal;
   text-align: center;
-  margin-bottom: 12px;
+
+  margin-bottom: 9px;
 }
 
 .login__description {
-  color: #000;
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  color: var(--color-text-additional);
+  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-size: 14px;
 
+  font-weight: var(--font-light);
+  line-height: normal;
   text-align: center;
-  margin-bottom: 91px;
+
+  margin-bottom: 110px;
 }
 
-.login__card {
-  width: 100%;
-  max-width: 579px;
-  min-height: 340px;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+.login__button {
+  width: 161px;
+  height: 34px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
+  border: none;
+  background: transparent;
+  padding: 0;
 }
 
-.login__guide {
-  color: #000;
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-
+.login__button img {
   width: 100%;
-  max-width: 455px;
-  height: 67px;
-  margin-bottom: 17px;
+  height: 100%;
 }
 
-.login__google-button {
-  color: #000;
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+/* 태블릿 */
+@media (min-width: 768px) {
+  .login__logo {
+    width: 229px;
+    height: 87px;
 
-  width: 100%;
-  max-width: 455px;
-  height: 67px;
-  border-radius: 5px;
-  border: 1px solid #e5e7eb;
-  box-sizing: border-box;
+    margin-top: 75px;
+    margin-bottom: 31px;
+  }
+
+  .login__title {
+    font-size: 20px;
+    margin-bottom: 11px;
+  }
+
+  .login__description {
+    font-size: 16px;
+    margin-bottom: 137px;
+  }
+
+  .login__button {
+    width: 202px;
+    height: 43px;
+  }
+}
+
+/* 데스크탑 */
+@media (min-width: 1024px) {
+  .login__logo {
+    width: 305px;
+    height: 115px;
+
+    margin-top: 100px;
+    margin-bottom: 41.5px;
+  }
+
+  .login__title {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .login__description {
+    font-size: 18px;
+    margin-bottom: 183px;
+  }
+
+  .login__button {
+    width: 269px;
+    height: 57px;
+  }
 }
