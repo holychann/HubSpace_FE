@@ -1,116 +1,189 @@
-/* 전체 배경 컨테이너 */
-.user-result {
-  width: 100vw;
-  min-height: 100svh;
-  background-color: #b6cae2;
+.user-result__container {
+  width: 100%;
+  max-width: 411px;
+  padding: 0 16px;
+  box-sizing: border-box;
 
-  /* 중앙 배치 */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 20px;
+}
 
-  /* 화면 전체 채움 (가로 스크롤 방지) */
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.user-result__logo {
+  width: 183px;
+  height: 70px;
+  background-image: url('../../../assets/auth/auth-logo.svg');
+
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  margin-bottom: 18px;
 }
 
 /* 중앙 흰색 카드 */
 .user-result__card {
   width: 100%;
-  max-width: 526px;
-  border-radius: 20px;
-  background: #fbfbfb;
+  border-radius: 10px;
+  background: var(--color-box-popup);
 
-  padding: 40px;
+  padding: 40px 16px 18px 16px;
   box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 38px;
 }
 
 /* 페이지 제목 */
 .user-result__title__01 {
-  color: #000;
-  font-family: 'NEXON Lv2 Gothic';
-  font-size: 26px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--Static-Headline-Large-Line-Height, 40px);
-  letter-spacing: var(--Static-Headline-Large-Tracking, 0);
+  color: var(--color-text);
+  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-size: 16px;
+
+  font-weight: var(--font-bold);
+  line-height: normal;
 
   text-align: center;
-  margin-bottom: 7px;
+  margin-bottom: 26px;
 }
 
 .user-result__title__02 {
-  color: #000;
-  font-family: 'NEXON Lv2 Gothic';
-  font-size: 26px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--Static-Headline-Large-Line-Height, 40px);
-  letter-spacing: var(--Static-Headline-Large-Tracking, 0);
+  color: var(--color-text-additional);
+  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-size: 14px;
+
+  font-weight: var(--font-medium);
+  line-height: normal;
 
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 37px;
 }
 
 .user-result__box {
   width: 100%;
-  max-width: 445px;
-  border-radius: 20px;
-  background: #f1f1f1;
-
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.user-result__info {
-  color: #000;
-  font-family: 'NEXON Lv2 Gothic';
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 40px;
-
-  margin-bottom: 8px;
-}
-
-/* 돌아가기 버튼 */
-.user-result__button__01 {
-  color: #e4f0ff;
-  font-family: 'NEXON Lv2 Gothic';
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-
+  max-width: 218px;
   border-radius: 10px;
-  background: #3b82f6;
-  display: flex;
+  background: var(--color-box-info);
+
+  padding: 18px 12px;
+  box-sizing: border-box;
+
+  margin-bottom: 0;
+
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 30px;
+  row-gap: 7px;
+  justify-content: start;
+
+  color: var(--color-text-additional);
+  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-size: 13px;
+
+  font-weight: var(--font-regular);
+  line-height: normal;
+}
+
+.user-result__button {
   width: 100%;
-  max-width: 445px;
-  height: 65px;
-  padding: 16px 22px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  border: none;
-  margin: 32px auto 0;
-
-  transition: background-color 0.2s;
 }
 
-.user-result__button__02 {
-  margin-top: 60px;
+.user-result__button-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
 }
 
-/* 버튼 클릭 시 */
-.user-result__button__01:active {
-  background-color: #e4f0ff;
+/* 태블릿 */
+@media (min-width: 768px) {
+  .user-result__container {
+    max-width: 411px;
+  }
+
+  .user-result__logo {
+    width: 229px;
+    height: 87px;
+    margin-bottom: 23px;
+  }
+
+  .user-result__card {
+    max-width: 411px;
+    padding: 50px 16px 23px 16px;
+    margin-bottom: 48px;
+  }
+
+  .user-result__title__01 {
+    font-size: 20px;
+    margin-bottom: 33px;
+  }
+
+  .user-result__title__02 {
+    font-size: 16px;
+    margin-bottom: 46px;
+  }
+
+  .user-result__box {
+    max-width: 273px;
+    padding: 23px 15px;
+    margin-bottom: 0;
+    column-gap: 38px;
+    row-gap: 9px;
+    font-size: 15px;
+  }
+
+  .user-result__button-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 9px;
+  }
 }
-.user-result__button__02:active {
-  background-color: #e4f0ff;
+
+/* 데스크탑 */
+@media (min-width: 1024px) {
+  .user-result__container {
+    max-width: 507px;
+  }
+
+  .user-result__logo {
+    width: 306px;
+    height: 116px;
+    margin-bottom: 30.5px;
+  }
+
+  .user-result__card {
+    padding: 67.5px 40px 30px 40px;
+    margin-bottom: 64px;
+  }
+
+  .user-result__title__01 {
+    font-size: 26px;
+    margin-bottom: 44px;
+  }
+
+  .user-result__title__02 {
+    font-size: 20px;
+    margin-bottom: 61.5px;
+  }
+
+  .user-result__box {
+    max-width: 364px;
+    padding: 30px 20px;
+    margin-bottom: 0;
+    column-gap: 50px;
+    row-gap: 12px;
+    font-size: 20px;
+  }
+
+  .user-result__button {
+    width: 411px;
+  }
+
+  .user-result__button-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
 }
