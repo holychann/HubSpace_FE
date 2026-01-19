@@ -1,13 +1,19 @@
 import './UserDetailPage.css'
+import GradientButton from '../../../components/gradientButton/GradientButton'
+import GradientLayout from '../../../components/gradientLayout/GradientLayout'
 
 // 사용자 이벤트 신청 조회 페이지
-function UserDetailPage() {
+export default function UserDetailPage() {
+  const handleSearch = () => {
+    // 조회 api 호출
+  }
+
   return (
-    // 전체 페이지
-    <div className='user-detail'>
-      {/* 중앙 흰색 카드 */}
+    <GradientLayout>
+      {/* 로고 영역 */}
+      <div className='user-detail__logo'></div>
       <div className='user-detail__card'>
-        <h1 className='user-detail__title'>이벤트 신청 조회</h1>
+        <h1 className='user-detail__title'>신청 조회</h1>
         <p className='user-detail__description'>이벤트 신청 여부를 정보 입력 후 확인 가능합니다</p>
 
         <form className='user-detail__form'>
@@ -47,13 +53,11 @@ function UserDetailPage() {
             />
           </div>
 
-          <button type='submit' className='user-detail__button'>
+          <GradientButton type='button' onClick={handleSearch}>
             조회하기
-          </button>
+          </GradientButton>
         </form>
       </div>
-    </div>
+    </GradientLayout>
   )
 }
-
-export default UserDetailPage
