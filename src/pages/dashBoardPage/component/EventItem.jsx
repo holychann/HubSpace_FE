@@ -47,7 +47,7 @@ export default function EventItem({ event }) {
           </div>
           <div className='event-info__views'>
             <Icon name='dashboard-view' height={10} className='event-info__views--icon' />
-            {`${event.count} 조회`}
+            {`${event.viewCount} 조회`}
           </div>
         </div>
         <Icon
