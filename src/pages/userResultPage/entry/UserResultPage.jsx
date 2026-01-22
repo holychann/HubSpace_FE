@@ -1,54 +1,79 @@
+import GradientLayout from '../../../components/gradientLayout/GradientLayout'
+import GradientButton from '../../../components/gradientButton/GradientButton'
+import backIcon from '../../../assets/auth/auth-back-icon.svg'
 import './UserResultPage.css'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { processUserResult } from '../utils/UserFieldConfig'
+
+import { getUserSearchResult, userEventConfig } from '../utils/UserResultDummy'
 
 // 사용자 이벤트 신청 조회 결과 페이지
 export default function UserResultPage() {
-  // 더미 데이터
-  const resultType = 'error'
-  const userInfo = {
-    name: '조성찬',
-    studentId: '0000000000',
-    birth: '000000',
-    submissionStatus: '제출 완료',
+  const navigate = useNavigate()
+  const location = useLocation() // state로 넘긴 data 받음
+
+  const userSearchData = location.state?.userSearchData || {}
+
+  // 더미 api 호출
+  const userApiResponse = getUserSearchResult(userSearchData)
+
+  const userSearchResult = processUserResult(userApiResponse, userEventConfig, userSearchData)
+
+  // 타이틀 설정
+  let userName = ''
+  let userMessage = ''
+
+  if (userSearchResult.userResultType === 'notFound') {
+    userName = userSearchResult.userDisplayName
+    userMessage = userSearchResult.userResultMessage
+  } else if (userSearchResult.userResultType === 'success') {
+    userName = userSearchResult.userDisplayName
+    userMessage = '정보가 정상적으로 조회되었습니다.'
+  } else if (userSearchResult.userResultType === 'detail') {
+    userName = userSearchResult.userDetailInfo['이름']
+    userMessage = '정보가 아래와 같이 조회되었습니다.'
   }
 
-  let title2 = ''
-  if (resultType === 'success') {
-    title2 = '정보가 정상적으로 조회되었습니다.'
-  } else if (resultType === 'detail') {
-    title2 = '정보가 아래와 같이 조회되었습니다.'
-  } else {
-    title2 = '해당 정보로 조회된 기록이 없습니다.'
+  // 돌아가기 버튼 클릭 시 실행
+  const handleGoBack = () => {
+    navigate(-1) // 브라우저 히스토리 기준 이전 페이지
   }
 
   return (
     // 전체 페이지
-    <div className='user-result'>
-      {/* 중앙 흰색 결과 카드 */}
-      <div className='user-result__card'>
-        <h1 className='user-result__title__01'>{userInfo.name}님,</h1>
-        <h2 className='user-result__title__02'>{title2}</h2>
+    <GradientLayout>
+      <div className='user-result__container'>
+        {/* 로고 영역 */}
+        <div className='user-result__logo'></div>
+        {/* 중앙 흰색 결과 카드 */}
+        <div className='user-result__card'>
+          <h1 className='user-result__title__01'>{userName}님</h1>
+          <h2 className='user-result__title__02'>{userMessage}</h2>
 
-        {/* 사용자 정보 */}
-        {resultType === 'detail' && (
-          <div className='user-result__box'>
-            <div className='user-result__info'>이름: {userInfo.name}</div>
-            <div className='user-result__info'>학번: {userInfo.studentId}</div>
-            <div className='user-result__info'>생년월일: {userInfo.birth}</div>
-            <div className='user-result__info'>제출 여부: {userInfo.submissionStatus}</div>
-          </div>
-        )}
+          {/* 사용자 정보 */}
+          {userSearchResult.userResultType === 'detail' && (
+            <div className='user-result__box'>
+              {userSearchResult.userSearchColumns.map((columnName) => (
+                <>
+                  <span key={`label-${columnName}`}>{columnName}:</span>
+                  <span key={`value-${columnName}`}>
+                    {userSearchResult.userDetailInfo[columnName]}
+                  </span>
+                </>
+              ))}
 
-        <button
-          type='button'
-          className={
-            resultType === 'detail'
-              ? 'user-result__button__01'
-              : 'user-result__button__01 user-result__button__02'
-          }
-        >
-          돌아가기
-        </button>
+              <span>제출 여부:</span>
+              <span>{userSearchResult.userDetailInfo['제출여부']}</span>
+            </div>
+          )}
+        </div>
+        <div className='user-result__button'>
+          <GradientButton type='button' onClick={handleGoBack}>
+            <img src={backIcon} className='user-result__button-icon' />
+            <span>돌아가기</span>
+          </GradientButton>
+        </div>
       </div>
-    </div>
+    </GradientLayout>
   )
 }
