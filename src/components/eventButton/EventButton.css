@@ -1,0 +1,7 @@
+.eventButton-button {
+  padding: 11px 16px;
+  border-radius: 6px;
+  background-color: var(--color-main);
+  color: var(--color-button-csv-bg);
+  font-size: 16px;
+}

@@ -1,0 +1,43 @@
+.dashBoard {
+  padding: 40px 80px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashBoard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.dashBoard-header__header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-bottom: 19px;
+}
+
+.dashBoard-header__title {
+  font-size: 28px;
+  font-weight: var(--font-medium);
+  color: var(--color-text);
+}
+
+.dashBoard-header__info {
+  font-size: 15px;
+  color: var(--color-text-additional);
+}
+
+.dashBoard-eventList {
+  padding: 36px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 50px;
+
+  flex: 1;
+  overflow-y: scroll;
+}

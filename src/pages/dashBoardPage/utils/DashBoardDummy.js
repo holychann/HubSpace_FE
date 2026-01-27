@@ -32,6 +32,16 @@ export const events = {
         createdAt: '2024-11-07T12:36:22',
         formUrl: 'https://폼URL.com',
       },
+      {
+        id: 123512414,
+        count: 23,
+        viewCount: 0,
+        eventTitle: '이벤트 제목',
+        isActive: true,
+        eventType: 'FORM',
+        createdAt: '2024-11-07T12:36:22',
+        formUrl: 'https://폼URL.com',
+      },
     ],
   },
 }
