@@ -13,20 +13,76 @@
 
 .createModal-content {
   background: white;
-  padding: 30px 20px;
+  padding: 91px 89px;
   border-radius: 8px;
-  min-width: 320px;
-  max-width: 400px;
+  width: 100%;
+  height: 100%;
+  max-width: 1174px;
+  max-height: 613px;
   position: relative;
   text-align: center;
 }
 
 .createModal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  background: none;
+  color: var(--color-text-additional);
+  top: 33px;
+  right: 39px;
   font-size: 18px;
   cursor: pointer;
+}
+
+.createModal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.createModal-header__title {
+  font-size: 24px;
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+}
+
+.createModal-header__info {
+  font-size: 18px;
+  font-weight: var(--font-light);
+  color: var(--color-text-additional);
+  margin-bottom: 90px;
+}
+
+.createModal-buttons {
+  display: flex;
+  gap: 52px;
+  justify-content: center;
+}
+
+.createModal-button__form {
+  flex: 1;
+  border-radius: 10px;
+  padding: 50px 0px;
+  background-color: var(--color-button-form-bg);
+  border: 2px solid var(--color-action-apply);
+}
+
+.createModal-button__csv {
+  flex: 1;
+  border-radius: 10px;
+  padding: 50px 0px;
+  background-color: var(--color-button-csv-bg);
+  border: 2px solid var(--color-main);
+}
+
+.createModal-button__title {
+  font-size: 20px;
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  margin-top: 30px;
+  margin-bottom: 11px;
+}
+
+.createModal-button__info {
+  font-size: 14px;
+  font-weight: var(--font-light);
+  color: var(--color-text-additional);
 }
