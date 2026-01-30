@@ -30,7 +30,8 @@ export default function UserResultPage() {
     userName = userSearchResult.userDisplayName
     userMessage = '정보가 정상적으로 조회되었습니다.'
   } else if (userSearchResult.userResultType === 'detail') {
-    userName = userSearchResult.userDetailInfo['이름']
+    const displayKey = userEventConfig.displayColumn || userSearchResult.userSearchColumns[0]
+    userName = userSearchResult.userDetailInfo[displayKey]
     userMessage = '정보가 아래와 같이 조회되었습니다.'
   }
 
