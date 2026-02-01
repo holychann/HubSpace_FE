@@ -28,7 +28,7 @@
   --color-box-apply: #faf5ff;
 
   /* 라인 */
-  --color-border: #818181;
+  --color-border: rgb(129, 129, 129, 0.28);
   /* 배경 */
   --color-background: #f1f5f9;
 

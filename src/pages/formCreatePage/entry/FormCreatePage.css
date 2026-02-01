@@ -1,0 +1,114 @@
+.formCreate {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.formCreate-container {
+  flex: 1;
+  overflow-y: scroll;
+  padding: 50px 80px;
+  margin-bottom: 100px;
+}
+
+.formCreate-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 47px;
+}
+
+.formCreate-title {
+  font-size: 20px;
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+}
+
+.formCreate-info {
+  font-size: 12px;
+  font-weight: var(--font-light);
+  color: var(--color-text-additional);
+}
+
+.formCreate-name {
+  padding: 40px;
+  background-color: var(--color-white);
+  margin-bottom: 44px;
+  border-radius: 10px;
+}
+
+.formCreate-field {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background-color: var(--color-white);
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
+.formCreate-field__header {
+  display: flex;
+  flex-direction: column;
+}
+
+.formCreate-field__title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.formCreate-field__title--title {
+  font-size: 18px;
+  font-weight: var(--font-medium);
+  color: var(--color-text);
+}
+
+.formCreate-field__title--notice {
+  font-size: 12px;
+  font-weight: var(--font-light);
+  color: var(--color-exit);
+}
+
+.formCreate-field__info {
+  font-size: 12px;
+  font-weight: var(--font-light);
+  color: var(--color-text-additional);
+}
+
+.formCreate-field__info--notice {
+  font-size: 12px;
+  font-weight: var(--font-light);
+  color: var(--color-exit);
+}
+
+.formCreate-field__field {
+  padding: 32px 0px 44px;
+}
+
+.formCreate-field__condition {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-box-conditional);
+  border-radius: 8px;
+  color: var(--color-text-additional);
+  padding: 16px;
+  font-size: 12px;
+  gap: 6px;
+}
+
+.formCreate-field__condition--title {
+  font-weight: var(--font-medium);
+}
+
+.formCreate-field__condition--info {
+  display: flex;
+  flex-direction: column;
+  font-weight: var(--font-light);
+  gap: 2px;
+}
+
+.formCreate-button {
+  display: flex;
+  justify-content: right;
+}

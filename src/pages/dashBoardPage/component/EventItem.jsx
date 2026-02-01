@@ -25,64 +25,67 @@ export default function EventItem({ event }) {
   }
 
   return (
-    <div>
-      <div className='event-header'>
-        <div className='event-title'>
-          <div className='event-title__title'>{event.eventTitle}</div>
-          <Icon
-            name={event.isActive === true ? 'dashboard-active' : 'dashboard-disable'}
-            height={21}
-            className='event-title__status'
-          />
-          <Icon
-            name={event.eventType === 'FORM' ? 'dashboard-form' : 'dashboard-csv'}
-            height={21}
-            className='event-title__format'
-          />
-        </div>
-        <div className='event-info'>
-          <div className='event-info__createAt'>
-            <Icon name='dashboard-date' height={12} className='event-info__createAt--icon' />
-            {formatDate(event.createdAt)}
+    <div className='eventItem'>
+      <div className='eventItem-header'>
+        <div className='eventItem-header__header'>
+          <div className='eventItem-title'>
+            <div className='eventItem-title__title'>{event.eventTitle}</div>
+            <Icon
+              name={event.isActive === true ? 'dashboard-active' : 'dashboard-disable'}
+              height={21}
+              className='eventItem-title__status'
+            />
+            <Icon
+              name={event.eventType === 'FORM' ? 'dashboard-form' : 'dashboard-csv'}
+              height={21}
+              className='eventItem-title__format'
+            />
           </div>
-          <div className='event-info__views'>
-            <Icon name='dashboard-view' height={10} className='event-info__views--icon' />
-            {`${event.viewCount} 조회`}
+          <div className='eventItem-info'>
+            <div className='eventItem-info__info'>
+              <Icon name='dashboard-date' height={12} className='eventItem-info__icon' />
+              {formatDate(event.createdAt)}
+            </div>
+            <div className='eventItem-info__info'>
+              <Icon name='dashboard-view' height={10} className='eventItem-info__icon' />
+              {`${event.viewCount} 조회`}
+            </div>
           </div>
         </div>
         <Icon
           name='button-more'
-          width={1}
-          height={13}
-          className='event-item__more'
+          width={3}
+          className='eventItem-item__more'
           onClick={handleMoreClick}
         />
       </div>
-      <div className='event-links'>
-        <div className='event-search'>
-          <div className='event-search__info'>
-            <div className='event-search__title'>조회용 링크</div>
-            <div className='event-search__link'>{makeSearchUrl(event.id)}</div>
+      <div className='eventItem-links'>
+        <div className='eventItem-search'>
+          <div className='eventItem-link__info'>
+            <div className='eventItem-link__title'>조회용 링크</div>
+            <div className='eventItem-link__link'>{makeSearchUrl(event.id)}</div>
           </div>
           <Icon
             name='button-copy-search'
             height={12}
-            className='event-search__copy'
+            className='eventItem-link__copy'
             onClick={() => handleCopyUrl(makeSearchUrl(event.id))}
           />
         </div>
-        <div className='event-apply'>
-          <div className='event-apply__info'>
-            <div className='event-apply__title'>신청용 링크</div>
-            <div className='event-apply__link'>{event.formUrl}</div>
+        {event.eventType === 'FORM' && (
+          <div className='eventItem-apply'>
+            <div className='eventItem-link__info'>
+              <div className='eventItem-link__title'>신청용 링크</div>
+              <div className='eventItem-link__link'>{event.formUrl}</div>
+            </div>
+            <Icon
+              name='button-copy-form'
+              height={12}
+              className='eventItem-link__copy'
+              onClick={() => handleCopyUrl(event.formUrl)}
+            />
           </div>
-          <Icon
-            name='button-copy-form'
-            height={12}
-            className='event-apply__copy'
-            onClick={() => handleCopyUrl(event.formUrl)}
-          />
-        </div>
+        )}
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import googleIcon from '../../../assets/auth/auth-google-logo.svg'
 
 export default function LoginPage() {
   const handleLogin = () => {
-    // 로그인 api
+    window.location.href = `${import.meta.env.VITE_SERVER_DOMAIN}/oauth2/authorization/google`
   }
 
   return (

@@ -32,8 +32,8 @@ export default function EventCreateModal({ isOpen, onClose }) {
               height={89}
               className='createModal-button__form--image'
             />
-            <div className='createModal-button__form--title'>Google Form</div>
-            <div className='createModal-button__form--info'>구글폼 연동하여 생성</div>
+            <div className='createModal-button__title'>Google Form</div>
+            <div className='createModal-button__info'>구글폼 연동하여 생성</div>
           </div>
           <div className='createModal-button__csv' onClick={handleCreateCSV}>
             <Icon
@@ -41,8 +41,8 @@ export default function EventCreateModal({ isOpen, onClose }) {
               height={89}
               className='createModal-button__csv--image'
             />
-            <div className='createModal-button__csv--title'>CSV 파일</div>
-            <div className='createModal-button__csv--info'>CSV 파일을 업로드하여 생성</div>
+            <div className='createModal-button__title'>CSV 파일</div>
+            <div className='createModal-button__info'>CSV 파일을 업로드하여 생성</div>
           </div>
         </div>
       </div>
