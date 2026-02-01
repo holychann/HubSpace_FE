@@ -32,51 +32,55 @@ export default function FormCreatePage() {
   }
 
   return (
-    <div>
-      <div className='formCreate-header'>
-        <div className='formCreate-title'>새 이벤트 생성하기 - 폼</div>
-        <div className='formCreate-info'>이벤트 정보를 입력하고 조회 시스템을 생성하세요</div>
-      </div>
+    <div className='formCreate'>
+      <div className='formCreate-container'>
+        <div className='formCreate-header'>
+          <div className='formCreate-title'>새 이벤트 생성하기 - 폼</div>
+          <div className='formCreate-info'>이벤트 정보를 입력하고 조회 시스템을 생성하세요</div>
+        </div>
 
-      <div className='formCreate-name'>
-        <EventInput />
-      </div>
+        <div className='formCreate-name'>
+          <EventInput />
+        </div>
 
-      <div className='formCreate-field'>
-        <div className='formCreate-field__header'>
-          <div className='formCreate-field__title'>
-            <div className='formCreate-field__title--title'>폼 생성 필드</div>
-            <div className='formCreate-field__title--notice'>2개 이상 선택 필수</div>
-          </div>
+        <div className='formCreate-field'>
+          <div className='formCreate-field__header'>
+            <div className='formCreate-field__title'>
+              <div className='formCreate-field__title--title'>폼 생성 필드</div>
+              <div className='formCreate-field__title--notice'>2개 이상 선택 필수</div>
+            </div>
 
-          <div className='formCreate-field__info'>
-            신청자가 조회 시 입력할 정보 필드를 설정하세요.
-          </div>
+            <div className='formCreate-field__info'>
+              신청자가 조회 시 입력할 정보 필드를 설정하세요.
+            </div>
 
-          <div className='formCreate-field__info--notice'>
-            생성 완료 후, 정보 1, 정보 2, 정보 3은 수정이 불가합니다.
-          </div>
+            <div className='formCreate-field__info--notice'>
+              생성 완료 후, 정보 1, 정보 2, 정보 3은 수정이 불가합니다.
+            </div>
 
-          <div className='formCreate-field__field'>
-            <EventDropdown
-              columns={defaultColumns}
-              value={selectedFields}
-              onChange={setSelectedFields}
-              disabled={false}
-            />
-          </div>
+            <div className='formCreate-field__field'>
+              <EventDropdown
+                columns={defaultColumns}
+                value={selectedFields}
+                onChange={setSelectedFields}
+                disabled={false}
+              />
+            </div>
 
-          <div className='formCreate-field__condition'>
-            <div className='formCreate-field__condition--title'>필드 선택 기준</div>
-            <div className='formCreate-field__condition--info'>
-              ㅁ 필드는 최소 2개, 최대 3개까지 선택 가능합니다. <br />ㅁ 필드 순서는 조회 화면 표시
-              순서와 동일합니다.
+            <div className='formCreate-field__condition'>
+              <div className='formCreate-field__condition--title'>필드 선택 기준</div>
+              <div className='formCreate-field__condition--info'>
+                <p>ㅁ 필드는 최소 2개, 최대 3개까지 선택 가능합니다.</p>
+                <p>ㅁ 필드 순서는 조회 화면 표시 순서와 동일합니다.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <EventButton text='이벤트 생성' onClick={handleCreateForm} />
+        <div className='formCreate-button'>
+          <EventButton text='이벤트 생성' onClick={handleCreateForm} />
+        </div>
+      </div>
     </div>
   )
 }
