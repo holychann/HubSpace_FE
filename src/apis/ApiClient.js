@@ -1,19 +1,24 @@
 import axios from 'axios'
 
+// Axios 인스턴스 생성
 export const api = axios.create({
   baseURL: import.meta.env.VITE_SERVER_DOMAIN,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true, // 쿠키 포함
 })
 
+// ------------------------------
 // 중복 요청 방지
+// ------------------------------
 const pendingRequests = new Map()
 const getRequestKey = (config) => {
   const { method, url, params, data } = config
   return [method, url, JSON.stringify(params), JSON.stringify(data)].join('&')
 }
 
+// ------------------------------
 // 요청 인터셉터
+// ------------------------------
 api.interceptors.request.use(
   (config) => {
     const key = getRequestKey(config)
@@ -32,7 +37,9 @@ api.interceptors.request.use(
   (err) => Promise.reject(err),
 )
 
+// ------------------------------
 // Refresh Token 로직
+// ------------------------------
 let isRefreshing = false
 let failedQueue = []
 
@@ -50,6 +57,7 @@ api.interceptors.response.use(
     const originalRequest = err.config
     pendingRequests.delete(getRequestKey(originalRequest))
 
+    // AccessToken 만료
     if (err.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
 
@@ -65,16 +73,14 @@ api.interceptors.response.use(
       isRefreshing = true
 
       try {
-        const refreshToken = localStorage.getItem('refreshToken')
         const res = await axios.post(
           `${import.meta.env.VITE_SERVER_DOMAIN}/jwt/refresh`,
-          { refreshToken },
-          { headers: { 'Content-Type': 'application/json' } },
+          {},
+          { withCredentials: true, headers: { 'Content-Type': 'application/json' } },
         )
 
-        const { accessToken, refreshToken: newRefreshToken } = res.data
+        const { accessToken } = res.data
         localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', newRefreshToken)
 
         processQueue(null, accessToken)
         isRefreshing = false
@@ -84,8 +90,8 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null)
         isRefreshing = false
+
         localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
         window.location.href = '/login'
         return Promise.reject(refreshError)
       }

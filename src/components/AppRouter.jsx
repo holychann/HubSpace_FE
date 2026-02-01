@@ -11,13 +11,16 @@ import UserDetailPage from '../pages/userDetailPage/entry/UserDetailPage'
 import UserResultPage from '../pages/userResultPage/entry/UserResultPage'
 
 // 로그인 여부 확인용 함수 (localStorage 기반, 필요시 더 정교하게 수정 가능)
-const isLoggedIn = () => !!localStorage.getItem('accessToken')
 
 export const AppRouter = createBrowserRouter([
   // 로그인 페이지
   {
     path: '/login',
-    element: isLoggedIn() ? <DashBoardPage /> : <LoginPage />,
+    element: <LoginPage />,
+  },
+  {
+    path: '*',
+    element: <LoginPage />,
   },
 
   // 소셜 로그인 후 쿠키 페이지
@@ -33,7 +36,7 @@ export const AppRouter = createBrowserRouter([
   // AdminLayout 하위 페이지
   {
     path: '/',
-    element: isLoggedIn() ? <AdminLayout /> : <LoginPage />, // 로그인 안 되어 있으면 LoginPage
+    element: <AdminLayout />,
     children: [
       { path: 'dashboard', element: <DashBoardPage /> },
       { path: 'newcsv', element: <CsvCreatePage /> },
