@@ -22,6 +22,10 @@ export const AppRouter = createBrowserRouter([
     path: '*',
     element: <LoginPage />,
   },
+  {
+    path: '/',
+    element: <LoginPage />,
+  },
 
   // 소셜 로그인 후 쿠키 페이지
   {
