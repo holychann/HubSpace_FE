@@ -54,8 +54,7 @@ export default function EventItem({ event }) {
         </div>
         <Icon
           name='button-more'
-          width={1}
-          height={13}
+          width={3}
           className='eventItem-item__more'
           onClick={handleMoreClick}
         />

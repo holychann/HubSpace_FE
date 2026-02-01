@@ -73,3 +73,8 @@
   gap: 6px;
   flex: 1;
 }
+
+.eventItem-link__copy,
+.eventItem-item__more {
+  cursor: pointer;
+}
