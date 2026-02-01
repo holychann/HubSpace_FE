@@ -1,25 +1,63 @@
 import './UserDetailPage.css'
 import GradientButton from '../../../components/gradientButton/GradientButton'
 import GradientLayout from '../../../components/gradientLayout/GradientLayout'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
 import { userFieldPlaceholders } from '../../userResultPage/utils/UserFieldConfig'
-
-import { userEventConfig } from '../../userResultPage/utils/UserResultDummy'
+import { useFetchEventDetail } from '../apis/fetchEventDetail'
 
 // 사용자 이벤트 신청 조회 페이지
 export default function UserDetailPage() {
   const navigate = useNavigate()
+  const eventId = useSearchParams()[0].get('eventId')
 
-  // 관리자가 선택한 필드에 따라 초기 form
-  const userInitialFormData = {}
-  userEventConfig.searchColumns.forEach((columnName) => {
-    userInitialFormData[columnName] = ''
-  }) // 빈 문자열로 초기화
+  // api로 이벤트 정보 조회
+  const { eventDetail, loading, error } = useFetchEventDetail(eventId)
 
-  // useFormData -> 현재 input 값 저장
-  // setUserFormData -> 상태 변경 함수
-  const [userFormData, setUserFormData] = useState(userInitialFormData)
+  // 임시 로딩 화면
+  if (loading) {
+    return (
+      <GradientLayout>
+        <div className='user-detail__card'>
+          <p className='user-detail__description'>이벤트 정보를 불러오는 중...</p>
+        </div>
+      </GradientLayout>
+    )
+  }
+
+  if (error) {
+    return (
+      <GradientLayout>
+        <div className='user-detail__card'>
+          <h1 className='user-detail__title'>오류 발생</h1>
+          <p className='user-detail__description'>{error}</p>
+          <GradientButton onClick={() => window.location.reload()}>다시 시도</GradientButton>
+        </div>
+      </GradientLayout>
+    )
+  }
+
+  if (!eventDetail) {
+    return (
+      <GradientLayout>
+        <div className='user-detail__card'>
+          <h1 className='user-detail__title'>이벤트를 찾을 수 없습니다</h1>
+          <p className='user-detail__description'>올바른 링크로 접속했는지 확인해주세요</p>
+        </div>
+      </GradientLayout>
+    )
+  }
+
+  return <UserDetailForm eventDetail={eventDetail} eventId={eventId} navigate={navigate} />
+}
+
+function UserDetailForm({ eventDetail, eventId, navigate }) {
+  const initialFormData = {}
+  eventDetail.searchColumns.forEach((columnName) => {
+    initialFormData[columnName] = ''
+  })
+
+  const [userFormData, setUserFormData] = useState(initialFormData)
 
   // input 값 변경 시 실행 함수
   const handlerUserInput = (e) => {
@@ -36,7 +74,7 @@ export default function UserDetailPage() {
 
     // result 페이지로 이동
     // userSearchData -> 사용자가 입력한 값
-    navigate('/result', { state: { userSearchData: userFormData } })
+    navigate('/result', { state: { eventId, eventDetail, userSearchData: userFormData } })
   }
 
   return (
@@ -49,7 +87,7 @@ export default function UserDetailPage() {
 
         <form className='user-detail__form' onSubmit={handleSearch}>
           {/* 관리자가 선택한 필드만 동적으로 랜더링 */}
-          {userEventConfig.searchColumns.map((columnName) => (
+          {eventDetail.searchColumns.map((columnName) => (
             <div className='user-detail__field' key={columnName}>
               <label htmlFor={columnName} className='user-detail__label'>
                 {columnName}
