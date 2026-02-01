@@ -8,38 +8,60 @@ export const userFieldPlaceholders = {
 
 // 사용자 조회 결과 처리
 export const processUserResult = (userApiResponse, userEventConfig, userSearchData) => {
-  const { eventType, searchColumns } = userEventConfig
+  const { eventType, searchColumns, displayColumn } = userEventConfig
 
-  // 조회 실패
-  if (!userApiResponse.isSuccess) {
+  // CSV 이벤트
+  if (eventType === 'CSV') {
+    // 조회 실패
+    if (!userApiResponse.success) {
+      return {
+        userResultType: 'notFound',
+        userDisplayName: userSearchData[searchColumns[0]] || '000',
+        userResultMessage: userApiResponse.message || '해당 정보로 조회된 기록이 없습니다.',
+      }
+    }
+
+    // 조회 성공
+    const { answers } = userApiResponse.data
+
+    if (displayColumn) {
+      return {
+        userResultType: 'detail',
+        userEventType: 'CSV',
+        userSearchColumns: searchColumns,
+        userDetailInfo: {
+          ...answers,
+          제출여부: '제출 완료',
+        },
+      }
+    }
+
+    // displayColumn이 없으면
     return {
-      userResultType: 'notFound',
-      userDisplayName: userSearchData['이름'] || '000',
-      userResultMessage: userApiResponse.message || '해당 정보로 조회된 기록이 없습니다.',
+      userResultType: 'success',
+      userEventType: 'CSV',
+      userDisplayName: answers[searchColumns[0]] || Object.values(answers)[0],
     }
   }
-
-  const { answers } = userApiResponse.data
 
   // FORM 이벤트
   if (eventType === 'FORM') {
+    // 조회 실패
+    if (!userApiResponse.isSuccess) {
+      return {
+        userResultType: 'notFound',
+        userDisplayName: userSearchData[searchColumns[0]] || '000',
+        userResultMessage: userApiResponse.message || '해당 정보로 조회된 기록이 없습니다.',
+      }
+    }
+
+    // 조회 성공
+    const { answers } = userApiResponse.data
+
     return {
       userResultType: 'success',
       userEventType: 'FORM',
-      userDisplayName: answers['이름'] || Object.values(answers)[0],
-    }
-  }
-
-  // CSV 이벤트
-  if (eventType === 'FILE') {
-    return {
-      userResultType: 'detail',
-      userEventType: 'FILE',
-      userSearchColumns: searchColumns,
-      userDetailInfo: {
-        ...answers,
-        제출여부: '제출 완료',
-      },
+      userDisplayName: answers[searchColumns[0]] || Object.values(answers)[0],
     }
   }
 }
