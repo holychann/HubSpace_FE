@@ -63,6 +63,7 @@
   padding: 50px 0px;
   background-color: var(--color-button-form-bg);
   border: 2px solid var(--color-action-apply);
+  cursor: pointer;
 }
 
 .createModal-button__csv {
@@ -71,6 +72,7 @@
   padding: 50px 0px;
   background-color: var(--color-button-csv-bg);
   border: 2px solid var(--color-main);
+  cursor: pointer;
 }
 
 .createModal-button__title {
