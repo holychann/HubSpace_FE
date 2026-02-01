@@ -98,108 +98,143 @@ export default function CsvCreatePage() {
   }
 
   return (
-    <div>
-      {/* ================= Header ================= */}
-      <div className='csvCreate-header'>
-        <div className='csvCreate-title'>새 이벤트 생성하기 - CSV</div>
-        <div className='csvCreate-info'>이벤트 정보를 입력하고 조회 시스템을 생성하세요</div>
-      </div>
-
-      {/* ================= Event Name ================= */}
-      <div className='csvCreate-name'>
-        <EventInput />
-      </div>
-
-      {/* ================= File Upload ================= */}
-      <div className='csvCreate-file'>
-        <div className='csvCreate-file__header'>
-          <div className='csvCreate-file__title'>
-            <div className='csvCreate-file__title--title'>데이터 파일</div>
-            <div className='csvCreate-file__title--notice'>2개 이상 선택 필수</div>
-            <Icon name='detail-copy' height={14} className='csvCreate-file__title--copy' />
-          </div>
-
-          <div className='csvCreate-file__info'>CSV, TSV만 업로드 가능합니다.</div>
-
-          <div className='csvCreate-file__upload'>
-            <input
-              type='file'
-              accept='.csv,.tsv'
-              onChange={(e) => {
-                const file = e.target.files[0]
-                if (!file) return
-                parseHeaderFromFile(file)
-              }}
-            />
-            <div className='csvCreate-file__upload--button'>파일 첨부</div>
-          </div>
-        </div>
-      </div>
-
-      {/* ================= Form Fields ================= */}
-      <div className='csvCreate-field'>
-        <div className='csvCreate-field__header'>
-          <div className='csvCreate-field__title'>
-            <div className='csvCreate-field__title--title'>폼 생성 필드</div>
-            <div className='csvCreate-field__title--notice'>2개 이상 선택 필수</div>
-          </div>
-
-          <div className='csvCreate-field__field'>
-            <EventDropdown
-              columns={columns.length ? columns : ['선택']}
-              value={selectedFields}
-              onChange={setSelectedFields}
-              disabled={!columns.length}
-            />
-          </div>
+    <div className='csvCreate'>
+      <div className='csvCreate-container'>
+        {/* ================= Header ================= */}
+        <div className='csvCreate-header'>
+          <div className='csvCreate-title'>새 이벤트 생성하기 - CSV</div>
+          <div className='csvCreate-info'>이벤트 정보를 입력하고 조회 시스템을 생성하세요</div>
         </div>
 
-        {/* ================= Display Field ================= */}
-        <div className='csvCreate-display'>
-          <div className='csvCreate-display__field'>
-            <div className='csvCreate-display__label'>필드</div>
+        {/* ================= Event Name ================= */}
+        <div className='csvCreate-name'>
+          <EventInput />
+        </div>
 
-            <div
-              className={`csvCreate-display__toggle ${!columns.length ? 'disabled' : ''}`}
-              onClick={toggleDropdown}
-            >
-              <div className='csvCreate-display__title'>
-                {columns.length ? selectedColumn : '선택'}
-              </div>
-              <Icon
-                name='detail-field'
-                height={4}
-                className={`csvCreate-display__arrow ${isOpen ? 'open' : ''}`}
-              />
+        {/* ================= File Upload ================= */}
+        <div className='csvCreate-file'>
+          <div className='csvCreate-file__header'>
+            <div className='csvCreate-file__title'>
+              <div className='csvCreate-file__title--title'>데이터 파일</div>
+              <div className='csvCreate-file__title--notice'>2개 이상 선택 필수</div>
+              <Icon name='detail-copy' height={14} className='csvCreate-file__title--copy' />
             </div>
 
-            {isOpen && (
-              <div className='csvCreate-display__content'>
-                {columns.map((col) => (
-                  <div
-                    key={col}
-                    className={`csvCreate-display__item ${
-                      selectedColumn === col ? 'selected' : ''
-                    }`}
-                    onClick={() => handleSelect(col)}
-                  >
-                    {col}
-                  </div>
-                ))}
+            <div className='csvCreate-file__info'>CSV, TSV만 업로드 가능합니다.</div>
 
-                <div
-                  className={`csvCreate-display__item ${
-                    selectedColumn === '표시 안 함' ? 'selected' : ''
-                  }`}
-                  onClick={() => handleSelect('표시 안 함')}
-                >
-                  표시 안 함
-                </div>
-              </div>
-            )}
+            <div className='csvCreate-file__upload'>
+              <input
+                type='file'
+                accept='.csv,.tsv'
+                onChange={(e) => {
+                  const file = e.target.files[0]
+                  if (!file) return
+                  parseHeaderFromFile(file)
+                }}
+              />
+              <div className='csvCreate-file__upload--button'>파일 첨부</div>
+            </div>
           </div>
         </div>
 
+        {/* ================= Form Fields ================= */}
+        <div className='csvCreate-field'>
+          <div className='csvCreate-field__header'>
+            <div className='csvCreate-field__title'>
+              <div className='csvCreate-field__title--title'>폼 생성 필드</div>
+              <div className='csvCreate-field__title--notice'>2개 이상 선택 필수</div>
+            </div>
+
+            <div className='csvCreate-field__info'>
+              신청자가 조회 시 입력할 정보 필드를 설정하세요.
+            </div>
+
+            <div className='csvCreate-field__info--notice'>
+              생성 완료 후, 정보 1, 정보 2, 정보 3은 수정이 불가합니다.
+            </div>
+
+            <div className='csvCreate-field__field'>
+              <EventDropdown
+                columns={columns.length ? columns : ['선택']}
+                value={selectedFields}
+                onChange={setSelectedFields}
+                disabled={!columns.length}
+              />
+            </div>
+          </div>
+
+          {/* ================= Display Field ================= */}
+          <div className='csvCreate-display'>
+            <div className='csvCreate-display__header'>
+              <div className='csvCreate-field__title'>
+                <div className='csvCreate-field__title--title'>조회 확인 정보</div>
+                <div className='csvCreate-field__title--notice'>(선택사항)</div>
+              </div>
+
+              <div className='csvCreate-field__info'>
+                신청자가 조회 시 확인 가능한 정보를 설정하세요.
+              </div>
+            </div>
+
+            <div className='csvCreate-display__field'>
+              <div className='csvCreate-display__input'>
+                <div className='csvCreate-display__label'>필드</div>
+
+                <div
+                  className={`csvCreate-display__toggle ${!columns.length ? 'disabled' : ''}`}
+                  onClick={toggleDropdown}
+                >
+                  <div className='csvCreate-display__title'>
+                    {columns.length ? selectedColumn : '선택'}
+                  </div>
+                  <Icon
+                    name='detail-field'
+                    height={4}
+                    className={`csvCreate-display__arrow ${isOpen ? 'open' : ''}`}
+                  />
+                </div>
+
+                {isOpen && (
+                  <div className='csvCreate-display__content'>
+                    {columns.map((col) => (
+                      <div
+                        key={col}
+                        className={`csvCreate-display__item ${
+                          selectedColumn === col ? 'selected' : ''
+                        }`}
+                        onClick={() => handleSelect(col)}
+                      >
+                        {col}
+                      </div>
+                    ))}
+
+                    <div
+                      className={`csvCreate-display__item ${
+                        selectedColumn === '표시 안 함' ? 'selected' : ''
+                      }`}
+                      onClick={() => handleSelect('표시 안 함')}
+                    >
+                      표시 안 함
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className='csvCreate-display__condition'>
+                <div className='csvCreate-display__condition--title'>조회 결과 표시 방식</div>
+                <div className='csvCreate-display__condition--info'>
+                  <p>
+                    ㅁ 필드를 선택하지 않은 경우, "일치하는 정보가 정상적으로 조회되었습니다."
+                    문구만 표시됩니다."
+                  </p>
+                  <p>
+                    ㅁ 필드를 선택한 경우, 위 문구와 함께 '칼럼명 : 데이터' 형식의 정보가 함께
+                    표시됩니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* ================= CSV Preview ================= */}
         <div className='csvCreate-preview'>
           <div className='csvCreate-preview__title'>첨부 파일 보기</div>
