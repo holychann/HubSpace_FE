@@ -1,20 +1,16 @@
-// 1. CSV + 필드 3개 + displayColumn O
+// 1. CSV + 필드 3개
 export const userCsvThreeFields = {
   id: 123456789,
   eventTitle: '2026 미터 - CSV',
-  eventType: 'CSV',
   searchColumns: ['이름', '학번', '생년월일'],
-  displayColumn: '이름',
   isActive: true,
 }
 
-// 2. CSV + 필드 2개 + displayColumn X
+// 2. CSV + 필드 2개
 export const userCsvTwoFields = {
   id: 234567891,
   eventTitle: '2026 새터 - CSV',
-  eventType: 'CSV',
   searchColumns: ['이름', '학번'],
-  displayColumn: null,
   isActive: true,
 }
 
@@ -22,7 +18,6 @@ export const userCsvTwoFields = {
 export const userFormThreeFields = {
   id: 345678912,
   eventTitle: '2026 엘티 - FORM',
-  eventType: 'FORM',
   searchColumns: ['이름', '학번', '전화번호'],
   isActive: true,
 }
@@ -31,22 +26,9 @@ export const userFormThreeFields = {
 export const userFormTwoFields = {
   id: 456789123,
   eventTitle: '2026 엠티 - FORM',
-  eventType: 'FORM',
   searchColumns: ['이름', '전화번호'],
   isActive: true,
 }
-
-// 5: 종료된 이벤트
-export const userEventConfigFalse = {
-  id: 56789,
-  eventTitle: '종료 이벤트',
-  eventType: 'FORM',
-  searchColumns: ['이름', '학번'],
-  isActive: false,
-}
-
-// 테스트 예시
-export const userEventConfig = userCsvTwoFields
 
 // 사용자 dummy DB
 const userDummy = [
@@ -76,7 +58,7 @@ const userDummy = [
     },
   },
 
-  // 2-1
+  // 2
   {
     eventId: 234567891,
     answers: {
@@ -128,8 +110,8 @@ const userDummy = [
 ]
 
 // 사용자 조회 함수 (더미)
-export const getUserSearchResult = (userSearchData) => {
-  const { searchColumns, id, eventType } = userEventConfig
+export const getUserSearchResult = (userSearchData, eventDetail) => {
+  const { searchColumns, id } = eventDetail
 
   // dummy DB에서 현재 이벤트의 데이터만 검색 (필터링)
   const userFoundData = userDummy
@@ -140,43 +122,20 @@ export const getUserSearchResult = (userSearchData) => {
       })
     })
 
-  // CSV 이벤트
-  if (eventType === 'CSV') {
-    // 조회 실패
-    if (!userFoundData) {
-      return {
-        success: false,
-        message: '해당 정보로 조회된 기록이 없습니다.',
-      }
-    }
-
-    // 조회 성공
+  // 조회 실패
+  if (!userFoundData) {
     return {
-      success: true,
-      data: {
-        eventId: userFoundData.eventId,
-        answers: userFoundData.answers,
-      },
+      isSuccess: false,
+      message: '해당 정보로 조회된 기록이 없습니다.',
     }
   }
 
-  // FORM 이벤트
-  if (eventType === 'FORM') {
-    // 조회 실패
-    if (!userFoundData) {
-      return {
-        isSuccess: false,
-        message: '해당 정보로 조회된 기록이 없습니다.',
-      }
-    }
-
-    // 조회 성공
-    return {
-      isSuccess: true,
-      data: {
-        eventId: userFoundData.eventId,
-        answers: userFoundData.answers,
-      },
-    }
+  // 조회 성공
+  return {
+    isSuccess: true,
+    data: {
+      eventId: userFoundData.eventId,
+      answers: userFoundData.answers,
+    },
   }
 }

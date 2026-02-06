@@ -7,61 +7,24 @@ export const userFieldPlaceholders = {
 }
 
 // 사용자 조회 결과 처리
-export const processUserResult = (userApiResponse, userEventConfig, userSearchData) => {
-  const { eventType, searchColumns, displayColumn } = userEventConfig
+export const processUserResult = (userApiResponse, eventDetail, userSearchData) => {
+  const { searchColumns } = eventDetail
 
-  // CSV 이벤트
-  if (eventType === 'CSV') {
-    // 조회 실패
-    if (!userApiResponse.success) {
-      return {
-        userResultType: 'notFound',
-        userDisplayName: userSearchData[searchColumns[0]] || '000',
-        userResultMessage: userApiResponse.message || '해당 정보로 조회된 기록이 없습니다.',
-      }
-    }
-
-    // 조회 성공
-    const { answers } = userApiResponse.data
-
-    if (displayColumn) {
-      return {
-        userResultType: 'detail',
-        userEventType: 'CSV',
-        userSearchColumns: searchColumns,
-        userDetailInfo: {
-          ...answers,
-          제출여부: '제출 완료',
-        },
-      }
-    }
-
-    // displayColumn이 없으면
+  // 조회 실패
+  if (!userApiResponse.isSuccess) {
     return {
-      userResultType: 'success',
-      userEventType: 'CSV',
-      userDisplayName: answers[searchColumns[0]] || Object.values(answers)[0],
+      userResultType: 'notFound',
+      userDisplayName: userSearchData[searchColumns[0]] || '000',
+      userResultMessage: userApiResponse.message || '해당 정보로 조회된 기록이 없습니다.',
     }
   }
 
-  // FORM 이벤트
-  if (eventType === 'FORM') {
-    // 조회 실패
-    if (!userApiResponse.isSuccess) {
-      return {
-        userResultType: 'notFound',
-        userDisplayName: userSearchData[searchColumns[0]] || '000',
-        userResultMessage: userApiResponse.message || '해당 정보로 조회된 기록이 없습니다.',
-      }
-    }
+  // 조회 성공
+  const { answers } = userApiResponse.data
 
-    // 조회 성공
-    const { answers } = userApiResponse.data
-
-    return {
-      userResultType: 'success',
-      userEventType: 'FORM',
-      userDisplayName: answers[searchColumns[0]] || Object.values(answers)[0],
-    }
+  return {
+    userResultType: 'detail',
+    userSearchColumns: searchColumns,
+    userDetailInfo: answers,
   }
 }
