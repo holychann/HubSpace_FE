@@ -44,8 +44,8 @@ export const useFetchEventDetail = (eventId) => {
 
         setEventDetail(foundEvent)
 
-        // const res = await apiGetPublic(`/v1/events/${eventId}`)
-        // setEventDetail(res.data)
+        // const res = await apiGetPublic(`/v1/events/${eventId}/summary`)
+        // setEventDetail(res.data.data)
       } catch (err) {
         setError(err?.message)
       } finally {
