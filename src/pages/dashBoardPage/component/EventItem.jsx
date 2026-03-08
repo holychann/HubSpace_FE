@@ -3,14 +3,24 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { formatDate, makeSearchUrl } from '../utils/formatStrings'
 import { Icon } from '../../../components/icon/Icon'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function EventItem({ event }) {
-  const [isDeleteVisible, setIsDeleteVisible] = useState(false)
+  const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
+  const actionMenuRef = useRef(null)
 
-  const handleMoreClick = () => {
-    setIsDeleteVisible((prev) => !prev)
-  }
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!actionMenuRef.current?.contains(e.target)) {
+        setIsActionMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleMoreClick = () => setIsActionMenuOpen((prev) => !prev)
 
   const handleCopyUrl = (url) => {
     navigator.clipboard
@@ -52,12 +62,21 @@ export default function EventItem({ event }) {
             </div>
           </div>
         </div>
-        <Icon
-          name='button-more'
-          width={3}
-          className='eventItem-item__more'
-          onClick={handleMoreClick}
-        />
+        <div className='eventItem-actions' ref={actionMenuRef}>
+          <Icon
+            name='button-more'
+            width={3}
+            className='eventItem-item__more'
+            onClick={handleMoreClick}
+          />
+          {isActionMenuOpen && (
+            <div className='eventItem-actionMenu'>
+              <button type='button' className='eventItem-actionMenu__delete'>
+                이벤트 삭제
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       <div className='eventItem-links'>
         <div className='eventItem-search'>
@@ -87,7 +106,6 @@ export default function EventItem({ event }) {
           </div>
         )}
       </div>
-      {isDeleteVisible && <button className='eventItem-deleteButton'>이벤트 삭제</button>}
     </div>
   )
 }

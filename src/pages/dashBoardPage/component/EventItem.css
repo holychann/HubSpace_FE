@@ -79,14 +79,34 @@
   cursor: pointer;
 }
 
-.eventItem-deleteButton {
-  align-self: flex-end;
-  border: 1px solid var(--color-exit);
-  color: var(--color-exit);
+.eventItem-actions {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+.eventItem-actionMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 110px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   background-color: var(--color-white);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  z-index: 30;
+}
+
+.eventItem-actionMenu__delete {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
   border-radius: 6px;
-  padding: 8px 12px;
+  color: var(--color-exit);
   font-size: 13px;
-  font-weight: var(--font-regular);
-  cursor: pointer;
+}
+
+.eventItem-actionMenu__delete:hover {
+  background-color: var(--color-box-conditional);
 }
