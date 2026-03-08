@@ -41,3 +41,9 @@
   flex: 1;
   overflow-y: scroll;
 }
+
+.dashBoard-eventList__message {
+  font-size: 14px;
+  color: var(--color-text-additional);
+  padding: 20px 8px;
+}
