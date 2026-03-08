@@ -3,13 +3,13 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { formatDate, makeSearchUrl } from '../utils/formatStrings'
 import { Icon } from '../../../components/icon/Icon'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function EventItem({ event }) {
-  const navigate = useNavigate()
+  const [isDeleteVisible, setIsDeleteVisible] = useState(false)
 
   const handleMoreClick = () => {
-    navigate(`/edit${event.eventType === 'FORM' ? 'form' : 'csv'}/${event.id}`)
+    setIsDeleteVisible((prev) => !prev)
   }
 
   const handleCopyUrl = (url) => {
@@ -87,6 +87,7 @@ export default function EventItem({ event }) {
           </div>
         )}
       </div>
+      {isDeleteVisible && <button className='eventItem-deleteButton'>이벤트 삭제</button>}
     </div>
   )
 }

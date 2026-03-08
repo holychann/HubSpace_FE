@@ -78,3 +78,15 @@
 .eventItem-item__more {
   cursor: pointer;
 }
+
+.eventItem-deleteButton {
+  align-self: flex-end;
+  border: 1px solid var(--color-exit);
+  color: var(--color-exit);
+  background-color: var(--color-white);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: var(--font-regular);
+  cursor: pointer;
+}
