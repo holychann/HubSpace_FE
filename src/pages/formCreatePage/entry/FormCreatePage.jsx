@@ -4,17 +4,21 @@ import EventInput from '../../../components/eventInput/EventInput'
 import EventButton from '../../../components/eventButton/EventButton'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import { Icon } from '../../../components/icon/Icon'
+import { createFormEvent } from '../apis/createFormEvent'
 
 export default function FormCreatePage() {
+  const [eventTitle, setEventTitle] = useState('')
   const [selectedFields, setSelectedFields] = useState(['', '', ''])
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const navigate = useNavigate()
 
+  const trimmedTitle = eventTitle.trim()
   // 실제 입력된 필드만 추출
   const validFields = selectedFields.map((v) => v.trim()).filter((v) => v !== '')
 
   const isValid =
+    trimmedTitle.length > 0 &&
     validFields.length >= 2 &&
     validFields.length <= 3 &&
     new Set(validFields).size === validFields.length // 중복 방지
@@ -25,13 +29,29 @@ export default function FormCreatePage() {
     setSelectedFields(nextFields)
   }
 
-  const handleCreateForm = () => {
-    // 폼 생성 로직 구현
-    if (isValid) {
+  const handleCreateForm = async () => {
+    if (isSubmitting) return
+
+    if (!isValid) {
+      toast.error('이벤트 관리명과 필드를 2개 이상, 중복 없이 입력해주세요.', { autoClose: 2000 })
+      return
+    }
+
+    try {
+      setIsSubmitting(true)
+
+      await createFormEvent({
+        eventTitle: trimmedTitle,
+        searchColumns: validFields,
+      })
+
       toast.success('이벤트 폼이 생성되었습니다!')
       navigate('/dashboard')
-    } else {
-      toast.error('필드를 2개 이상, 중복 없이 입력해주세요.', { autoClose: 2000 })
+    } catch (err) {
+      const message = err?.response?.data?.message || '이벤트 생성에 실패했습니다.'
+      toast.error(message, { autoClose: 2000 })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -44,7 +64,7 @@ export default function FormCreatePage() {
         </div>
 
         <div className='formCreate-name'>
-          <EventInput />
+          <EventInput value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />
         </div>
 
         <div className='formCreate-field'>
@@ -59,7 +79,7 @@ export default function FormCreatePage() {
             </div>
 
             <div className='formCreate-field__info--notice'>
-              생성 완료 후, 정보 1, 정보 2, 정보 3은 수정이 불가합니다.
+              생성 완료 후, 정보 1, 정보 2, 정보 3은 수정하시면 안됩니다.
             </div>
 
             <div className='formCreate-field__field'>
@@ -91,7 +111,7 @@ export default function FormCreatePage() {
         </div>
 
         <div className='formCreate-button'>
-          <EventButton text='이벤트 생성' onClick={handleCreateForm} />
+          <EventButton text={isSubmitting ? '생성 중...' : '이벤트 생성'} onClick={handleCreateForm} />
         </div>
       </div>
     </div>
