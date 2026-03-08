@@ -2,7 +2,6 @@
   justify-content: center;
   height: 100svh;
   width: 100vw;
-  max-width: 1600px;
   overflow: hidden;
   font-family: 'SpoqaHanSansNeo', sans-serif;
   font-weight: var(--font-regular);
