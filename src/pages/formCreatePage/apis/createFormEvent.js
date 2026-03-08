@@ -7,5 +7,5 @@ export const createFormEvent = async ({ eventTitle, searchColumns }) => {
     eventType: 'FORM',
   }
 
-  return apiPostPrivate('/v1/events', payload)
+  return apiPostPrivate('/v1/events/form', payload)
 }
