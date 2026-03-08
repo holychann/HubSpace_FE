@@ -74,7 +74,6 @@ export default function FormCreatePage() {
                         value={selectedFields[index]}
                         onChange={(e) => handleFieldChange(index, e.target.value)}
                       />
-                      <Icon name='detail-input' height={12} className='formCreate-fieldInput__icon' />
                     </div>
                   </div>
                 ))}
