@@ -91,7 +91,7 @@
 
 .eventItem-actionMenu {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 2px);
   right: -8px;
   min-width: 110px;
   border: 1px solid var(--color-border);
