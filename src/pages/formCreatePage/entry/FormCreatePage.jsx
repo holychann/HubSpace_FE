@@ -4,25 +4,26 @@ import EventInput from '../../../components/eventInput/EventInput'
 import EventButton from '../../../components/eventButton/EventButton'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { Icon } from '../../../components/icon/Icon'
 
 export default function FormCreatePage() {
-  const [fieldInputs, setFieldInputs] = useState(['', '', ''])
+  const [selectedFields, setSelectedFields] = useState(['', '', ''])
 
   const navigate = useNavigate()
 
-  const handleFieldInputChange = (index, value) => {
-    const nextInputs = [...fieldInputs]
-    nextInputs[index] = value
-    setFieldInputs(nextInputs)
-  }
-
   // 실제 입력된 필드만 추출
-  const validFields = fieldInputs.map((v) => v.trim()).filter((v) => v !== '')
+  const validFields = selectedFields.map((v) => v.trim()).filter((v) => v !== '')
 
   const isValid =
     validFields.length >= 2 &&
     validFields.length <= 3 &&
     new Set(validFields).size === validFields.length // 중복 방지
+
+  const handleFieldChange = (index, value) => {
+    const nextFields = [...selectedFields]
+    nextFields[index] = value
+    setSelectedFields(nextFields)
+  }
 
   const handleCreateForm = () => {
     // 폼 생성 로직 구현
@@ -62,16 +63,19 @@ export default function FormCreatePage() {
             </div>
 
             <div className='formCreate-field__field'>
-              <div className='formCreate-fieldInputs'>
+              <div className='formCreate-fieldInputRow'>
                 {['정보 1', '정보 2', '정보 3'].map((label, index) => (
                   <div key={label} className='formCreate-fieldInput'>
                     <div className='formCreate-fieldInput__label'>{label}</div>
-                    <input
-                      className='formCreate-fieldInput__input'
-                      value={fieldInputs[index]}
-                      onChange={(e) => handleFieldInputChange(index, e.target.value)}
-                      placeholder={`${label} 항목명을 입력하세요.`}
-                    />
+                    <div className='formCreate-fieldInput__box'>
+                      <input
+                        className='formCreate-fieldInput__input'
+                        placeholder={`${label} 항목명을 입력하세요.`}
+                        value={selectedFields[index]}
+                        onChange={(e) => handleFieldChange(index, e.target.value)}
+                      />
+                      <Icon name='detail-input' height={12} className='formCreate-fieldInput__icon' />
+                    </div>
                   </div>
                 ))}
               </div>
