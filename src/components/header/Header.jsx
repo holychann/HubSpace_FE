@@ -1,7 +1,6 @@
 import './Header.css'
 import { Icon } from '../icon/Icon'
 import { useFetchUserInfo } from './apis/fetchUserInfo'
-import defaultLogoJpg from '../../assets/default/default-logo.jpg'
 
 export default function Header() {
   const { userInfo, loading } = useFetchUserInfo()
@@ -13,8 +12,8 @@ export default function Header() {
   return (
     <div className='header'>
       <div className='header-title'>
-        <img src={defaultLogoJpg} alt="HubSpace logo" className="header-title__logo" />
-        <div className="header-title__title">HubSpace</div>
+        <Icon name='default-logo' height={85} className='header-title__logo' />
+        <div className='header-title__title'>HubSpace</div>
       </div>
       <div className='header-account'>
         <Icon name='default-profile' width={60} height={60} className='header-accout__profile' />
