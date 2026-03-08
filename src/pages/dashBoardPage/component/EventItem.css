@@ -79,6 +79,10 @@
   cursor: pointer;
 }
 
+.eventItem-item__more {
+  padding: 6px;
+}
+
 .eventItem-actions {
   position: relative;
   display: flex;
@@ -87,9 +91,8 @@
 
 .eventItem-actionMenu {
   position: absolute;
-  top: calc(100% + 2px);
-  left: 50%;
-  transform: translateX(-50%);
+  top: calc(100% + 4px);
+  right: -8px;
   min-width: 110px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
