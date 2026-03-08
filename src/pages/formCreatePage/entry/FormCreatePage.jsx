@@ -1,20 +1,23 @@
 import './FormCreatePage.css'
 import { useState } from 'react'
 import EventInput from '../../../components/eventInput/EventInput'
-import EventDropdown from '../../../components/eventDropdown/EventDropdown'
 import EventButton from '../../../components/eventButton/EventButton'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
 export default function FormCreatePage() {
-  const defaultColumns = ['이름', '학번', '전화번호', '생년월일']
-
-  const [selectedFields, setSelectedFields] = useState(['선택', '선택', '선택'])
+  const [fieldInputs, setFieldInputs] = useState(['', '', ''])
 
   const navigate = useNavigate()
 
-  // 실제 선택된 필드만 추출
-  const validFields = selectedFields.filter((v) => v !== '선택')
+  const handleFieldInputChange = (index, value) => {
+    const nextInputs = [...fieldInputs]
+    nextInputs[index] = value
+    setFieldInputs(nextInputs)
+  }
+
+  // 실제 입력된 필드만 추출
+  const validFields = fieldInputs.map((v) => v.trim()).filter((v) => v !== '')
 
   const isValid =
     validFields.length >= 2 &&
@@ -27,7 +30,7 @@ export default function FormCreatePage() {
       toast.success('이벤트 폼이 생성되었습니다!')
       navigate('/dashboard')
     } else {
-      toast.error('필드를 2개 이상, 중복 없이 선택해주세요.', { autoClose: 2000 })
+      toast.error('필드를 2개 이상, 중복 없이 입력해주세요.', { autoClose: 2000 })
     }
   }
 
@@ -59,12 +62,19 @@ export default function FormCreatePage() {
             </div>
 
             <div className='formCreate-field__field'>
-              <EventDropdown
-                columns={defaultColumns}
-                value={selectedFields}
-                onChange={setSelectedFields}
-                disabled={false}
-              />
+              <div className='formCreate-fieldInputs'>
+                {['정보 1', '정보 2', '정보 3'].map((label, index) => (
+                  <div key={label} className='formCreate-fieldInput'>
+                    <div className='formCreate-fieldInput__label'>{label}</div>
+                    <input
+                      className='formCreate-fieldInput__input'
+                      value={fieldInputs[index]}
+                      onChange={(e) => handleFieldInputChange(index, e.target.value)}
+                      placeholder={`${label} 항목명을 입력하세요.`}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className='formCreate-field__condition'>
