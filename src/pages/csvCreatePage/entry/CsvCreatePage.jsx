@@ -10,6 +10,7 @@ import { Icon } from '../../../components/icon/Icon'
 export default function CsvCreatePage() {
   const [columns, setColumns] = useState([])
   const [previewRows, setPreviewRows] = useState([])
+  const [uploadedFileName, setUploadedFileName] = useState('')
 
   // 폼 생성 필드 (3개)
   const [selectedFields, setSelectedFields] = useState(['선택', '선택', '선택'])
@@ -60,6 +61,7 @@ export default function CsvCreatePage() {
 
       setColumns(headers)
       setPreviewRows(rows)
+      setUploadedFileName(file.name)
       setSelectedFields(['선택', '선택', '선택'])
       setSelectedColumn('표시 안 함')
       setIsOpen(false)
@@ -124,6 +126,8 @@ export default function CsvCreatePage() {
 
             <div className='csvCreate-file__upload'>
               <input
+                id='csvCreateFileInput'
+                className='csvCreate-file__uploadInput'
                 type='file'
                 accept='.csv,.tsv'
                 onChange={(e) => {
@@ -132,7 +136,12 @@ export default function CsvCreatePage() {
                   parseHeaderFromFile(file)
                 }}
               />
-              <div className='csvCreate-file__upload--button'>파일 첨부</div>
+              <label htmlFor='csvCreateFileInput' className='csvCreate-file__uploadButton'>
+                파일 첨부
+              </label>
+              <div className='csvCreate-file__uploadName'>
+                {uploadedFileName || '선택된 파일 없음'}
+              </div>
             </div>
           </div>
         </div>

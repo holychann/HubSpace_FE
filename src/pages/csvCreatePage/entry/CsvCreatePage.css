@@ -41,6 +41,91 @@
   border-radius: 10px;
 }
 
+/* ================= File Upload ================= */
+.csvCreate-file {
+  padding: 40px;
+  background-color: var(--color-white);
+  margin-bottom: 44px;
+  border-radius: 10px;
+}
+
+.csvCreate-file__header {
+  display: flex;
+  flex-direction: column;
+}
+
+.csvCreate-file__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.csvCreate-file__title--title {
+  font-size: 18px;
+  font-weight: var(--font-medium);
+  color: var(--color-text);
+}
+
+.csvCreate-file__title--notice {
+  font-size: 12px;
+  font-weight: var(--font-light);
+  color: var(--color-exit);
+}
+
+.csvCreate-file__title--copy {
+  margin-left: 2px;
+}
+
+.csvCreate-file__info {
+  font-size: 12px;
+  font-weight: var(--font-light);
+  color: var(--color-text-additional);
+  margin-bottom: 18px;
+}
+
+.csvCreate-file__upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border: 2px dashed var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-box-conditional);
+}
+
+.csvCreate-file__uploadInput {
+  display: none;
+}
+
+.csvCreate-file__uploadButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 6px;
+  background-color: var(--color-main);
+  color: var(--color-white);
+  font-size: 13px;
+  font-weight: var(--font-regular);
+  cursor: pointer;
+}
+
+.csvCreate-file__uploadName {
+  flex: 1;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-white);
+  font-size: 12px;
+  color: var(--color-text-additional);
+}
+
 /* ================= Form Fields ================= */
 .csvCreate-field {
   display: flex;
