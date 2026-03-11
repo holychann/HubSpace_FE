@@ -10,6 +10,7 @@ import { createFileEvent } from '../apis/createFileEvent'
 
 export default function CsvCreatePage() {
   const [eventTitle, setEventTitle] = useState('')
+  const [uploadedFile, setUploadedFile] = useState(null)
   const [columns, setColumns] = useState([])
   const [previewRows, setPreviewRows] = useState([])
   const [rowCount, setRowCount] = useState(0)
@@ -31,6 +32,7 @@ export default function CsvCreatePage() {
 
   const isValid =
     trimmedTitle.length > 0 &&
+    uploadedFile !== null &&
     rowCount > 0 &&
     validFields.length >= 2 &&
     validFields.length <= 3 &&
@@ -69,6 +71,7 @@ export default function CsvCreatePage() {
       setColumns(headers)
       setPreviewRows(rows)
       setRowCount(lines.length - 1)
+      setUploadedFile(file)
       setUploadedFileName(file.name)
       setSelectedFields(['선택', '선택', '선택'])
       setSelectedColumn('표시 안 함')
@@ -104,6 +107,7 @@ export default function CsvCreatePage() {
         setIsSubmitting(true)
 
         await createFileEvent({
+          file: uploadedFile,
           eventTitle: trimmedTitle,
           count: rowCount,
           searchColumns: validFields,
