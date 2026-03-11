@@ -15,6 +15,10 @@
   gap: 15px;
 }
 
+.header-title--button {
+  cursor: pointer;
+}
+
 .header-title__title {
   color: var(--color-text);
   font-size: 32px;
