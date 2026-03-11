@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import AdminLayout from './layout/AdminLayout'
 import LoginPage from '../pages/loginPage/entry/LoginPage'
 import CookiePage from '../pages/cookiePage/entry/cookiePage'
@@ -10,7 +10,10 @@ import FormDetailPage from '../pages/formDetailPage/entry/FormDetailPage'
 import UserDetailPage from '../pages/userDetailPage/entry/UserDetailPage'
 import UserResultPage from '../pages/userResultPage/entry/UserResultPage'
 
-// 로그인 여부 확인용 함수 (localStorage 기반, 필요시 더 정교하게 수정 가능)
+const RootRedirect = () => {
+  const isLoggedIn = !!localStorage.getItem('accessToken')
+  return <Navigate to={isLoggedIn ? '/dashboard' : '/login'} replace />
+}
 
 export const AppRouter = createBrowserRouter([
   // 로그인 페이지
@@ -24,7 +27,7 @@ export const AppRouter = createBrowserRouter([
   },
   {
     path: '/',
-    element: <LoginPage />,
+    element: <RootRedirect />,
   },
 
   // 소셜 로그인 후 쿠키 페이지
