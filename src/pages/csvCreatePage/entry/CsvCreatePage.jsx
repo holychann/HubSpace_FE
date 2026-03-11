@@ -6,11 +6,15 @@ import EventButton from '../../../components/eventButton/EventButton'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '../../../components/icon/Icon'
+import { createFileEvent } from '../apis/createFileEvent'
 
 export default function CsvCreatePage() {
+  const [eventTitle, setEventTitle] = useState('')
   const [columns, setColumns] = useState([])
   const [previewRows, setPreviewRows] = useState([])
+  const [rowCount, setRowCount] = useState(0)
   const [uploadedFileName, setUploadedFileName] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // 폼 생성 필드 (3개)
   const [selectedFields, setSelectedFields] = useState(['선택', '선택', '선택'])
@@ -20,11 +24,14 @@ export default function CsvCreatePage() {
   const [selectedColumn, setSelectedColumn] = useState('표시 안 함')
 
   const navigate = useNavigate()
+  const trimmedTitle = eventTitle.trim()
 
   // 실제 선택된 필드만
   const validFields = selectedFields.filter((v) => v !== '선택')
 
   const isValid =
+    trimmedTitle.length > 0 &&
+    rowCount > 0 &&
     validFields.length >= 2 &&
     validFields.length <= 3 &&
     new Set(validFields).size === validFields.length
@@ -61,6 +68,7 @@ export default function CsvCreatePage() {
 
       setColumns(headers)
       setPreviewRows(rows)
+      setRowCount(lines.length - 1)
       setUploadedFileName(file.name)
       setSelectedFields(['선택', '선택', '선택'])
       setSelectedColumn('표시 안 함')
@@ -83,20 +91,43 @@ export default function CsvCreatePage() {
     setIsOpen(false)
   }
 
-  const handleCreateCsv = () => {
+  const handleCreateCsv = async () => {
+    if (isSubmitting) return
+
     if (!columns.length) {
       toast.error('CSV 파일을 먼저 업로드해주세요.')
       return
     }
 
     if (isValid) {
-      toast.success('CSV 이벤트가 생성되었습니다!')
-      navigate('/dashboard')
+      try {
+        setIsSubmitting(true)
+
+        await createFileEvent({
+          eventTitle: trimmedTitle,
+          count: rowCount,
+          searchColumns: validFields,
+        })
+
+        toast.success('CSV 이벤트가 생성되었습니다!')
+        navigate('/dashboard')
+      } catch (err) {
+        const message = err?.response?.data?.message || 'CSV 이벤트 생성에 실패했습니다.'
+        toast.error(message, { autoClose: 2000 })
+      } finally {
+        setIsSubmitting(false)
+      }
     } else {
-      toast.error('필드를 2개 이상, 중복 없이 선택해주세요.', {
+      toast.error('이벤트 관리명과 필드를 2개 이상, 중복 없이 선택해주세요.', {
         autoClose: 2000,
       })
     }
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    parseHeaderFromFile(file)
   }
 
   return (
@@ -110,7 +141,7 @@ export default function CsvCreatePage() {
 
         {/* ================= Event Name ================= */}
         <div className='csvCreate-name'>
-          <EventInput />
+          <EventInput value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />
         </div>
 
         {/* ================= File Upload ================= */}
@@ -130,11 +161,7 @@ export default function CsvCreatePage() {
                 className='csvCreate-file__uploadInput'
                 type='file'
                 accept='.csv,.tsv'
-                onChange={(e) => {
-                  const file = e.target.files[0]
-                  if (!file) return
-                  parseHeaderFromFile(file)
-                }}
+                onChange={handleFileChange}
               />
               <label htmlFor='csvCreateFileInput' className='csvCreate-file__uploadButton'>
                 파일 첨부
@@ -273,7 +300,7 @@ export default function CsvCreatePage() {
           )}
         </div>
 
-        <EventButton text='이벤트 생성' onClick={handleCreateCsv} />
+        <EventButton text={isSubmitting ? '생성 중...' : '이벤트 생성'} onClick={handleCreateCsv} />
       </div>
     </div>
   )
