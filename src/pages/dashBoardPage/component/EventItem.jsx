@@ -108,7 +108,7 @@ export default function EventItem({ event, onEditTitle }) {
             </div>
             <div className='eventItem-info__info'>
               <Icon name='dashboard-view' height={10} className='eventItem-info__icon' />
-              {`${event.viewCount} 조회`}
+              {`조회 ${event.viewCount}회`}
             </div>
           </div>
         </div>
