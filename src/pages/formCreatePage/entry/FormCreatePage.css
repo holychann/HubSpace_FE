@@ -35,7 +35,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 50px max(80px, calc((100% - 1360px) / 2))
+  padding: 50px max(80px, calc((100% - 960px) / 2))
     calc(88px + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
