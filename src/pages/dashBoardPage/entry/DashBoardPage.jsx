@@ -10,7 +10,8 @@ import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
 export default function DashBoardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingEvent, setEditingEvent] = useState(null)
-  const { events, count, loading, error, updateEventTitleLocally } = useFetchEvents()
+  const { events, count, loading, error, updateEventTitleLocally, removeEventLocally } =
+    useFetchEvents()
 
   return (
     <div className='dashBoard'>
@@ -63,6 +64,7 @@ export default function DashBoardPage() {
               key={`${event.id}-${event.createdAt}-${index}`}
               event={event}
               onEditTitle={setEditingEvent}
+              onDeleted={removeEventLocally}
             />
           ))}
       </div>

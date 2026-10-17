@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { apiDeletePrivate } from '../../../utils/ApiUtil'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
 
-export default function EventItem({ event, onEditTitle }) {
+export default function EventItem({ event, onEditTitle, onDeleted }) {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const actionMenuRef = useRef(null)
@@ -58,10 +58,8 @@ export default function EventItem({ event, onEditTitle }) {
       toast.success('이벤트가 삭제되었습니다!', {
         duration: 1000,
       })
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000)
       setIsActionMenuOpen(false)
+      onDeleted(event.id)
     } catch (err) {
       toast.error(err?.response?.data?.message || err?.message || '이벤트 삭제에 실패했습니다.', {
         duration: 2000,

@@ -1,4 +1,5 @@
 import { apiPostPrivate } from '../../../utils/ApiUtil'
+import { invalidateEventListCache } from '../../../utils/eventListCache'
 
 export const GOOGLE_PERMISSION_REQUIRED_CODE = 'GOOGLE-403'
 
@@ -26,6 +27,7 @@ export const createFormEvent = async ({ eventTitle, searchColumns }) => {
       throw toFormCreateError(response)
     }
 
+    invalidateEventListCache()
     return response
   } catch (error) {
     const errorPayload = error?.response?.data

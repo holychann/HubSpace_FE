@@ -1,3 +1,5 @@
+import { clearEventListCache } from './eventListCache'
+
 const ACCESS_TOKEN_KEY = 'accessToken'
 const REFRESH_TOKEN_KEY = 'refreshToken'
 const EXPIRES_AT_KEY = 'authExpiresAt'
@@ -16,7 +18,14 @@ const emitAuthChange = () => {
 export const isProtectedPath = (pathname = window.location.pathname) =>
   !PUBLIC_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`))
 
-export const setAuthSession = ({ accessToken, refreshToken }) => {
+// 다른 탭에서 로그인·로그아웃·토큰 갱신이 일어나면 이 탭의 이벤트 목록 캐시를 버린다.
+window.addEventListener('storage', (e) => {
+  if (e.key === null || [ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, EXPIRES_AT_KEY].includes(e.key)) {
+    clearEventListCache()
+  }
+})
+
+const writeAuthSession = ({ accessToken, refreshToken }) => {
   if (accessToken) {
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
   }
@@ -29,7 +38,14 @@ export const setAuthSession = ({ accessToken, refreshToken }) => {
   emitAuthChange()
 }
 
+// 새 로그인은 다른 계정일 수 있으므로 이전 세션의 이벤트 목록 캐시를 비운다.
+export const setAuthSession = (session) => {
+  clearEventListCache()
+  writeAuthSession(session)
+}
+
 export const clearAuthSession = () => {
+  clearEventListCache()
   localStorage.removeItem(ACCESS_TOKEN_KEY)
   localStorage.removeItem(REFRESH_TOKEN_KEY)
   localStorage.removeItem(EXPIRES_AT_KEY)
@@ -78,7 +94,8 @@ export const hasValidSession = () => !!getAccessToken()
 export const refreshAuthSession = (accessToken) => {
   if (!accessToken) return
 
-  setAuthSession({
+  // 같은 세션의 토큰 갱신이므로 이벤트 목록 캐시는 유지한다.
+  writeAuthSession({
     accessToken,
     refreshToken: localStorage.getItem(REFRESH_TOKEN_KEY),
   })
