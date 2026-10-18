@@ -1,11 +1,12 @@
 import './CsvCreatePage.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import EventInput from '../../../components/eventInput/EventInput'
-import EventDropdown from '../../../components/eventDropdown/EventDropdown'
 import EventButton from '../../../components/eventButton/EventButton'
+import CsvFileUpload from '../../../components/csvFileUpload/CsvFileUpload'
+import CsvColumnSelect from '../../../components/csvColumnSelect/CsvColumnSelect'
+import CsvPreview from '../../../components/csvPreview/CsvPreview'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
-import { Icon } from '../../../components/icon/Icon'
 import { createFileEvent } from '../apis/createFileEvent'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
 
@@ -83,7 +84,6 @@ export default function CsvCreatePage() {
   const [selectedFields, setSelectedFields] = useState(['선택', '선택', '선택'])
 
   // 조회 표시 필드
-  const [isOpen, setIsOpen] = useState(false)
   const [selectedColumns, setSelectedColumns] = useState([])
 
   const navigate = useNavigate()
@@ -91,17 +91,6 @@ export default function CsvCreatePage() {
 
   // 실제 선택된 필드만
   const validFields = selectedFields.filter((v) => v !== '선택')
-
-  // 표시 필드로 선택 가능한 컬럼 (조회 필드와 중복 제외)
-  const displayColumnOptions = columns.filter((col) => !validFields.includes(col))
-
-  // 조회 필드와 중복된 표시 필드 선택 해제
-  useEffect(() => {
-    setSelectedColumns((current) =>
-      current.filter((column) => !validFields.includes(column)),
-    )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFields])
 
   /* =========================
      CSV / TSV 파싱 (헤더 + 상위 5행)
@@ -138,26 +127,9 @@ export default function CsvCreatePage() {
       setUploadedFileName(file.name)
       setSelectedFields(['선택', '선택', '선택'])
       setSelectedColumns([])
-      setIsOpen(false)
     }
 
     reader.readAsText(file, 'utf-8')
-  }
-
-  /* =========================
-     표시 필드 토글
-  ========================= */
-  const toggleDisplayDropdown = () => {
-    if (!columns.length) return
-    setIsOpen((prev) => !prev)
-  }
-
-  const handleSelectDisplayColumn = (value) => {
-    setSelectedColumns((current) =>
-      current.includes(value)
-        ? current.filter((column) => column !== value)
-        : [...current, value],
-    )
   }
 
   const handleCreateCsv = async () => {
@@ -201,12 +173,6 @@ export default function CsvCreatePage() {
     }
   }
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    parseHeaderFromFile(file)
-  }
-
   return (
     <div className='csvCreate'>
       {isSubmitting && (
@@ -223,8 +189,7 @@ export default function CsvCreatePage() {
       <div className='csvCreate-container'>
         {/* ================= Header ================= */}
         <div className='csvCreate-header'>
-          <div className='csvCreate-title'>새 이벤트 생성하기 - CSV</div>
-          <div className='csvCreate-info'>이벤트 정보를 입력하고 조회 시스템을 생성하세요</div>
+          <div className='csvCreate-title'>새 이벤트 생성 - FILE</div>
         </div>
 
         {/* ================= Event Name ================= */}
@@ -233,262 +198,28 @@ export default function CsvCreatePage() {
         </div>
 
         {/* ================= File Upload ================= */}
-        <div
-          className={`csvCreate-file ${uploadedFile === null ? 'csvCreate-file--required' : ''}`}
-        >
-          <div className='csvCreate-file__header'>
-            <div className='csvCreate-file__title'>
-              <div className='csvCreate-file__title--title'>데이터 파일</div>
-              {uploadedFile === null && (
-                <div className='csvCreate-file__title--step'>먼저 파일을 첨부해주세요</div>
-              )}
-            </div>
-
-            {/*<div className='csvCreate-file__info'>CSV, TSV만 업로드 가능합니다.</div>*/}
-
-            <label
-              htmlFor='csvCreateFileInput'
-              className={`csvCreate-file__upload ${
-                uploadedFileName ? 'csvCreate-file__upload--selected' : ''
-              }`}
-            >
-              <input
-                id='csvCreateFileInput'
-                className='csvCreate-file__uploadInput'
-                type='file'
-                accept='.csv,.tsv'
-                onChange={handleFileChange}
-              />
-              <span className='csvCreate-file__uploadIcon' aria-hidden='true'>
-                <Icon name='button-file' width={34} height={38} />
-              </span>
-              <span className='csvCreate-file__uploadCopy'>
-                <span className='csvCreate-file__uploadTitle'>
-                  {uploadedFileName ? '파일이 선택되었습니다' : 'CSV 또는 TSV 파일 선택'}
-                </span>
-                <span className='csvCreate-file__uploadDescription'>
-                  {uploadedFileName
-                    ? '다른 파일은 이곳을 눌러주세요.'
-                    : '이곳을 눌러 파일을 업로드하세요.'}
-                </span>
-                {uploadedFileName && (
-                  <span
-                    className='csvCreate-file__uploadFileName'
-                    title={uploadedFileName}
-                    aria-live='polite'
-                  >
-                    {uploadedFileName}
-                  </span>
-                )}
-              </span>
-              {/*<span className='csvCreate-file__uploadAction'>*/}
-              {/*  {uploadedFileName ? '파일 변경' : '파일 선택'}*/}
-              {/*</span>*/}
-            </label>
-          </div>
-        </div>
+        <CsvFileUpload
+          inputId='csvCreateFileInput'
+          fileName={uploadedFileName}
+          onFileSelect={parseHeaderFromFile}
+        />
 
         {/* ================= Form Fields ================= */}
-        <div className='csvCreate-field'>
-          <div className='csvCreate-field__header'>
-            <div className='csvCreate-field__title'>
-              <div className='csvCreate-field__title--title'>조회에 사용할 정보</div>
-              <div className='csvCreate-field__title--notice'>2개 이상 필수</div>
-            </div>
+        <CsvColumnSelect
+          columns={columns}
+          searchValue={selectedFields}
+          onSearchChange={setSelectedFields}
+          displayValue={selectedColumns}
+          onDisplayChange={setSelectedColumns}
+        />
 
-            <div className='csvCreate-field__infoBox'>
-              <div className='csvCreate-field__info'>
-                신청자 확인에 사용할 정보를 선택해 주세요.
-                <br />
-                <span className='csvCreate-field__infoExample'>예시: 이름, 학번, 사번</span>
-              </div>
-              {/*<div className='csvCreate-field__info--notice'>*/}
-              {/*  생성 후 변경 불가*/}
-              {/*</div>*/}
-            </div>
-
-            <div className='csvCreate-field__field'>
-              <EventDropdown
-                columns={columns.length ? columns : ['선택']}
-                value={selectedFields}
-                onChange={setSelectedFields}
-                disabled={!columns.length}
-              />
-            </div>
-          </div>
-
-          <div className='csvCreate-field__header'>
-            <div className='csvCreate-field__title'>
-              <div className='csvCreate-field__title--title'>조회 결과에 표시할 정보</div>
-              <div className='csvCreate-field__title--notice csvCreate-field__title--optional'>
-                선택
-              </div>
-            </div>
-
-            <div className='csvCreate-field__infoBox'>
-              <div className='csvCreate-field__info'>
-                조회 결과에 보여줄 정보를 선택해 주세요.
-                <br />
-                <span className='csvCreate-field__infoExample'>예시: 합격 여부</span>
-              </div>
-              {/*<div className='csvCreate-field__info--notice'>*/}
-              {/*  생성 후 변경 불가*/}
-              {/*</div>*/}
-            </div>
-
-            <div className='csvCreate-display__field'>
-              <button
-                type='button'
-                className={`csvCreate-display__toggle ${
-                  !columns.length ? 'csvCreate-display__toggle--disabled' : ''
-                }`}
-                onClick={toggleDisplayDropdown}
-                disabled={!columns.length}
-                aria-expanded={isOpen}
-                aria-controls='csvCreate-display-options'
-              >
-                <div
-                  className={`csvCreate-display__title ${
-                    selectedColumns.length ? 'csvCreate-display__title--selected' : ''
-                  }`}
-                >
-                  {selectedColumns.length ? `${selectedColumns.length}개 선택됨` : '표시할 정보 선택'}
-                </div>
-                <Icon
-                  name='detail-field'
-                  height={4}
-                  className={`csvCreate-display__arrow ${isOpen ? 'open' : ''}`}
-                />
-              </button>
-
-              {isOpen && (
-                <div
-                  id='csvCreate-display-options'
-                  className='csvCreate-display__content'
-                >
-                  <div className='csvCreate-display__options'>
-                    {displayColumnOptions.length === 0 && (
-                      <div className='csvCreate-display__empty'>선택 가능한 컬럼이 없습니다.</div>
-                    )}
-                    {displayColumnOptions.map((col) => (
-                      <label
-                        key={col}
-                        className={`csvCreate-display__item ${
-                          selectedColumns.includes(col)
-                            ? 'csvCreate-display__item--selected'
-                            : ''
-                        }`}
-                      >
-                        <input
-                          type='checkbox'
-                          className='csvCreate-display__checkbox'
-                          checked={selectedColumns.includes(col)}
-                          onChange={() => handleSelectDisplayColumn(col)}
-                        />
-                        <span>{col}</span>
-                      </label>
-                    ))}
-                  </div>
-                  <div className='csvCreate-display__actions'>
-                    <button
-                      type='button'
-                      className='csvCreate-display__action csvCreate-display__action--clear'
-                      onClick={() => setSelectedColumns([])}
-                      disabled={selectedColumns.length === 0}
-                    >
-                      전체 해제
-                    </button>
-                    <button
-                      type='button'
-                      className='csvCreate-display__action csvCreate-display__action--done'
-                      onClick={() => setIsOpen(false)}
-                    >
-                      선택 완료
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {selectedColumns.length > 0 && (
-                <div className='csvCreate-display__chips' aria-label='선택된 표시 컬럼'>
-                  {selectedColumns.map((column) => (
-                    <div key={column} className='csvCreate-display__chip'>
-                      <span>{column}</span>
-                      <button
-                        type='button'
-                        className='csvCreate-display__chipRemove'
-                        onClick={() => handleSelectDisplayColumn(column)}
-                        aria-label={`${column} 표시 컬럼 제거`}
-                      >
-                        <span aria-hidden='true'>×</span>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-        </div>
         {/* ================= CSV Preview ================= */}
-        <div className='csvCreate-preview'>
-          <div className='csvCreate-preview__header'>
-            <div>
-              <div className='csvCreate-preview__title'>첨부 파일 미리보기</div>
-              <div className='csvCreate-preview__content'>
-                업로드한 데이터의 헤더와 상위 5개 행을 바로 확인할 수 있습니다.
-              </div>
-            </div>
-            {columns.length > 0 && (
-              <div className='csvCreate-preview__meta'>
-                <div className='csvCreate-preview__badge'>{uploadedFileName}</div>
-                <div className='csvCreate-preview__badge'>{`${rowCount}개 행`}</div>
-                <div className='csvCreate-preview__badge'>{`${columns.length}개 컬럼`}</div>
-              </div>
-            )}
-          </div>
-
-          {columns.length > 0 ? (
-            <div className='csvCreate-preview__tableWrap'>
-              <div className='csvCreate-preview__tableTop'>
-                <div className='csvCreate-preview__tableLabel'>Preview Data</div>
-                <div className='csvCreate-preview__tableHint'>표시는 상위 5개 행으로 제한됩니다</div>
-              </div>
-              <div className='csvCreate-preview__table'>
-              <table>
-                <thead>
-                  <tr>
-                    {columns.map((col) => (
-                      <th key={col}>{col}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {previewRows.map((row, idx) => (
-                    <tr key={idx}>
-                      {columns.map((_, i) => (
-                        <td key={i}>{row[i] ?? '-'}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            </div>
-          ) : (
-            <div className='csvCreate-preview__empty'>
-              <div className='csvCreate-preview__emptyIcon' aria-hidden='true'>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div className='csvCreate-preview__emptyTitle'>미리 볼 파일이 아직 없습니다</div>
-              <div className='csvCreate-preview__emptyDescription'>
-                CSV 또는 TSV 파일을 첨부하면 이 영역에 데이터 미리보기가 표시됩니다.
-              </div>
-            </div>
-          )}
-        </div>
+        <CsvPreview
+          fileName={uploadedFileName}
+          rowCount={rowCount}
+          columns={columns}
+          previewRows={previewRows}
+        />
 
         <div className='csvCreate-action'>
           <EventButton text={isSubmitting ? '생성 중...' : '이벤트 생성'} onClick={handleCreateCsv} />

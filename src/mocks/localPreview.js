@@ -62,6 +62,36 @@ const previewEvents = [
   },
 ]
 
+// 파일 변경 화면 확인용 FILE 이벤트 상세. 실제 API 처럼 { success, data } 로 감싼다.
+const previewFileDetails = {
+  'preview-file-002': {
+    count: 248,
+    searchColumns: ['이름', '학번'],
+    displayColumns: ['합격 여부'],
+  },
+  'preview-file-004': {
+    count: 1032,
+    searchColumns: ['이름', '연락처', '소속'],
+    displayColumns: [],
+  },
+  'preview-file-006': {
+    count: 37,
+    searchColumns: ['이름', '수험번호'],
+    displayColumns: ['결과', '안내 사항'],
+  },
+}
+
+const getPreviewFileDetail = (eventId) => {
+  const event = previewEvents.find((item) => item.id === eventId)
+  const detail = previewFileDetails[eventId]
+  if (!event || !detail) return null
+
+  return {
+    success: true,
+    data: { ...event, ...detail, searchColumns: [...detail.searchColumns], displayColumns: [...detail.displayColumns] },
+  }
+}
+
 export const getLocalPreviewPrivateGet = (url) => {
   if (url === '/user') {
     return Promise.resolve({ ...previewUser })
@@ -72,6 +102,11 @@ export const getLocalPreviewPrivateGet = (url) => {
       count: previewEvents.length,
       events: previewEvents.map((event) => ({ ...event })),
     })
+  }
+
+  const fileDetail = getPreviewFileDetail(url.replace('/v1/events/', ''))
+  if (url.startsWith('/v1/events/') && fileDetail) {
+    return Promise.resolve(fileDetail)
   }
 
   return Promise.reject(new Error(`로컬 미리보기 응답이 없는 요청입니다: ${url}`))

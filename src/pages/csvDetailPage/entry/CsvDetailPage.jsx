@@ -1,42 +1,180 @@
-import DeleteButton from '../../../components/deleteButton/DeleteButton'
-import EventButton from '../../../components/eventButton/EventButton'
-import EventDropdown from '../../../components/eventDropdown/EventDropdown'
-import EventInput from '../../../components/eventInput/EventInput'
-import { Icon } from '../../../components/icon/Icon'
-import { toast } from 'sonner'
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-
-import { csvEvent } from '../utils/CsvDetailDummy'
 import './CsvDetailPage.css'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
+import EventButton from '../../../components/eventButton/EventButton'
+import CsvFileUpload from '../../../components/csvFileUpload/CsvFileUpload'
+import CsvColumnSelect from '../../../components/csvColumnSelect/CsvColumnSelect'
+import CsvPreview from '../../../components/csvPreview/CsvPreview'
+import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
+import { Icon } from '../../../components/icon/Icon'
+import { fetchFileEventDetail } from '../apis/fetchFileEventDetail'
+import { replaceFileDataset } from '../apis/replaceFileDataset'
+import { parseCsvDataset } from '../../../utils/csvDatasetParser'
+import { keepAvailableColumns } from '../../../utils/csvColumnSelection'
 
-export default function CsvDetailPage() {
-  const event = csvEvent.data
-  const navigate = useNavigate()
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedColumns, setSelectedColumns] = useState(event.displayColumns ?? [])
+const EMPTY_SEARCH_VALUE = ['선택', '선택', '선택']
 
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev)
-  }
+const toSearchValue = (columns) => [...columns, ...EMPTY_SEARCH_VALUE].slice(0, 3)
 
-  const handleSelect = (value) => {
-    if (value === '표시 안 함') {
-      setSelectedColumns([])
-      setIsOpen(false)
-      return
+const getBlockedReason = (event) => {
+  if (event.eventType !== 'FILE') return 'CSV로 만든 이벤트만 파일을 변경할 수 있습니다.'
+  if (event.isActive !== true) return '종료된 이벤트는 파일을 변경할 수 없습니다.'
+  return null
+}
+
+// 409 와 응답 없는 실패는 저장 여부를 단정할 수 없으므로 최신 정보를 다시 불러오게 한다.
+const toSubmitError = (err) => {
+  const serverMessage = err?.response?.data?.error?.errorMessage
+
+  if (err?.response?.status === 409) {
+    return {
+      needsRefresh: true,
+      message:
+        serverMessage ||
+        '다른 명단 교체가 먼저 완료되었습니다. 최신 명단을 확인한 뒤 다시 시도해 주세요.',
     }
+  }
+  if (err?.isAxiosError && !err.response) {
+    return {
+      needsRefresh: true,
+      message:
+        '서버 응답을 받지 못해 파일이 변경되었는지 확인할 수 없습니다. 최신 정보를 불러와 현재 설정을 확인해 주세요.',
+    }
+  }
+  return {
+    needsRefresh: false,
+    message: serverMessage || err?.message || '파일 변경에 실패했습니다.',
+  }
+}
 
-    setSelectedColumns((current) =>
-      current.includes(value)
-        ? current.filter((column) => column !== value)
-        : [...current, value],
-    )
+// 이벤트 ID 가 바뀌면 파일·선택 상태를 모두 새로 시작한다.
+export default function CsvDetailPage() {
+  const { id } = useParams()
+  return <CsvDatasetEditor key={id} eventId={id} />
+}
+
+function CsvDatasetEditor({ eventId }) {
+  const navigate = useNavigate()
+
+  const [event, setEvent] = useState(null)
+  const [loadError, setLoadError] = useState(null)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
+  // 저장 후보. 검증을 통과한 파일만 담는다.
+  const [dataset, setDataset] = useState(null)
+  const [fileError, setFileError] = useState(null)
+  const [isReading, setIsReading] = useState(false)
+  // 연속으로 파일을 고르면 마지막 파일의 읽기 결과만 반영한다.
+  const readRequestRef = useRef(0)
+
+  // 첫 파일을 읽기 전에는 null 이다. 이후에는 사용자가 고른 값이 다음 파일의 기준이 된다.
+  const [selection, setSelection] = useState(null)
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState(null)
+  const isSubmittingRef = useRef(false)
+
+  useEffect(() => {
+    let ignore = false
+
+    fetchFileEventDetail(eventId)
+      .then((nextEvent) => {
+        if (!ignore) setEvent(nextEvent)
+      })
+      .catch((err) => {
+        if (!ignore) setLoadError(err?.message || '이벤트 정보를 불러오지 못했습니다.')
+      })
+
+    return () => {
+      ignore = true
+    }
+  }, [eventId])
+
+  const searchValue = selection?.searchValue ?? EMPTY_SEARCH_VALUE
+  const displayValue = selection?.displayValue ?? []
+  const validSearch = searchValue.filter((value) => value !== '선택')
+  const isSearchValid =
+    validSearch.length >= 2 && validSearch.length <= 3 && new Set(validSearch).size === validSearch.length
+  const canSubmit =
+    dataset !== null && isSearchValid && !isReading && !isSubmitting && !isRefreshing
+
+  const handleRetryLoad = async () => {
+    setLoadError(null)
+    try {
+      setEvent(await fetchFileEventDetail(eventId))
+    } catch (err) {
+      setLoadError(err?.message || '이벤트 정보를 불러오지 못했습니다.')
+    }
   }
 
-  const handleCopyId = (id) => {
+  // 업로드한 파일과 선택값은 그대로 두고 현재 설정 요약만 갱신한다.
+  const handleRefresh = async () => {
+    if (isRefreshing) return
+
+    setIsRefreshing(true)
+    try {
+      setEvent(await fetchFileEventDetail(eventId))
+      setSubmitError(null)
+      toast.success('최신 정보를 불러왔습니다. 현재 설정을 확인한 뒤 다시 저장해 주세요.')
+    } catch (err) {
+      toast.error(err?.message || '최신 정보를 불러오지 못했습니다.', { duration: 2000 })
+    } finally {
+      setIsRefreshing(false)
+    }
+  }
+
+  const handleFileSelect = async (file) => {
+    const requestId = readRequestRef.current + 1
+    readRequestRef.current = requestId
+
+    // 이전 파일이 실수로 전송되지 않게 읽기 전에 저장 후보를 비운다.
+    setDataset(null)
+    setFileError(null)
+    setIsReading(true)
+    // 이전 파일에 대한 서버 오류는 지우고, 최신 정보 확인이 필요한 오류는 남긴다.
+    setSubmitError((current) => (current?.needsRefresh ? current : null))
+
+    try {
+      let buffer
+      try {
+        buffer = await file.arrayBuffer()
+      } catch {
+        throw new Error('파일을 읽을 수 없습니다.')
+      }
+      const parsed = parseCsvDataset(buffer, file.name)
+      if (readRequestRef.current !== requestId) return
+
+      setDataset({ file, fileName: file.name, ...parsed })
+      setSelection((current) => {
+        const base = current
+          ? {
+              searchColumns: current.searchValue.filter((value) => value !== '선택'),
+              displayColumns: current.displayValue,
+            }
+          : { searchColumns: event.searchColumns, displayColumns: event.displayColumns }
+        const next = keepAvailableColumns(base, parsed.headers)
+        return { searchValue: toSearchValue(next.searchColumns), displayValue: next.displayColumns }
+      })
+    } catch (err) {
+      if (readRequestRef.current !== requestId) return
+      setFileError(`${file.name}: ${err.message}`)
+    } finally {
+      if (readRequestRef.current === requestId) setIsReading(false)
+    }
+  }
+
+  const handleSearchChange = (nextValue) => {
+    setSelection((current) => ({ displayValue: [], ...current, searchValue: nextValue }))
+  }
+
+  const handleDisplayChange = (nextValue) => {
+    setSelection((current) => ({ searchValue: EMPTY_SEARCH_VALUE, ...current, displayValue: nextValue }))
+  }
+
+  const handleCopyId = () => {
     navigator.clipboard
-      .writeText(id)
+      .writeText(event.id)
       .then(() => {
         toast.success('ID가 복사되었습니다!')
       })
@@ -46,95 +184,217 @@ export default function CsvDetailPage() {
       })
   }
 
-  const handleEdit = () => {
-    // 이벤트 수정 로직 구현
-    toast.success('이벤트 정보가 수정되었습니다!')
-    navigate('/dashboard')
+  const handleSubmit = async () => {
+    if (!canSubmit || isSubmittingRef.current) return
+
+    isSubmittingRef.current = true
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    try {
+      await replaceFileDataset({
+        eventId: event.id,
+        file: dataset.file,
+        searchColumns: validSearch,
+        displayColumns: displayValue.length ? displayValue : null,
+      })
+
+      toast.success('파일이 변경되었습니다!')
+      navigate('/dashboard')
+    } catch (err) {
+      setSubmitError(toSubmitError(err))
+      isSubmittingRef.current = false
+      setIsSubmitting(false)
+    }
+  }
+
+  const goDashboard = () => navigate('/dashboard')
+
+  const renderStatus = ({ title, message, isLoading = false }) => (
+    <div className='csvDetail-status' role={isLoading ? undefined : 'alert'}>
+      {isLoading && (
+        <LoadingSpinner className='csvDetail-status__spinner' size={48} cubeSize={16} color='#2d3b86' />
+      )}
+      <div className='csvDetail-status__title'>{title}</div>
+      {message && <div className='csvDetail-status__message'>{message}</div>}
+      {!isLoading && (
+        <div className='csvDetail-status__actions'>
+          <button type='button' className='csvDetail-secondaryButton' onClick={goDashboard}>
+            대시보드로 돌아가기
+          </button>
+          <EventButton text='다시 시도' onClick={handleRetryLoad} />
+        </div>
+      )}
+    </div>
+  )
+
+  const blockedReason = event ? getBlockedReason(event) : null
+
+  let content
+  if (loadError) {
+    content = renderStatus({ title: '이벤트 정보를 불러오지 못했습니다', message: loadError })
+  } else if (!event) {
+    content = renderStatus({ title: '이벤트 정보를 불러오는 중입니다', isLoading: true })
+  } else if (blockedReason) {
+    content = renderStatus({ title: '파일을 변경할 수 없는 이벤트입니다', message: blockedReason })
+  } else {
+    const submitHint = !dataset
+      ? '새 명단 파일을 첨부하면 저장할 수 있습니다.'
+      : !isSearchValid
+        ? '조회에 사용할 정보를 2개 이상 선택해주세요.'
+        : null
+
+    content = (
+      <>
+        {/* ================= Current Settings ================= */}
+        <div className='csvDetail-summary'>
+          <div className='csvDetail-summary__title'>현재 설정</div>
+          <dl className='csvDetail-summary__list'>
+            <div className='csvDetail-summary__row'>
+              <dt className='csvDetail-summary__label'>이벤트 이름</dt>
+              <dd className='csvDetail-summary__value'>{event.eventTitle}</dd>
+            </div>
+            <div className='csvDetail-summary__row'>
+              <dt className='csvDetail-summary__label'>이벤트 ID</dt>
+              <dd className='csvDetail-summary__value csvDetail-summary__value--id'>
+                <span>{event.id}</span>
+                <button
+                  type='button'
+                  className='csvDetail-summary__copy'
+                  onClick={handleCopyId}
+                  aria-label='이벤트 ID 복사'
+                >
+                  <Icon name='detail-copy' height={14} />
+                </button>
+              </dd>
+            </div>
+            <div className='csvDetail-summary__row'>
+              <dt className='csvDetail-summary__label'>현재 명단</dt>
+              <dd className='csvDetail-summary__value'>{`${event.count ?? 0}개 행`}</dd>
+            </div>
+            <div className='csvDetail-summary__row'>
+              <dt className='csvDetail-summary__label'>조회에 사용할 정보</dt>
+              <dd className='csvDetail-summary__value csvDetail-summary__chips'>
+                {event.searchColumns.map((column) => (
+                  <span key={column} className='csvDetail-summary__chip'>
+                    {column}
+                  </span>
+                ))}
+              </dd>
+            </div>
+            <div className='csvDetail-summary__row'>
+              <dt className='csvDetail-summary__label'>조회 결과에 표시할 정보</dt>
+              <dd className='csvDetail-summary__value csvDetail-summary__chips'>
+                {event.displayColumns.length > 0 ? (
+                  event.displayColumns.map((column) => (
+                    <span
+                      key={column}
+                      className='csvDetail-summary__chip csvDetail-summary__chip--display'
+                    >
+                      {column}
+                    </span>
+                  ))
+                ) : (
+                  <span className='csvDetail-summary__none'>없음</span>
+                )}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        {/* ================= File Upload ================= */}
+        <CsvFileUpload
+          inputId='csvDetailFileInput'
+          fileName={dataset?.fileName ?? ''}
+          isReading={isReading}
+          error={fileError}
+          disabled={isSubmitting}
+          onFileSelect={handleFileSelect}
+        />
+
+        {/* ================= Form Fields ================= */}
+        <CsvColumnSelect
+          columns={dataset?.headers ?? []}
+          searchValue={searchValue}
+          onSearchChange={handleSearchChange}
+          displayValue={displayValue}
+          onDisplayChange={handleDisplayChange}
+          disabled={isSubmitting}
+        />
+
+        {/* ================= CSV Preview ================= */}
+        <CsvPreview
+          fileName={dataset?.fileName ?? ''}
+          rowCount={dataset?.rowCount ?? 0}
+          columns={dataset?.headers ?? []}
+          previewRows={dataset?.previewRows ?? []}
+        />
+
+        {/* ================= Submit ================= */}
+        <div className='csvDetail-submit'>
+          <div className='csvDetail-notice'>
+            기존 명단 전체가 교체되며 이벤트 ID와 조회 링크는 유지됩니다
+          </div>
+
+          {submitError && (
+            <div className='csvDetail-alert' role='alert'>
+              <div className='csvDetail-alert__message'>{submitError.message}</div>
+              {submitError.needsRefresh && (
+                <button
+                  type='button'
+                  className='csvDetail-alert__refresh'
+                  onClick={handleRefresh}
+                  disabled={isRefreshing || isSubmitting}
+                >
+                  {isRefreshing ? '불러오는 중...' : '최신 정보 불러오기'}
+                </button>
+              )}
+            </div>
+          )}
+
+          <div className='csvDetail-actions'>
+            {submitHint && <div className='csvDetail-actions__hint'>{submitHint}</div>}
+            <div className='csvDetail-actions__buttons'>
+              <button
+                type='button'
+                className='csvDetail-secondaryButton'
+                onClick={goDashboard}
+                disabled={isSubmitting}
+              >
+                취소
+              </button>
+              <EventButton
+                text={isSubmitting ? '변경 중...' : '파일 변경'}
+                onClick={handleSubmit}
+                disabled={!canSubmit}
+              />
+            </div>
+          </div>
+        </div>
+      </>
+    )
   }
 
   return (
-    <div>
-      <div className='csvDetail-header'>
-        <div className='csvDetail-header__title'>이벤트 수정</div>
-        <div className='csvDetail-header__info'>이벤트 상세 정보를 수정 가능합니다.</div>
-      </div>
-      <div className='csvDetail-identity'>
-        <div className='csvDetail-id'>
-          <div className='csvDetail-id__title'>
-            <div className='csvDetail-id__id'>{`이벤트 ID : ${event.id}`}</div>
-            <Icon
-              name='detail-copy'
-              height={14}
-              className='csvDetail-id__copy'
-              onClick={() => handleCopyId(event.id)}
-            />
-          </div>
-          <div className='csvDetail-id__info'>이벤트 고유 ID이며, 어디에 사용됩니다.</div>
+    <div className='csvDetail'>
+      {isSubmitting && (
+        <div className='csvDetail-loadingOverlay'>
+          <LoadingSpinner
+            className='csvDetail-loadingSpinner'
+            size={48}
+            cubeSize={16}
+            color='#2d3b86'
+          />
+          <div className='csvDetail-loadingText'>파일 변경 중...</div>
         </div>
-        <div className='csvDetail-name'>
-          <EventInput />
+      )}
+      <div className='csvDetail-container'>
+        {/* ================= Header ================= */}
+        <div className='csvDetail-header'>
+          <div className='csvDetail-title'>파일 변경 - FILE</div>
         </div>
-      </div>
-      <div className='csvDetail-field'>
-        <div className='csvDetail-field__header'>
-          <div className='csvDetail-field__title'>조회 인증 정보</div>
-          <div className='csvDetail-field__info'>
-            신청자가 조회 시 입력할 정보 필드를 설정하세요.
-          </div>
-        </div>
-        <div className='csvDetail-field__field'>
-          <EventDropdown columns={event.searchColumns} disabled={true} />
-        </div>
-        <div className='csvDetail-field__header'>
-          <div className='csvDetail-field__title'>조회 확인 정보</div>
-          <div className='csvDetail-field__info'>
-            신청자가 조회 시 확인 가능한 정보를 설정하세요.
-          </div>
-        </div>
-        <div className='csvDetail-display'>
-          <div className='csvDetail-display__label'>사용자 조회 정보</div>
 
-          <div className='csvDetail-display__toggle' onClick={toggleDropdown}>
-            <div className='csvDetail-display__title'>
-              {selectedColumns.length ? selectedColumns.join(', ') : '표시 안 함'}
-            </div>
-
-            <Icon
-              name='detail-field'
-              height={4}
-              className={`csvDetail-display__arrow ${isOpen ? 'open' : ''}`}
-            />
-          </div>
-
-          {isOpen && (
-            <div className='csvDetail-display__content'>
-              {(event.displayColumns ?? []).map((displayColumn) => (
-                <div
-                  key={displayColumn}
-                  className={`csvDetail-display__item ${
-                    selectedColumns.includes(displayColumn) ? 'selected' : ''
-                  }`}
-                  onClick={() => handleSelect(displayColumn)}
-                >
-                  {displayColumn}
-                </div>
-              ))}
-
-              <div
-                className={`csvDetail-display__item ${
-                  selectedColumns.length === 0 ? 'selected' : ''
-                }`}
-                onClick={() => handleSelect('표시 안 함')}
-              >
-                표시 안 함
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-      <div className='csvDetail-footer'>
-        <DeleteButton />
-        <EventButton text='이벤트 수정' onClick={handleEdit} />
+        {content}
       </div>
     </div>
   )

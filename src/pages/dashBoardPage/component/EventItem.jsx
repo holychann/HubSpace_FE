@@ -3,6 +3,7 @@ import { toast } from 'sonner'
 import { formatDate, makeSearchUrl } from '../utils/formatStrings'
 import { Icon } from '../../../components/icon/Icon'
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { apiDeletePrivate } from '../../../utils/ApiUtil'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
 
@@ -10,6 +11,8 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const actionMenuRef = useRef(null)
+  const navigate = useNavigate()
+  const canEditDataset = event.eventType === 'FILE' && event.isActive === true
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -27,6 +30,11 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
   const handleEditTitle = () => {
     setIsActionMenuOpen(false)
     onEditTitle(event)
+  }
+
+  const handleEditDataset = () => {
+    setIsActionMenuOpen(false)
+    navigate(`/editcsv/${event.id}`)
   }
 
   const handleCopyUrl = (url) => {
@@ -127,6 +135,16 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
               >
                 이름 수정
               </button>
+              {canEditDataset && (
+                <button
+                  type='button'
+                  className='eventItem-actionMenu__edit'
+                  onClick={handleEditDataset}
+                  disabled={isDeleting}
+                >
+                  파일 변경
+                </button>
+              )}
               <button
                 type='button'
                 className='eventItem-actionMenu__delete'

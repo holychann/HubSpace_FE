@@ -119,8 +119,7 @@ export default function FormCreatePage() {
       )}
       <div className='formCreate-container'>
         <div className='formCreate-header'>
-          <div className='formCreate-title'>새 이벤트 생성하기 - 폼</div>
-          <div className='formCreate-info'>이벤트 정보를 입력하고 조회 시스템을 생성하세요</div>
+          <div className='formCreate-title'>새 이벤트 생성 - FORM</div>
         </div>
 
         <div className='formCreate-name'>
@@ -139,7 +138,7 @@ export default function FormCreatePage() {
                 신청자가 조회 시 입력할 정보 필드를 설정하세요.
               </div>
               <div className='formCreate-field__info--notice'>
-                생성 완료 후, 정보 1, 정보 2, 정보 3은 수정하시면 안됩니다.
+                폼 생성 후 항목명을 변경하시면 의도하지 않은 데이터가 집계될 수 있습니다.
               </div>
             </div>
 
@@ -160,14 +159,6 @@ export default function FormCreatePage() {
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-
-            <div className='formCreate-field__condition'>
-              <div className='formCreate-field__condition--title'>필드 선택 기준</div>
-              <div className='formCreate-field__condition--info'>
-                <p>ㅁ 필드는 최소 2개, 최대 3개까지 선택 가능합니다.</p>
-                <p>ㅁ 필드 순서는 조회 화면 표시 순서와 동일합니다.</p>
               </div>
             </div>
           </div>

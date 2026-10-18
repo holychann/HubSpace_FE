@@ -30,7 +30,13 @@ export default function EventDropdown({
         <div key={index} className={`eventDropdown ${disabled ? 'eventDropdown--disabled' : ''}`}>
           <div className='eventDropdown__label'>{labels[index]}</div>
 
-          <div className='eventDropdown__toggle' onClick={() => toggleDropdown(index)}>
+          <button
+            type='button'
+            className='eventDropdown__toggle'
+            onClick={() => toggleDropdown(index)}
+            disabled={disabled}
+            aria-expanded={openIndex === index}
+          >
             <div
               className={`eventDropdown__title ${
                 val !== '선택' ? 'eventDropdown__title--selected' : ''
@@ -47,24 +53,29 @@ export default function EventDropdown({
                 }`}
               />
             )}
-          </div>
+          </button>
 
           {openIndex === index && (
             <div className='eventDropdown__list'>
-              <div className='eventDropdown__item' onClick={() => selectColumn(index, '선택')}>
+              <button
+                type='button'
+                className='eventDropdown__item'
+                onClick={() => selectColumn(index, '선택')}
+              >
                 선택
-              </div>
+              </button>
               {columns
                 .filter((col) => col !== '선택')
                 .filter((col) => !value.some((v, i) => i !== index && v === col))
                 .map((col, idx) => (
-                  <div
+                  <button
+                    type='button'
                     key={idx}
                     className='eventDropdown__item'
                     onClick={() => selectColumn(index, col)}
                   >
                     {col}
-                  </div>
+                  </button>
                 ))}
             </div>
           )}
