@@ -15,65 +15,65 @@ export default function PolicyPage({ type }) {
 
   if (!content) return null
 
+  // 데스크톱 고정 목차와 태블릿·모바일 접이식 목차가 같은 링크를 쓴다. 화면 폭에 따라 CSS로 하나만 보인다.
+  const tocLinks = content.sections.map((section) => (
+    <a key={section.id} href={`#${section.id}`} className='policy-page__tocLink'>
+      {section.title}
+    </a>
+  ))
+
   return (
     <div className='policy-page'>
-      <div className='policy-page__ambient policy-page__ambient--left' />
-      <div className='policy-page__ambient policy-page__ambient--right' />
-
-      <header className='policy-page__hero'>
-        <Link to='/' className='policy-page__logoLink' aria-label='홈으로 이동'>
-          <img src={authLogo} alt='HubSpace' className='policy-page__logo' />
-        </Link>
-
-        <div className='policy-page__heroContent'>
-          <div className='policy-page__heroText'>
-            <h1 className='policy-page__title'>{content.pageTitle}</h1>
-          </div>
-
-          <div className='policy-page__meta'>
-            <span className='policy-page__metaChip'>{content.effectiveDate}</span>
-            <Link to='/' className='policy-page__metaChip policy-page__metaChip--link'>
+      <div className='policy-page__inner'>
+        <header className='policy-page__header'>
+          <div className='policy-page__topBar'>
+            <Link to='/' className='policy-page__logoLink' aria-label='홈으로 이동'>
+              <img src={authLogo} alt='HubSpace' className='policy-page__logo' />
+            </Link>
+            <Link to='/' className='policy-page__homeLink'>
               홈으로
             </Link>
           </div>
-        </div>
-      </header>
 
-      <main className='policy-page__body'>
-        <aside className='policy-page__toc'>
-          <div className='policy-page__tocCard'>
+          <h1 className='policy-page__title'>{content.pageTitle}</h1>
+          <p className='policy-page__date'>{content.effectiveDate}</p>
+        </header>
+
+        <div className='policy-page__layout'>
+          <aside className='policy-page__toc' aria-label='목차'>
             <div className='policy-page__tocTitle'>목차</div>
-            <nav className='policy-page__tocList'>
-              {content.sections.map((section) => (
-                <a key={section.id} href={`#${section.id}`} className='policy-page__tocLink'>
-                  {section.title}
-                </a>
-              ))}
-            </nav>
-          </div>
-        </aside>
+            <nav className='policy-page__tocList'>{tocLinks}</nav>
+          </aside>
 
-        <section className='policy-page__content'>
-          {content.sections.map((section) => (
-            <article key={section.id} id={section.id} className='policy-page__section'>
-              <div className='policy-page__sectionHeader'>
-                <h2 className='policy-page__sectionTitle'>{section.title}</h2>
-              </div>
-              <div className='policy-page__sectionBody'>
-                {section.lines.map((line, index) =>
-                  line === '' ? (
-                    <div key={`${section.id}-${index}`} className='policy-page__spacer' />
-                  ) : (
-                    <p key={`${section.id}-${index}`} className={getLineClassName(line)}>
-                      {line}
-                    </p>
-                  ),
-                )}
-              </div>
-            </article>
-          ))}
-        </section>
-      </main>
+          <main className='policy-page__main'>
+            <details className='policy-page__tocToggle'>
+              <summary className='policy-page__tocSummary'>목차 보기</summary>
+              <nav className='policy-page__tocList' aria-label='목차'>
+                {tocLinks}
+              </nav>
+            </details>
+
+            <div className='policy-page__document'>
+              {content.sections.map((section) => (
+                <section key={section.id} id={section.id} className='policy-page__section'>
+                  <h2 className='policy-page__sectionTitle'>{section.title}</h2>
+                  <div className='policy-page__sectionBody'>
+                    {section.lines.map((line, index) =>
+                      line === '' ? (
+                        <div key={`${section.id}-${index}`} className='policy-page__spacer' />
+                      ) : (
+                        <p key={`${section.id}-${index}`} className={getLineClassName(line)}>
+                          {line}
+                        </p>
+                      ),
+                    )}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </main>
+        </div>
+      </div>
     </div>
   )
 }
