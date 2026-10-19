@@ -5,11 +5,14 @@ import { Icon } from '../../../components/icon/Icon'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiDeletePrivate } from '../../../utils/ApiUtil'
-import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
+import ConfirmModal from '../../../components/confirmModal/ConfirmModal'
 
 export default function EventItem({ event, onEditTitle, onDeleted }) {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
+  // 확인 버튼을 연속으로 눌러도 삭제 요청은 한 번만 보낸다.
+  const isDeletingRef = useRef(false)
   const actionMenuRef = useRef(null)
   const navigate = useNavigate()
   const canEditDataset = event.eventType === 'FILE' && event.isActive === true
@@ -49,47 +52,50 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
       })
   }
 
+  const handleDeleteClick = () => {
+    setIsActionMenuOpen(false)
+    setIsDeleteConfirmOpen(true)
+  }
+
+  const handleDeleteConfirmClose = () => setIsDeleteConfirmOpen(false)
+
+  // 실패하면 모달을 닫아, 다시 시도할 때 확인을 새로 받게 한다.
+  const finishDeleteWithError = (message) => {
+    toast.error(message, { duration: 2000 })
+    isDeletingRef.current = false
+    setIsDeleting(false)
+    setIsDeleteConfirmOpen(false)
+  }
+
   const handleDelete = async () => {
-    if (isDeleting) return
+    if (isDeletingRef.current) return
 
     try {
+      isDeletingRef.current = true
       setIsDeleting(true)
       const res = await apiDeletePrivate(`/v1/events/${event.id}`)
       const isSuccess = res?.isSuccess ?? res?.success ?? false
 
       if (!isSuccess) {
-        setIsDeleting(false)
-        toast.error(res?.message || '이벤트 삭제에 실패했습니다.', { duration: 2000 })
+        finishDeleteWithError(res?.message || '이벤트 삭제에 실패했습니다.')
         return
       }
 
       toast.success('이벤트가 삭제되었습니다!', {
         duration: 1000,
       })
-      setIsActionMenuOpen(false)
+      setIsDeleteConfirmOpen(false)
       onDeleted(event.id)
     } catch (err) {
-      toast.error(err?.response?.data?.message || err?.message || '이벤트 삭제에 실패했습니다.', {
-        duration: 2000,
-      })
       console.error('이벤트 삭제 실패:', err)
-      setIsDeleting(false)
+      finishDeleteWithError(
+        err?.response?.data?.message || err?.message || '이벤트 삭제에 실패했습니다.',
+      )
     }
   }
 
   return (
     <div className='eventItem'>
-      {isDeleting && (
-        <div className='eventItem-loadingOverlay'>
-          <LoadingSpinner
-            className='eventItem-loadingSpinner'
-            size={40}
-            cubeSize={15}
-            color='#2d3b86'
-          />
-          <div className='eventItem-loadingText'>삭제 중...</div>
-        </div>
-      )}
       <div className='eventItem-header'>
         <div className='eventItem-header__header'>
           <div className='eventItem-title'>
@@ -148,7 +154,7 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
               <button
                 type='button'
                 className='eventItem-actionMenu__delete'
-                onClick={handleDelete}
+                onClick={handleDeleteClick}
                 disabled={isDeleting}
               >
                 {isDeleting ? '삭제 중...' : '이벤트 삭제'}
@@ -185,6 +191,23 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={isDeleteConfirmOpen}
+        title='이벤트를 삭제할까요?'
+        description={
+          <>
+            ‘<strong>{event.eventTitle}</strong>’ 이벤트가 삭제됩니다. 삭제 후에는 되돌릴 수
+            없습니다.
+          </>
+        }
+        confirmText='삭제'
+        onConfirm={handleDelete}
+        onClose={handleDeleteConfirmClose}
+        isProcessing={isDeleting}
+        processingText='삭제 중...'
+        variant='danger'
+      />
     </div>
   )
 }

@@ -7,6 +7,7 @@ import CsvFileUpload from '../../../components/csvFileUpload/CsvFileUpload'
 import CsvColumnSelect from '../../../components/csvColumnSelect/CsvColumnSelect'
 import CsvPreview from '../../../components/csvPreview/CsvPreview'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
+import ConfirmModal from '../../../components/confirmModal/ConfirmModal'
 import { Icon } from '../../../components/icon/Icon'
 import { fetchFileEventDetail } from '../apis/fetchFileEventDetail'
 import { replaceFileDataset } from '../apis/replaceFileDataset'
@@ -74,6 +75,7 @@ function CsvDatasetEditor({ eventId }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState(null)
   const isSubmittingRef = useRef(false)
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
 
   useEffect(() => {
     let ignore = false
@@ -184,8 +186,19 @@ function CsvDatasetEditor({ eventId }) {
       })
   }
 
+  const handleSubmitClick = () => {
+    if (canSubmit) setIsConfirmOpen(true)
+  }
+
+  const handleConfirmClose = () => setIsConfirmOpen(false)
+
+  // 모달을 연 뒤 상태가 바뀌었을 수 있으므로 확인 시점에 제출 가능 여부를 다시 검사한다.
   const handleSubmit = async () => {
-    if (!canSubmit || isSubmittingRef.current) return
+    if (isSubmittingRef.current) return
+    if (!canSubmit) {
+      setIsConfirmOpen(false)
+      return
+    }
 
     isSubmittingRef.current = true
     setIsSubmitting(true)
@@ -202,7 +215,9 @@ function CsvDatasetEditor({ eventId }) {
       toast.success('파일이 변경되었습니다!')
       navigate('/dashboard')
     } catch (err) {
+      // 모달을 닫고 기존 오류 영역에 보여준다. 다시 시도하면 확인을 새로 받는다.
       setSubmitError(toSubmitError(err))
+      setIsConfirmOpen(false)
       isSubmittingRef.current = false
       setIsSubmitting(false)
     }
@@ -238,11 +253,8 @@ function CsvDatasetEditor({ eventId }) {
   } else if (blockedReason) {
     content = renderStatus({ title: '파일을 변경할 수 없는 이벤트입니다', message: blockedReason })
   } else {
-    const submitHint = !dataset
-      ? '새 명단 파일을 첨부하면 저장할 수 있습니다.'
-      : !isSearchValid
-        ? '조회에 사용할 정보를 2개 이상 선택해주세요.'
-        : null
+    const submitHint =
+      dataset && !isSearchValid ? '조회에 사용할 정보를 2개 이상 선택해주세요.' : null
 
     content = (
       <>
@@ -328,13 +340,11 @@ function CsvDatasetEditor({ eventId }) {
           rowCount={dataset?.rowCount ?? 0}
           columns={dataset?.headers ?? []}
           previewRows={dataset?.previewRows ?? []}
+          showDescription={false}
         />
 
         {/* ================= Submit ================= */}
         <div className='csvDetail-submit'>
-          <div className='csvDetail-notice'>
-            기존 명단 전체가 교체되며 이벤트 ID와 조회 링크는 유지됩니다
-          </div>
 
           {submitError && (
             <div className='csvDetail-alert' role='alert'>
@@ -365,29 +375,35 @@ function CsvDatasetEditor({ eventId }) {
               </button>
               <EventButton
                 text={isSubmitting ? '변경 중...' : '파일 변경'}
-                onClick={handleSubmit}
+                onClick={handleSubmitClick}
                 disabled={!canSubmit}
               />
             </div>
           </div>
         </div>
+
+        <ConfirmModal
+          isOpen={isConfirmOpen}
+          title='파일을 변경할까요?'
+          description={
+            <>
+              ‘<strong>{dataset?.fileName}</strong>’으로 기존 명단 전체가 교체됩니다. 이벤트 ID와
+              조회 링크는 유지됩니다.
+            </>
+          }
+          confirmText='변경'
+          onConfirm={handleSubmit}
+          onClose={handleConfirmClose}
+          isProcessing={isSubmitting}
+          processingText='변경 중...'
+        />
       </>
     )
   }
 
+  // 제출은 확인 모달에서만 시작되고, 진행 상태도 모달이 보여준다.
   return (
     <div className='csvDetail'>
-      {isSubmitting && (
-        <div className='csvDetail-loadingOverlay'>
-          <LoadingSpinner
-            className='csvDetail-loadingSpinner'
-            size={48}
-            cubeSize={16}
-            color='#2d3b86'
-          />
-          <div className='csvDetail-loadingText'>파일 변경 중...</div>
-        </div>
-      )}
       <div className='csvDetail-container'>
         {/* ================= Header ================= */}
         <div className='csvDetail-header'>

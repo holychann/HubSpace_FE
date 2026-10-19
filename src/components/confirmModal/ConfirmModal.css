@@ -1,0 +1,195 @@
+@keyframes confirmModalOverlayIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(3px);
+  }
+}
+
+@keyframes confirmModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes confirmModalSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.confirmModal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+  animation: confirmModalOverlayIn 0.2s ease;
+}
+
+.confirmModal-content {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100svh - 40px);
+  overflow-y: auto;
+  padding: 40px;
+  border-radius: 22px;
+  background: var(--color-white);
+  box-shadow: 0 24px 60px rgba(31, 42, 91, 0.18);
+  animation: confirmModalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.confirmModal-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  padding: 8px;
+  color: var(--color-text-additional);
+  font-size: 16px;
+}
+
+.confirmModal-close:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.confirmModal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* 닫기 버튼과 제목이 겹치지 않게 오른쪽을 비워둔다. */
+  padding-right: 24px;
+}
+
+.confirmModal-header__title {
+  color: var(--color-text);
+  font-size: 22px;
+  font-weight: var(--font-bold);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 긴 이벤트명·파일명도 줄바꿈되게 한다. */
+.confirmModal-header__info {
+  color: var(--color-text-additional);
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.confirmModal-header__info strong {
+  color: var(--color-text);
+  font-weight: var(--font-medium);
+}
+
+.confirmModal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.confirmModal-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 84px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: var(--font-medium);
+}
+
+.confirmModal-button--cancel {
+  border: 1px solid var(--color-border);
+  color: var(--color-text-additional);
+}
+
+.confirmModal-button--confirm {
+  background: var(--color-text);
+  color: var(--color-white);
+}
+
+.confirmModal-button--danger {
+  background: var(--color-exit);
+  color: var(--color-white);
+}
+
+@media (hover: hover) {
+  .confirmModal-button--cancel:hover:not(:disabled) {
+    background: var(--color-box-conditional);
+  }
+
+  .confirmModal-button--confirm:hover:not(:disabled) {
+    background: #17106f;
+  }
+
+  .confirmModal-button--danger:hover:not(:disabled) {
+    filter: brightness(0.9);
+  }
+}
+
+.confirmModal-close:focus-visible,
+.confirmModal-button:focus-visible {
+  outline: 2px solid #2d3b86;
+  outline-offset: 2px;
+}
+
+.confirmModal-button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+/* 처리 중인 확인 버튼은 진행 상태가 보이도록 덜 흐리게 둔다. */
+.confirmModal-button--confirm:disabled:has(.confirmModal-button__spinner),
+.confirmModal-button--danger:disabled:has(.confirmModal-button__spinner) {
+  opacity: 0.75;
+}
+
+.confirmModal-button__spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: var(--color-white);
+  border-radius: 50%;
+  animation: confirmModalSpin 0.8s linear infinite;
+}
+
+@media (max-width: 480px) {
+  .confirmModal-overlay {
+    align-items: flex-end;
+    padding: 16px;
+  }
+
+  .confirmModal-content {
+    max-height: calc(100svh - 32px);
+    padding: 36px 22px 22px;
+    border-radius: 20px;
+  }
+
+  .confirmModal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .confirmModal-button {
+    width: 100%;
+    min-height: 44px;
+  }
+}

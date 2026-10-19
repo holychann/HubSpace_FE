@@ -1,15 +1,23 @@
 import './CsvPreview.css'
 
 // CSV 생성·파일 변경 화면이 함께 쓰는 첨부 파일 미리보기. columns 가 비어 있으면 빈 상태를 보여준다.
-export default function CsvPreview({ fileName, rowCount, columns, previewRows }) {
+export default function CsvPreview({
+  fileName,
+  rowCount,
+  columns,
+  previewRows,
+  showDescription = true,
+}) {
   return (
     <div className='csvPreview'>
       <div className='csvPreview__header'>
         <div>
           <div className='csvPreview__title'>첨부 파일 미리보기</div>
-          <div className='csvPreview__content'>
-            업로드한 데이터의 헤더와 상위 5개 행을 바로 확인할 수 있습니다.
-          </div>
+          {showDescription && (
+            <div className='csvPreview__content'>
+              업로드한 데이터의 헤더와 상위 5개 행을 바로 확인할 수 있습니다.
+            </div>
+          )}
         </div>
         {columns.length > 0 && (
           <div className='csvPreview__meta'>
