@@ -2,11 +2,11 @@
   padding: 14px 22px;
   border-radius: 14px;
   background: #ffffff;
-  color: var(--color-main);
+  color: #3026b8;
   font-size: 15px;
   font-weight: var(--font-medium);
   letter-spacing: 0.01em;
-  border: 1.5px solid rgba(50, 128, 255, 0.28);
+  border: 1.5px solid rgba(48, 38, 184, 0.3);
   cursor: pointer;
   transition:
     background-color 0.18s ease,
@@ -15,14 +15,14 @@
 }
 
 .eventButton-button:hover:not(:disabled) {
-  background-color: rgba(50, 128, 255, 0.06);
-  border-color: rgba(50, 128, 255, 0.38);
-  box-shadow: 0 2px 12px rgba(50, 128, 255, 0.14);
+  background-color: rgba(48, 38, 184, 0.06);
+  border-color: rgba(48, 38, 184, 0.44);
+  box-shadow: 0 2px 12px rgba(48, 38, 184, 0.12);
 }
 
 .eventButton-button:active:not(:disabled) {
-  background-color: rgba(50, 128, 255, 0.1);
-  border-color: rgba(50, 128, 255, 0.65);
+  background-color: rgba(48, 38, 184, 0.1);
+  border-color: rgba(48, 38, 184, 0.6);
 }
 
 .eventButton-button:disabled {
@@ -31,6 +31,6 @@
 }
 
 .eventButton-button:focus-visible {
-  outline: 2px solid #2d3b86;
+  outline: 2px solid #3026b8;
   outline-offset: 2px;
 }
