@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { setAuthSession } from '../../../utils/authStorage'
+import { exchangeAuthSession } from '../../../apis/ApiClient'
+import { AuthUnauthorizedError } from '../../../utils/authRefresh'
 import {
   consumeGoogleConsentReturnPath,
   hasPendingGoogleConsent,
@@ -23,26 +24,15 @@ export default function CookiePage() {
       }
 
       try {
-        const res = await fetch(`${import.meta.env.VITE_SERVER_DOMAIN}/jwt/exchange`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include', // 쿠키
-        })
-
-        if (!res.ok) throw new Error('인증 실패')
-
-        const data = await res.json()
-        setAuthSession({
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-        })
+        // 다른 탭의 refresh 와 같은 잠금 안에서 교환하고 새 세션을 저장한다.
+        await exchangeAuthSession()
 
         const returnPath = consumeGoogleConsentReturnPath()
         navigate(returnPath ? `${returnPath}?googleConsent=success` : '/dashboard', {
           replace: true,
         })
       } catch (err) {
-        const msg = err?.message || '소셜 로그인 실패'
+        const msg = err instanceof AuthUnauthorizedError ? '인증 실패' : '소셜 로그인 실패'
         alert(msg)
         navigate('/login', { replace: true })
       }

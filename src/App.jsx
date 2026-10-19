@@ -2,20 +2,21 @@ import { useEffect } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { AppRouter } from './components/AppRouter'
 import styles from './App.module.css'
-import { Toaster, toast } from 'sonner'
+import { Toaster } from 'sonner'
 import Footer from './components/footer/Footer'
-import {
-  clearAuthSession,
-  getAuthEventName,
-  getRefreshDelay,
-  isProtectedPath,
-  shouldRefreshAccessToken,
-} from './utils/authStorage'
-import { ensureFreshAccessToken } from './apis/ApiClient'
+import { getAccessToken, getAuthEventName, getRefreshDelay, isExchangePath } from './utils/authStorage'
+import { authRefresher, handleAuthFailure } from './apis/ApiClient'
 
 function App() {
   useEffect(() => {
     let timeoutId = null
+
+    // /cookie 에서는 exchange 가 OAuth 임시 쿠키를 먼저 써야 하므로 갱신하지 않는다.
+    // 일시 오류로 실패해도 여기서 다시 예약하지 않는다(즉시 반복 방지). 페이지 복귀·온라인 전환·재시도 버튼에서 다시 시도한다.
+    const runAuthTask = (task) => {
+      if (isExchangePath()) return
+      task().catch(handleAuthFailure)
+    }
 
     const scheduleAutoRefresh = () => {
       if (timeoutId) {
@@ -23,28 +24,16 @@ function App() {
         timeoutId = null
       }
 
-      const refreshDelay = getRefreshDelay()
-      if (refreshDelay === 0 && !shouldRefreshAccessToken()) return
+      // 만료 전 미리 갱신만 맡는다. 이미 만료된 토큰은 페이지 진입·복귀·API 요청에서 복구한다(401 처리가 겹치지 않게).
+      if (!getAccessToken()) return
 
-      timeoutId = window.setTimeout(() => {
-        ensureFreshAccessToken({ force: true })
-          .catch(() => {
-            clearAuthSession()
+      // 갱신에 성공하면 세션 변경 이벤트로 다시 예약된다.
+      timeoutId = window.setTimeout(() => runAuthTask(authRefresher.refresh), getRefreshDelay())
+    }
 
-            if (isProtectedPath()) {
-              toast.error('로그인 시간이 만료되었습니다. 다시 로그인해주세요.', {
-                duration: 1800,
-              })
-
-              window.setTimeout(() => {
-                window.location.href = '/login'
-              }, 250)
-            }
-          })
-          .finally(() => {
-            scheduleAutoRefresh()
-          })
-      }, refreshDelay)
+    const resumeAuth = () => {
+      if (document.visibilityState === 'hidden') return
+      runAuthTask(authRefresher.resume)
     }
 
     scheduleAutoRefresh()
@@ -52,6 +41,8 @@ function App() {
     const authEventName = getAuthEventName()
     window.addEventListener(authEventName, scheduleAutoRefresh)
     window.addEventListener('storage', scheduleAutoRefresh)
+    document.addEventListener('visibilitychange', resumeAuth)
+    window.addEventListener('online', resumeAuth)
 
     return () => {
       if (timeoutId) {
@@ -59,6 +50,8 @@ function App() {
       }
       window.removeEventListener(authEventName, scheduleAutoRefresh)
       window.removeEventListener('storage', scheduleAutoRefresh)
+      document.removeEventListener('visibilitychange', resumeAuth)
+      window.removeEventListener('online', resumeAuth)
     }
   }, [])
 

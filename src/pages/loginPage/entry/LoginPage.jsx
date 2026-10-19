@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './LoginPage.css'
 import GradientLayout from '../../../components/gradientLayout/GradientLayout'
@@ -6,15 +6,28 @@ import googleIcon from '../../../assets/auth/auth-google-icon.svg'
 import authLogo from '../../../assets/auth/auth-logo.png'
 import { hasValidSession } from '../../../utils/authStorage'
 import { isLocalPreviewMode } from '../../../mocks/localPreview'
+import { recoverAuthSession } from '../../../apis/ApiClient'
+import { AuthChecking } from '../../../components/authGate/AuthGate'
 
 export default function LoginPage() {
   const navigate = useNavigate()
   const scrollRef = useRef(null)
   const aboutRef = useRef(null)
+  const [checkingSession, setCheckingSession] = useState(true)
 
+  // access 토큰이 없거나 만료됐어도 refresh 쿠키가 유효하면 대시보드로 보낸다. 실패하면(401·일시 오류) 로그인 화면을 보인다.
   useEffect(() => {
     if (isLocalPreviewMode || hasValidSession()) {
       navigate('/dashboard', { replace: true })
+      return undefined
+    }
+
+    let active = true
+    recoverAuthSession()
+      .then(() => active && navigate('/dashboard', { replace: true }))
+      .catch(() => active && setCheckingSession(false))
+    return () => {
+      active = false
     }
   }, [navigate])
 
@@ -97,7 +110,7 @@ export default function LoginPage() {
       scroller.removeEventListener('touchend', finishTouch)
       scroller.removeEventListener('touchcancel', finishTouch)
     }
-  }, [])
+  }, [checkingSession])
 
   const handleLogin = () => {
     window.location.href = `${import.meta.env.VITE_SERVER_DOMAIN}/oauth2/authorization/google`
@@ -106,6 +119,8 @@ export default function LoginPage() {
   const handleAboutScroll = () => {
     scrollRef.current?.classList.add('login__scroll--about-visible')
   }
+
+  if (checkingSession) return <AuthChecking />
 
   return (
     <GradientLayout>

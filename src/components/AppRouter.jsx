@@ -10,13 +10,8 @@ import FormDetailPage from '../pages/formDetailPage/entry/FormDetailPage'
 import UserDetailPage from '../pages/userDetailPage/entry/UserDetailPage'
 import UserResultPage from '../pages/userResultPage/entry/UserResultPage'
 import PolicyPage from '../pages/policyPage/entry/PolicyPage'
-import { hasValidSession } from '../utils/authStorage'
-import { isLocalPreviewMode } from '../mocks/localPreview'
 import SeoController from './seo/SeoController'
-
-const ProtectedRoute = ({ children }) => {
-  return isLocalPreviewMode || hasValidSession() ? children : <Navigate to='/login' replace />
-}
+import AuthGate from './authGate/AuthGate'
 
 export const AppRouter = createBrowserRouter([
   {
@@ -48,9 +43,9 @@ export const AppRouter = createBrowserRouter([
       {
         path: '/',
         element: (
-          <ProtectedRoute>
+          <AuthGate>
             <AdminLayout />
-          </ProtectedRoute>
+          </AuthGate>
         ),
         children: [
           { path: 'dashboard', element: <DashBoardPage /> },
