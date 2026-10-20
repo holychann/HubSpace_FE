@@ -25,6 +25,7 @@ const previewEvents = [
     isActive: true,
     createdAt: '2026-07-10T09:00:00.000Z',
     viewCount: 94,
+    fileName: '2026 1학기 장학금 선발 결과.csv',
   },
   {
     id: 'preview-form-003',
@@ -42,6 +43,7 @@ const previewEvents = [
     isActive: true,
     createdAt: '2026-06-28T09:00:00.000Z',
     viewCount: 211,
+    fileName: '2026 하반기 국제 콘퍼런스 참가자 최종 안내 명단 (등록 마감 후 확정본, 좌석 배정 포함) v3.tsv',
   },
   {
     id: 'preview-form-005',
@@ -59,6 +61,8 @@ const previewEvents = [
     isActive: false,
     createdAt: '2026-06-12T09:00:00.000Z',
     viewCount: 176,
+    // 파일명을 저장하기 전에 만든 이벤트
+    fileName: null,
   },
 ]
 

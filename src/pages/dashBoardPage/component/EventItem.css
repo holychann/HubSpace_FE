@@ -20,6 +20,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  /* 긴 파일명이 카드 폭을 넘지 않고 말줄임되도록 줄어들 수 있게 한다. */
+  min-width: 0;
 }
 
 .eventItem-title {
@@ -38,6 +40,15 @@
   font-size: 18px;
   font-weight: var(--font-medium);
   color: var(--color-text);
+}
+
+.eventItem-file {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: #4b5682;
 }
 
 .eventItem-info {

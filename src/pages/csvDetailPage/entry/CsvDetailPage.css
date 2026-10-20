@@ -49,8 +49,8 @@
 }
 
 .csvDetail-summary__list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-auto-rows: 1fr;
   gap: 14px;
 }
 

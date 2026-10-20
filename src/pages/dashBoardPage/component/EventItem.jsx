@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiDeletePrivate } from '../../../utils/ApiUtil'
 import ConfirmModal from '../../../components/confirmModal/ConfirmModal'
+import { toFileNameLabel, UNKNOWN_FILE_NAME } from '../../../utils/fileNameLabel'
 
 export default function EventItem({ event, onEditTitle, onDeleted }) {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
@@ -16,6 +17,7 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
   const actionMenuRef = useRef(null)
   const navigate = useNavigate()
   const canEditDataset = event.eventType === 'FILE' && event.isActive === true
+  const fileNameLabel = toFileNameLabel(event.fileName)
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -113,6 +115,11 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
               />
             </div>
           </div>
+          {event.eventType === 'FILE' && (
+            <div className='eventItem-file' title={fileNameLabel ?? UNKNOWN_FILE_NAME}>
+              {fileNameLabel ?? UNKNOWN_FILE_NAME}
+            </div>
+          )}
           <div className='eventItem-info'>
             <div className='eventItem-info__info'>
               <Icon name='dashboard-date' height={12} className='eventItem-info__icon' />

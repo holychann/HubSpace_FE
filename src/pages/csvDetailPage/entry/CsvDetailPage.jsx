@@ -13,6 +13,7 @@ import { fetchFileEventDetail } from '../apis/fetchFileEventDetail'
 import { replaceFileDataset } from '../apis/replaceFileDataset'
 import { parseCsvDataset } from '../../../utils/csvDatasetParser'
 import { keepAvailableColumns } from '../../../utils/csvColumnSelection'
+import { UNKNOWN_FILE_NAME } from '../../../utils/fileNameLabel'
 
 const EMPTY_SEARCH_VALUE = ['선택', '선택', '선택']
 
@@ -265,6 +266,13 @@ function CsvDatasetEditor({ eventId }) {
             <div className='csvDetail-summary__row'>
               <dt className='csvDetail-summary__label'>이벤트 이름</dt>
               <dd className='csvDetail-summary__value'>{event.eventTitle}</dd>
+            </div>
+            {/* 새 파일을 골라도 저장 전까지는 서버에 저장된 파일명을 보여준다. */}
+            <div className='csvDetail-summary__row'>
+              <dt className='csvDetail-summary__label'>현재 파일</dt>
+              <dd className='csvDetail-summary__value'>
+                {event.fileName ?? <span className='csvDetail-summary__none'>{UNKNOWN_FILE_NAME}</span>}
+              </dd>
             </div>
             <div className='csvDetail-summary__row'>
               <dt className='csvDetail-summary__label'>이벤트 ID</dt>
