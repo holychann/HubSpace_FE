@@ -1,5 +1,5 @@
 import './FormCreatePage.css'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import EventInput from '../../../components/eventInput/EventInput'
 import EventButton from '../../../components/eventButton/EventButton'
 import { toast } from 'sonner'
@@ -14,6 +14,8 @@ import {
   consumeGoogleConsentDraft,
   saveGoogleConsentRequest,
 } from '../../../utils/googleConsentStorage'
+
+const FormCreateGuide = lazy(() => import('../component/FormCreateGuide'))
 
 export default function FormCreatePage() {
   const [eventTitle, setEventTitle] = useState('')
@@ -121,6 +123,19 @@ export default function FormCreatePage() {
         <div className='formCreate-header'>
           <div className='formCreate-title'>새 이벤트 생성 - FORM</div>
         </div>
+
+        <section className='formCreate-preview' aria-labelledby='formCreate-preview-title'>
+          {/*<div className='formCreate-preview__header'>*/}
+          {/*  <h2 id='formCreate-preview-title' className='formCreate-preview__title'>*/}
+          {/*    폼 생성 미리보기*/}
+          {/*  </h2>*/}
+          {/*</div>*/}
+          <Suspense fallback={<div className='formCreate-guide' />}>
+            <FormCreateGuide />
+          </Suspense>
+        </section>
+
+        <h2 className='formCreate-inputDivider'>Form Info</h2>
 
         <div className='formCreate-name'>
           <EventInput value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />
