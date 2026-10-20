@@ -167,7 +167,7 @@ export default function FormCreatePage() {
                         className={`formCreate-fieldInput__input ${
                           selectedFields[index].trim() ? 'formCreate-fieldInput__input--filled' : ''
                         }`}
-                        placeholder={`${label} 항목명을 입력하세요.`}
+                        placeholder={['ex) 이름', 'ex) 학번 또는 사번', 'ex) 전화번호'][index]}
                         value={selectedFields[index]}
                         onChange={(e) => handleFieldChange(index, e.target.value)}
                       />
