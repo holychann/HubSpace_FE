@@ -5,8 +5,8 @@
   justify-content: space-between;
   gap: 8px;
   width: 100%;
-  height: var(--admin-header-height, 64px);
-  padding: 8px 16px;
+  height: var(--admin-header-height, 42px);
+  padding: 5px 16px;
   background-color: var(--color-white);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
 }
@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  min-height: 44px;
+  min-height: 29px;
 }
 
 .header-title--button {
@@ -25,7 +25,7 @@
 .header-title__logo {
   display: block;
   width: auto;
-  height: 48px;
+  height: 31px;
   object-fit: contain;
 }
 
@@ -70,11 +70,11 @@
 @media (min-width: 768px) {
   .header {
     gap: 16px;
-    padding: 10px 24px;
+    padding: 6px 24px;
   }
 
   .header-title__logo {
-    height: 60px;
+    height: 39px;
   }
 
   .header-account {
@@ -82,7 +82,7 @@
   }
 
   .header-account__info {
-    gap: 4px;
+    gap: 3px;
     max-width: 220px;
     padding-right: 16px;
   }
@@ -100,11 +100,11 @@
 /* 데스크탑 */
 @media (min-width: 1024px) {
   .header {
-    padding: 11px 22px;
+    padding: 7px 22px;
   }
 
   .header-title__logo {
-    height: 85px;
+    height: 55px;
   }
 
   .header-account {
@@ -112,7 +112,7 @@
   }
 
   .header-account__info {
-    gap: 5px;
+    gap: 3px;
     max-width: 280px;
     padding-right: 35px;
   }
