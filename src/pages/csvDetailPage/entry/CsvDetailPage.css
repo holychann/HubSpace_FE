@@ -297,6 +297,10 @@
     font-size: 16px;
   }
 
+  .csvDetail-summary__list {
+    grid-auto-rows: auto;
+  }
+
   .csvDetail-summary__row {
     grid-template-columns: minmax(0, 1fr);
     gap: 6px;
