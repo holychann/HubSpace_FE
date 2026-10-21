@@ -174,3 +174,30 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 767px) {
+  .eventItem-header {
+    gap: 12px;
+  }
+
+  .eventItem-header__header {
+    flex: 1;
+  }
+
+  .eventItem-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .eventItem-title__title {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .eventItem-actions {
+    flex-shrink: 0;
+  }
+}
