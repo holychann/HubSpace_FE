@@ -1,5 +1,5 @@
 .adminLayout {
-  --admin-header-height: 42px;
+  --admin-header-height: 56px;
 
   background-color: var(--color-background);
   height: 100svh;

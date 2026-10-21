@@ -5,8 +5,8 @@
   justify-content: space-between;
   gap: 8px;
   width: 100%;
-  height: var(--admin-header-height, 42px);
-  padding: 5px 16px;
+  height: var(--admin-header-height, 56px);
+  padding: 6px 16px;
   background-color: var(--color-white);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
 }
@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  min-height: 29px;
+  min-height: 44px;
 }
 
 .header-title--button {
@@ -25,7 +25,7 @@
 .header-title__logo {
   display: block;
   width: auto;
-  height: 31px;
+  height: 42px;
   object-fit: contain;
 }
 
