@@ -1,5 +1,5 @@
 import './CsvCreatePage.css'
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useEffect, useEffectEvent, useRef, useState } from 'react'
 import EventInput from '../../../components/eventInput/EventInput'
 import EventButton from '../../../components/eventButton/EventButton'
 import CsvFileUpload from '../../../components/csvFileUpload/CsvFileUpload'
@@ -73,6 +73,13 @@ const parseDelimitedText = (text, delimiter) => {
   return rows.filter((row) => row.some((cell) => cell !== ''))
 }
 
+// 확장자는 대소문자를 구분하지 않는다. 구분자 판별도 같은 기준을 쓴다.
+const isSupportedFileName = (name) => /\.(csv|tsv)$/i.test(name)
+const isTsvFileName = (name) => name.toLowerCase().endsWith('.tsv')
+
+// 텍스트·링크 드래그는 types 에 'Files' 가 없다.
+const isFileDrag = (e) => Array.from(e.dataTransfer?.types ?? []).includes('Files')
+
 export default function CsvCreatePage() {
   const [eventTitle, setEventTitle] = useState('')
   const [uploadedFile, setUploadedFile] = useState(null)
@@ -81,6 +88,10 @@ export default function CsvCreatePage() {
   const [rowCount, setRowCount] = useState(0)
   const [uploadedFileName, setUploadedFileName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isReading, setIsReading] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
+  // 연속으로 파일을 첨부하면 마지막 파일의 읽기 결과만 반영한다.
+  const readRequestRef = useRef(0)
 
   // 폼 생성 필드 (3개)
   const [selectedFields, setSelectedFields] = useState(['선택', '선택', '선택'])
@@ -96,13 +107,31 @@ export default function CsvCreatePage() {
 
   /* =========================
      CSV / TSV 파싱 (헤더 + 상위 5행)
+     클릭 선택과 드롭이 함께 쓴다. 실패하면 기존 첨부 파일과 선택값을 그대로 둔다.
   ========================= */
-  const parseHeaderFromFile = (file) => {
-    const reader = new FileReader()
+  const parseHeaderFromFile = async (file) => {
+    if (isSubmitting) return
 
-    reader.onload = (e) => {
-      const text = e.target.result
-      const delimiter = file.name.endsWith('.tsv') ? '\t' : ','
+    if (!isSupportedFileName(file.name)) {
+      toast.error('CSV 또는 TSV 파일만 첨부할 수 있습니다.')
+      return
+    }
+
+    const requestId = readRequestRef.current + 1
+    readRequestRef.current = requestId
+    setIsReading(true)
+
+    try {
+      let text
+      try {
+        text = await file.text()
+      } catch {
+        if (readRequestRef.current === requestId) toast.error('파일을 읽을 수 없습니다.')
+        return
+      }
+      if (readRequestRef.current !== requestId) return
+
+      const delimiter = isTsvFileName(file.name) ? '\t' : ','
       const parsedRows = parseDelimitedText(text, delimiter)
 
       if (parsedRows.length < 2) {
@@ -129,13 +158,87 @@ export default function CsvCreatePage() {
       setUploadedFileName(file.name)
       setSelectedFields(['선택', '선택', '선택'])
       setSelectedColumns([])
+    } finally {
+      if (readRequestRef.current === requestId) setIsReading(false)
     }
-
-    reader.readAsText(file, 'utf-8')
   }
 
-  const handleCreateCsv = async () => {
+  /* =========================
+     화면 전체 드래그 업로드
+  ========================= */
+  // 드롭은 서버에 보내지 않고 첨부만 한다. 폴더와 여러 파일은 받지 않는다.
+  const handleWindowDrop = useEffectEvent((dataTransfer) => {
     if (isSubmitting) return
+
+    const { files, items } = dataTransfer
+    if (files.length === 0) return
+
+    if (files.length > 1) {
+      toast.error('파일은 한 번에 하나만 첨부해주세요.')
+      return
+    }
+
+    if (items?.[0]?.webkitGetAsEntry?.()?.isDirectory) {
+      toast.error('폴더는 첨부할 수 없습니다. CSV 또는 TSV 파일을 놓아주세요.')
+      return
+    }
+
+    parseHeaderFromFile(files[0])
+  })
+
+  const isDropBlocked = useEffectEvent(() => isSubmitting)
+
+  useEffect(() => {
+    // 하위 요소 사이를 이동할 때마다 enter/leave 가 쌍으로 발생하므로 깊이를 세어 오버레이 깜빡임을 막는다.
+    let dragDepth = 0
+
+    const resetDrag = () => {
+      dragDepth = 0
+      setIsDragging(false)
+    }
+
+    const handleDragEnter = (e) => {
+      if (!isFileDrag(e)) return
+      e.preventDefault()
+      dragDepth += 1
+      if (!isDropBlocked()) setIsDragging(true)
+    }
+
+    const handleDragOver = (e) => {
+      if (!isFileDrag(e)) return
+      // 기본 동작(브라우저가 파일을 여는 것)을 막아야 drop 이 발생한다.
+      e.preventDefault()
+      e.dataTransfer.dropEffect = isDropBlocked() ? 'none' : 'copy'
+    }
+
+    const handleDragLeave = (e) => {
+      if (!isFileDrag(e)) return
+      dragDepth = Math.max(0, dragDepth - 1)
+      if (dragDepth === 0) setIsDragging(false)
+    }
+
+    const handleDrop = (e) => {
+      if (!isFileDrag(e)) return
+      e.preventDefault()
+      resetDrag()
+      handleWindowDrop(e.dataTransfer)
+    }
+
+    window.addEventListener('dragenter', handleDragEnter)
+    window.addEventListener('dragover', handleDragOver)
+    window.addEventListener('dragleave', handleDragLeave)
+    window.addEventListener('drop', handleDrop)
+
+    return () => {
+      window.removeEventListener('dragenter', handleDragEnter)
+      window.removeEventListener('dragover', handleDragOver)
+      window.removeEventListener('dragleave', handleDragLeave)
+      window.removeEventListener('drop', handleDrop)
+    }
+  }, [])
+
+  const handleCreateCsv = async () => {
+    if (isSubmitting || isReading) return
 
     if (!trimmedTitle) {
       toast.error('이벤트 이름을 입력해주세요.', { duration: 2000 })
@@ -188,6 +291,11 @@ export default function CsvCreatePage() {
           <div className='csvCreate-loadingText'>CSV 생성 중...</div>
         </div>
       )}
+      {isDragging && (
+        <div className='csvCreate-dropOverlay' aria-hidden='true'>
+          <span className='csvCreate-dropOverlay__plus' />
+        </div>
+      )}
       <div className='csvCreate-container'>
         {/* ================= Header ================= */}
         <div className='csvCreate-header'>
@@ -211,6 +319,8 @@ export default function CsvCreatePage() {
         <CsvFileUpload
           inputId='csvCreateFileInput'
           fileName={uploadedFileName}
+          isReading={isReading}
+          disabled={isSubmitting}
           onFileSelect={parseHeaderFromFile}
         />
 
@@ -232,7 +342,11 @@ export default function CsvCreatePage() {
         />
 
         <div className='csvCreate-action'>
-          <EventButton text={isSubmitting ? '생성 중...' : '이벤트 생성'} onClick={handleCreateCsv} />
+          <EventButton
+            text={isSubmitting ? '생성 중...' : '이벤트 생성'}
+            onClick={handleCreateCsv}
+            disabled={isReading}
+          />
         </div>
       </div>
     </div>

@@ -31,6 +31,48 @@
   color: var(--color-text);
 }
 
+/* 화면 전체 드래그 안내. 드래그 이벤트를 가로채지 않도록 pointer-events 를 끈다. */
+.csvCreate-dropOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: rgba(240, 244, 255, 0.68);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.csvCreate-dropOverlay__plus {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+.csvCreate-dropOverlay__plus::before,
+.csvCreate-dropOverlay__plus::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 999px;
+  background-color: #2d3b86;
+  transform: translate(-50%, -50%);
+}
+
+.csvCreate-dropOverlay__plus::before {
+  width: 100%;
+  height: 6px;
+}
+
+.csvCreate-dropOverlay__plus::after {
+  width: 6px;
+  height: 100%;
+}
+
 .csvCreate-container {
   flex: 1;
   min-height: 0;
