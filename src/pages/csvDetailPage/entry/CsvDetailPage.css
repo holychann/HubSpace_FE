@@ -303,12 +303,11 @@
 
   .csvDetail-summary__row {
     grid-template-columns: minmax(0, 1fr);
-    gap: 6px;
+    gap: 8px;
   }
 
   .csvDetail-summary__copy {
-    width: 44px;
-    height: 44px;
+    display: none;
   }
 
   .csvDetail-status {
