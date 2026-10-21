@@ -57,6 +57,46 @@
   color: var(--color-text);
 }
 
+.csvCreate-preview {
+  display: block;
+  padding: 0;
+  margin-bottom: 40px;
+  border: 1px solid #d7dfed;
+  border-radius: 16px;
+  background-color: #e9eef6;
+  overflow: hidden;
+}
+
+.csvCreate-guide {
+  width: 100%;
+  aspect-ratio: 1200 / 335;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.csvCreate-guide svg {
+  display: block;
+}
+
+.csvCreate-inputDivider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 24px;
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  line-height: 1.5;
+  color: #65718a;
+}
+
+.csvCreate-inputDivider::before,
+.csvCreate-inputDivider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #d7dfed;
+}
+
 /* ================= Event Name ================= */
 .csvCreate-name {
   padding: 40px;
@@ -91,6 +131,21 @@
   .csvCreate-title {
     font-size: 22px;
     line-height: 1.35;
+  }
+
+  .csvCreate-preview {
+    margin-bottom: 28px;
+    border-radius: 12px;
+  }
+
+  .csvCreate-guide {
+    aspect-ratio: 8 / 5;
+  }
+
+  .csvCreate-inputDivider {
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 13px;
   }
 
   .csvCreate-name {

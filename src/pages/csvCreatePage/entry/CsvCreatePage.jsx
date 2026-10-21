@@ -1,5 +1,5 @@
 import './CsvCreatePage.css'
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import EventInput from '../../../components/eventInput/EventInput'
 import EventButton from '../../../components/eventButton/EventButton'
 import CsvFileUpload from '../../../components/csvFileUpload/CsvFileUpload'
@@ -9,6 +9,8 @@ import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { createFileEvent } from '../apis/createFileEvent'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
+
+const FileCreateGuide = lazy(() => import('../component/FileCreateGuide'))
 
 const parseDelimitedText = (text, delimiter) => {
   const rows = []
@@ -191,6 +193,14 @@ export default function CsvCreatePage() {
         <div className='csvCreate-header'>
           <div className='csvCreate-title'>새 이벤트 생성 - FILE</div>
         </div>
+
+        <section className='csvCreate-preview' aria-label='파일 이벤트 생성 안내'>
+          <Suspense fallback={<div className='csvCreate-guide' />}>
+            <FileCreateGuide />
+          </Suspense>
+        </section>
+
+        <h2 className='csvCreate-inputDivider'>File Info</h2>
 
         {/* ================= Event Name ================= */}
         <div className='csvCreate-name'>
