@@ -182,12 +182,17 @@
 
   .eventItem-header__header {
     flex: 1;
+    gap: 8px;
   }
 
   .eventItem-title {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: flex-start;
-    gap: 8px;
+    gap: 12px;
+  }
+
+  .eventItem-title__badges {
+    transform: translateX(-2px);
   }
 
   .eventItem-title__title {
