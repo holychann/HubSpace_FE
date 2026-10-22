@@ -7,6 +7,7 @@ const HOME_TITLE = '허브스페이스 | 신청 내역·결과 조회 서비스'
 const NO_INDEX_TITLES = {
   '/privacy': '개인정보처리방침 | 허브스페이스',
   '/terms': '이용약관 | 허브스페이스',
+  '/contact': '문의하기 | 허브스페이스',
 }
 
 const ensureMetaTag = (name) => {

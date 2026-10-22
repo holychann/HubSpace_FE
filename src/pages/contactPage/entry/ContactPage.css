@@ -1,0 +1,245 @@
+/* 문의하기 화면 (Figma 'Contact v3'). 767px 이하는 모바일 배치를 쓴다.
+   루트의 .home(HomePage.css)이 세로 스크롤·흰 배경·헤더 스타일을 맡는다. */
+
+/* 아래에 떠 있는 공통 푸터(Footer)에 이메일 영역이 가리지 않도록 푸터 높이만큼 더 비운다. */
+.contact__body {
+  display: block;
+  padding: 56px 24px calc(112px + env(safe-area-inset-bottom));
+}
+
+.contact__main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.contact__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact__title {
+  font-size: 32px;
+  font-weight: var(--font-bold);
+  line-height: 1.38;
+  letter-spacing: -0.64px;
+  color: var(--color-text);
+}
+
+.contact__lead {
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -0.08px;
+  color: var(--color-text-additional);
+}
+
+.contact__line {
+  display: block;
+}
+
+/* 자주 묻는 질문 */
+.home .contact-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-faq__title {
+  font-size: 20px;
+  font-weight: var(--font-bold);
+  line-height: 1.45;
+  letter-spacing: -0.2px;
+  color: var(--color-text);
+}
+
+.contact-faq__list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* reset.css 가 details 를 flex 로 만들어 블록으로 되돌린다. */
+.contact-faq__item {
+  display: block;
+  border-bottom: 1px solid rgb(206 213 236 / 0.72);
+}
+
+/* 위아래 여백을 질문 줄에 두어 줄 전체를 누를 수 있게 한다. */
+.contact-faq__question {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 0;
+  list-style: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: var(--font-medium);
+  line-height: 1.5;
+  letter-spacing: -0.08px;
+  color: var(--color-text-strong);
+}
+
+.contact-faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.contact-faq__question:focus-visible {
+  outline: 2px solid #2d3b86;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.contact-faq__question-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-faq__icon {
+  flex-shrink: 0;
+  color: var(--color-text-additional);
+  transition: transform 0.2s ease;
+}
+
+.contact-faq__item[open] .contact-faq__icon {
+  transform: rotate(180deg);
+}
+
+/* 질문과 답 사이는 12px. 질문 줄의 아래 여백(22px)만큼 끌어올린다.
+   오른쪽은 화살표 폭(20px) + 간격(16px)을 비워 질문 글자 끝에 맞춘다. */
+.contact-faq__answer {
+  margin-top: -10px;
+  padding: 0 36px 22px 0;
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: -0.075px;
+  color: var(--color-text-additional);
+}
+
+/* 이메일 문의 */
+.home .contact-email {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px;
+  border-radius: 24px;
+  background-color: var(--color-box-default);
+}
+
+.contact-email__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-email__title {
+  font-size: 24px;
+  font-weight: var(--font-bold);
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: var(--color-text);
+}
+
+.contact-email__description {
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -0.08px;
+  color: var(--color-text-additional);
+}
+
+/* Figma 는 주소 줄 높이가 복사 버튼(44px)이었다. 버튼을 뺀 뒤에도 위아래 간격이 같도록 차이(10px)를 여백에 더한다. */
+.contact-email__address {
+  padding: 26px 0 22px;
+}
+
+.contact-email__email {
+  font-size: 16px;
+  font-weight: var(--font-medium);
+  line-height: 1.5;
+  letter-spacing: -0.08px;
+  color: var(--color-text-strong);
+  overflow-wrap: anywhere;
+}
+
+.contact-email__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+
+.contact-email__button {
+  width: 234px;
+  padding: 0 24px;
+}
+
+.contact-email__hint {
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: -0.042px;
+  color: var(--color-text-additional);
+}
+
+.contact-email__hint--mobile {
+  display: none;
+}
+
+/* 모바일에서만 줄을 나누는 단위. 데스크탑에서는 한 줄로 이어 쓴다. */
+.contact__mobile-line {
+  display: inline;
+}
+
+@media (max-width: 767px) {
+  .contact__body {
+    padding: 40px 20px calc(112px + env(safe-area-inset-bottom));
+  }
+
+  .contact__title {
+    font-size: 28px;
+    line-height: 1.4;
+    letter-spacing: -0.56px;
+  }
+
+  .contact-faq__question {
+    padding: 18px 0;
+  }
+
+  .contact-faq__answer {
+    margin-top: -6px;
+    padding-bottom: 18px;
+  }
+
+  .home .contact-email {
+    padding: 24px;
+  }
+
+  .contact-email__title {
+    font-size: 20px;
+    line-height: 1.45;
+    letter-spacing: -0.2px;
+  }
+
+  .contact-email__description {
+    font-size: 15px;
+    letter-spacing: -0.075px;
+  }
+
+  /* 모바일은 Figma 처럼 의미 단위로 줄을 나눈다. */
+  .contact__mobile-line {
+    display: block;
+  }
+
+  .contact-email__button {
+    width: 100%;
+  }
+
+  .contact-email__hint--desktop {
+    display: none;
+  }
+
+  .contact-email__hint--mobile {
+    display: inline;
+  }
+}
