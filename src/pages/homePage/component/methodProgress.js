@@ -10,3 +10,9 @@ export function getStepProgress(frame, boundaries, lastFrame) {
   const current = fills.findIndex((fill) => fill < 1)
   return { fills, current: current === -1 ? fills.length - 1 : current }
 }
+
+// 단계마다 영상에서 차지하는 프레임 수. 막대 폭을 이 비율로 나누면 모든 막대가 같은 속도로 찬다.
+export function getStepWeights(boundaries, lastFrame) {
+  const edges = [0, ...boundaries, lastFrame]
+  return edges.slice(1).map((end, index) => end - edges[index])
+}

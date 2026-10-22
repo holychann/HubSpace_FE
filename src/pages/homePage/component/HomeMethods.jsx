@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import FileIcon from '../../../assets/home/home-file.svg?react'
 import FormIcon from '../../../assets/home/home-form.svg?react'
-import { getStepProgress } from './methodProgress'
+import { getStepProgress, getStepWeights } from './methodProgress'
 
 // 첫 번째 방식이 기본 선택이다. description 은 모바일에서 줄을 바꿀 자리마다 나눠 둔다.
-// boundaries 는 단계가 바뀌는 프레임이다. 영상을 프레임별로 확인해 정했으므로 영상을 바꾸면 함께 고친다.
+// boundaries 는 단계가 바뀌는 프레임, lastFrame 은 영상의 마지막 프레임(JSON 의 op - 1)이다.
+// 영상을 프레임별로 확인해 정했으므로 영상을 바꾸면 함께 고친다.
 const METHODS = [
   {
     type: 'form',
@@ -16,10 +17,12 @@ const METHODS = [
     desktop: {
       load: () => import('../../../assets/animations/form-create-guide.json'),
       boundaries: [240, 330],
+      lastFrame: 479,
     },
     mobile: {
       load: () => import('../../../assets/animations/form-create-guide-mobile.json'),
       boundaries: [270, 330],
+      lastFrame: 539,
     },
   },
   {
@@ -33,10 +36,12 @@ const METHODS = [
     desktop: {
       load: () => import('../../../assets/animations/file-create-guide.json'),
       boundaries: [200, 490],
+      lastFrame: 779,
     },
     mobile: {
       load: () => import('../../../assets/animations/file-create-guide-mobile.json'),
       boundaries: [200, 490],
+      lastFrame: 779,
     },
   },
 ]
@@ -59,7 +64,21 @@ export default function HomeMethods() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [isVisible, setIsVisible] = useState(() => !('IntersectionObserver' in window))
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_QUERY).matches)
   const method = METHODS[activeIndex]
+  const variant = isMobile ? method.mobile : method.desktop
+  // 막대 폭을 단계 길이에 비례하게 나눠, 모든 막대가 같은 속도로 차게 한다. 짧은 단계는 막대도 짧다.
+  const stepColumns = getStepWeights(variant.boundaries, variant.lastFrame)
+    .map((weight) => `minmax(0, ${weight}fr)`)
+    .join(' ')
+
+  // 화면 폭이 모바일 기준을 넘나들면 그에 맞는 영상으로 바꾼다.
+  useEffect(() => {
+    const mobileViewport = window.matchMedia(MOBILE_QUERY)
+    const handleChange = () => setIsMobile(mobileViewport.matches)
+    mobileViewport.addEventListener('change', handleChange)
+    return () => mobileViewport.removeEventListener('change', handleChange)
+  }, [])
 
   // 구간이 START_RATIO 이상 보이면 재생하고, 화면에서 완전히 벗어나면 멈춘다.
   useEffect(() => {
@@ -87,21 +106,20 @@ export default function HomeMethods() {
   useEffect(() => {
     if (!isVisible) return undefined
 
-    const mobileViewport = window.matchMedia(MOBILE_QUERY)
     const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY)
+    const clip = isMobile ? METHODS[activeIndex].mobile : METHODS[activeIndex].desktop
     let animation
-    let variant
     let cancelled = false
 
     const showProgress = (frame) => {
-      const { fills, current } = getStepProgress(frame, variant.boundaries, animation.totalFrames - 1)
+      const { fills, current } = getStepProgress(frame, clip.boundaries, clip.lastFrame)
       fills.forEach((fill, index) => fillRefs.current[index]?.style.setProperty('--fill', fill))
       setCurrentStep(current)
     }
 
     const showLastFrame = () => {
-      animation.goToAndStop(animation.totalFrames - 1, true)
-      showProgress(animation.totalFrames - 1)
+      animation.goToAndStop(clip.lastFrame, true)
+      showProgress(clip.lastFrame)
     }
 
     const startPlayback = () => {
@@ -111,15 +129,12 @@ export default function HomeMethods() {
     }
 
     const loadAnimation = async () => {
-      const nextVariant = mobileViewport.matches ? METHODS[activeIndex].mobile : METHODS[activeIndex].desktop
       const [{ default: lottie }, { default: animationData }] = await Promise.all([
         import('lottie-web/build/player/lottie_svg'),
-        nextVariant.load(),
+        clip.load(),
       ])
       if (cancelled) return
 
-      animation?.destroy()
-      variant = nextVariant
       animation = lottie.loadAnimation({
         container: animationRef.current,
         renderer: 'svg',
@@ -134,26 +149,23 @@ export default function HomeMethods() {
       else startPlayback()
     }
 
-    // 영상을 불러오지 못하면 무대를 비워 둔다. 단계 이름과 설명은 그대로 보인다.
-    const load = () => loadAnimation().catch(() => {})
     const handleMotionChange = () => {
       if (!animation) return
       if (reducedMotion.matches) showLastFrame()
       else startPlayback()
     }
 
-    load()
-    mobileViewport.addEventListener('change', load)
+    // 영상을 불러오지 못하면 무대를 비워 둔다. 단계 이름과 설명은 그대로 보인다.
+    loadAnimation().catch(() => {})
     reducedMotion.addEventListener('change', handleMotionChange)
 
     return () => {
       cancelled = true
-      mobileViewport.removeEventListener('change', load)
       reducedMotion.removeEventListener('change', handleMotionChange)
       animation?.destroy()
       playerRef.current = null
     }
-  }, [isVisible, activeIndex])
+  }, [isVisible, activeIndex, isMobile])
 
   const selectMethod = (index) => {
     if (index === activeIndex) return
@@ -236,7 +248,7 @@ export default function HomeMethods() {
             />
           </div>
 
-          <ol className='home-methods__steps'>
+          <ol className='home-methods__steps' style={{ gridTemplateColumns: stepColumns }}>
             {method.steps.map((step, index) => (
               <li
                 key={step}
