@@ -118,13 +118,38 @@
     height: 33px;
   }
 
-  .site-header__link--page,
-  .site-header__divider {
+  .site-header__link--guide {
     display: none;
   }
 
   .site-header__nickname {
     max-width: 180px;
+  }
+}
+
+/* 374px 이하: 로그인 상태의 '대시보드로 이동' 까지 한 줄에 들어가도록 로고·글자·간격을 조금씩 줄인다. */
+@media (max-width: 374px) {
+  .site-header__inner {
+    gap: 8px;
+  }
+
+  .site-header__logo img {
+    height: 28px;
+  }
+
+  .site-header__nav {
+    gap: 0;
+    margin-right: -8px;
+  }
+
+  .site-header__link,
+  .site-header__nickname {
+    padding: 0 8px;
+    font-size: 13px;
+  }
+
+  .site-header__divider {
+    margin: 0 4px;
   }
 }
 

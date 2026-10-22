@@ -16,16 +16,6 @@ import { AuthChecking } from '../../../components/authGate/AuthGate'
 
 const CONTACT_PATH = '/contact'
 
-// 주소에 #을 남기지 않고 같은 페이지의 구간으로 이동한다. 동작 줄이기 설정이면 바로 이동한다.
-const scrollToSection = (event) => {
-  const target = document.getElementById(event.currentTarget.hash.slice(1))
-  if (!target) return
-
-  event.preventDefault()
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
-}
-
 export default function HomePage() {
   const { hash, key: locationKey } = useLocation()
   const { hasSession, handleStart } = usePublicSession()
@@ -82,9 +72,9 @@ export default function HomePage() {
                 {!hasSession && <GoogleIcon aria-hidden='true' />}
                 {hasSession ? '대시보드로 이동' : 'Google 계정으로 시작하기'}
               </button>
-              <a href='#how' className='home-hero__link' onClick={scrollToSection}>
+              <Link to='/guide' className='home-hero__link'>
                 이용 방법 보기
-              </a>
+              </Link>
             </div>
           </div>
           <HomeOrbit />
