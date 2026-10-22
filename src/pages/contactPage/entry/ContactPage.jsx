@@ -142,15 +142,6 @@ export default function ContactPage() {
               <button type='button' className='home-button home-button--primary contact-email__button' onClick={handleCopy}>
                 이메일 주소 복사
               </button>
-              <p className='contact-email__hint'>
-                <span className='contact-email__hint--desktop'>
-                  문제가 발생한 화면·상황·오류 메시지를 함께 알려주시면 도움이 돼요.
-                </span>
-                <span className='contact-email__hint--mobile'>
-                  <span className='contact__mobile-line'>문제가 발생한 화면과 상황,</span>{' '}
-                  <span className='contact__mobile-line'>오류 메시지를 함께 알려주세요.</span>
-                </span>
-              </p>
             </div>
           </section>
         </div>

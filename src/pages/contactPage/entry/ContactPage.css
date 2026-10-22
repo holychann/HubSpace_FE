@@ -108,18 +108,23 @@
 }
 
 /* 높이를 0fr ↔ 1fr 로 바꿔 답 높이만큼 부드럽게 펼치고 접는다. 구분선은 항목 아래에 있어 함께 내려온다.
-   질문과 답 사이는 12px 이라 펼칠 때 질문 줄의 아래 여백(22px)에서 10px 를 함께 끌어올린다. */
+   질문과 답 사이는 12px 이라 답 영역을 질문 줄의 아래 여백(22px) 안으로 10px 늘 올려 둔다.
+   글자는 움직이지 않고 아래쪽만 드러나도록 위치(margin-top)는 고정하고,
+   닫혔을 때 그만큼 줄어드는 높이는 아래 여백(padding-bottom)으로 채웠다가 펼치며 함께 줄인다. */
 .contact-faq__panel {
+  --faq-overlap: 10px;
   display: grid;
   grid-template-rows: 0fr;
+  margin-top: calc(var(--faq-overlap) * -1);
+  padding-bottom: var(--faq-overlap);
   transition:
     grid-template-rows var(--faq-duration) var(--faq-easing),
-    margin-top var(--faq-duration) var(--faq-easing);
+    padding-bottom var(--faq-duration) var(--faq-easing);
 }
 
 .contact-faq__item--open .contact-faq__panel {
   grid-template-rows: 1fr;
-  margin-top: -10px;
+  padding-bottom: 0;
 }
 
 .contact-faq__panel-inner {
@@ -192,24 +197,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
   width: 100%;
 }
 
 .contact-email__button {
   width: 234px;
   padding: 0 24px;
-}
-
-.contact-email__hint {
-  font-size: 14px;
-  line-height: 1.55;
-  letter-spacing: -0.042px;
-  color: var(--color-text-additional);
-}
-
-.contact-email__hint--mobile {
-  display: none;
 }
 
 /* 모바일에서만 줄을 나누는 단위. 데스크탑에서는 한 줄로 이어 쓴다. */
@@ -232,8 +225,8 @@
     padding: 18px 0;
   }
 
-  .contact-faq__item--open .contact-faq__panel {
-    margin-top: -6px;
+  .contact-faq__panel {
+    --faq-overlap: 6px;
   }
 
   .contact-faq__answer {
@@ -262,13 +255,5 @@
 
   .contact-email__button {
     width: 100%;
-  }
-
-  .contact-email__hint--desktop {
-    display: none;
-  }
-
-  .contact-email__hint--mobile {
-    display: inline;
   }
 }
