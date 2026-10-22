@@ -2,12 +2,13 @@
 
 현재 코드에 이미 쓰이고 있는 디자인 규칙을 정리한 문서다. 새 규칙을 만드는 문서가 아니라, 새 화면을 만들 때 기존 화면과 어긋나지 않도록 참고하는 기준이다. 값은 실제 CSS에서 가져왔으며, 출처 파일을 함께 적는다.
 
-## 1. 두 가지 화면 계열
+## 1. 화면 계열
 
 | 계열 | 화면 | 특징 |
 |---|---|---|
 | 관리자 화면 | 대시보드, 이벤트 생성(CSV·폼), 이벤트 편집 | `AdminLayout` 안에서 회색 배경(`--color-background`) 위에 흰 카드 섹션을 쌓는다 |
-| 공개 화면 | 로그인, 조회(`/search`), 결과(`/result`), 약관 | `GradientLayout`의 그라데이션 SVG 배경 위에 가운데 정렬된 좁은 카드(최대 411px) |
+| 공개 화면 | 조회(`/search`), 결과(`/result`), 약관 | `GradientLayout`의 그라데이션 SVG 배경 위에 가운데 정렬된 좁은 카드(최대 411px) |
+| 홈 | 홈(`/`, 로그인 버튼 포함) | 흰 바탕의 소개 화면. 자체 헤더·푸터를 쓰고 공통 푸터는 붙이지 않는다. 첫 화면은 궤도 그림(`HomeOrbit`), 버튼은 알약 모양(`src/pages/homePage`) |
 
 관리자 화면을 새로 만들 때는 `src/pages/csvCreatePage`와 `src/pages/csvDetailPage`(파일 변경)를 기준 화면으로 삼는다. 두 화면은 데이터 파일 업로드·컬럼 선택·미리보기를 공통 컴포넌트 `CsvFileUpload`, `CsvColumnSelect`, `CsvPreview`(`src/components`)로 함께 쓴다.
 

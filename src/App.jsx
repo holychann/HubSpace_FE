@@ -3,7 +3,6 @@ import { RouterProvider } from 'react-router-dom'
 import { AppRouter } from './components/AppRouter'
 import styles from './App.module.css'
 import { Toaster } from 'sonner'
-import Footer from './components/footer/Footer'
 import { getAccessToken, getAuthEventName, getRefreshDelay, isExchangePath } from './utils/authStorage'
 import { authRefresher, handleAuthFailure } from './apis/ApiClient'
 
@@ -58,7 +57,6 @@ function App() {
   return (
     <div className={styles.app}>
       <RouterProvider router={AppRouter} />
-      <Footer />
       <Toaster
         position='top-center'
         duration={2000}
