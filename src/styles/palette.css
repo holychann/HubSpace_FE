@@ -8,6 +8,8 @@
 
   /* 텍스트 */
   --color-text: #050064;
+  /* 가장 강한 텍스트(홈 첫 화면 제목 등). 남색보다 중립적인 검정 */
+  --color-text-strong: #191f28;
   /* 추가 텍스트 */
   --color-text-additional: #43414f;
 

@@ -7,6 +7,7 @@ import HomeSteps from '../component/HomeSteps'
 import HomeMethods from '../component/HomeMethods'
 import hubspaceLogo from '../../../assets/default/hubspace-logo.png'
 import CopyIcon from '../../../assets/home/home-copy.svg?react'
+import GoogleIcon from '../../../assets/home/home-google.svg?react'
 import { getStoredAccessToken, hasValidSession } from '../../../utils/authStorage'
 import { isLocalPreviewMode } from '../../../mocks/localPreview'
 import { recoverAuthSession } from '../../../apis/ApiClient'
@@ -85,9 +86,10 @@ export default function HomePage() {
             <p className='home-hero__lead'>링크를 공유하면, 신청자가 직접 결과를 확인해요.</p>
             <div className='home-hero__actions'>
               <button type='button' className='home-button home-button--primary' onClick={startGoogleLogin}>
+                <GoogleIcon aria-hidden='true' />
                 Google 계정으로 시작하기
               </button>
-              <a href='#how' className='home-button home-button--secondary' onClick={scrollToSection}>
+              <a href='#how' className='home-hero__link' onClick={scrollToSection}>
                 이용 방법 보기
               </a>
             </div>
@@ -110,6 +112,7 @@ export default function HomePage() {
                 </h2>
                 <p className='home-closing__lead'>이벤트를 만들면 공유할 링크가 바로 생겨요.</p>
                 <button type='button' className='home-button home-button--primary' onClick={startGoogleLogin}>
+                  <GoogleIcon aria-hidden='true' />
                   Google 계정으로 시작하기
                 </button>
               </div>
