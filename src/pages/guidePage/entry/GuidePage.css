@@ -51,7 +51,7 @@
 .guide__panel {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 128px;
   margin-top: 16px;
 }
 
@@ -72,7 +72,7 @@
   display: grid;
   grid-template-columns: minmax(0, 384fr) minmax(0, 672fr);
   gap: 64px;
-  align-items: center;
+  align-items: start;
 }
 
 .guide-step + .guide-step {
@@ -715,6 +715,10 @@
 @media (max-width: 767px) {
   .guide__body {
     padding: 40px 20px calc(141px + env(safe-area-inset-bottom));
+  }
+
+  .guide__panel {
+    gap: 96px;
   }
 
   .guide__title {
