@@ -1,0 +1,75 @@
+.animated-check {
+  display: block;
+  flex-shrink: 0;
+}
+
+.animated-check .result-check__ring {
+  fill: none;
+  stroke-dasharray: 327;
+  stroke-dashoffset: 327;
+  transform-origin: center;
+  transform: rotate(70deg) scaleX(-1);
+  animation: result-check-ring 1.05s ease-in-out forwards;
+}
+
+.animated-check .result-check__mark {
+  stroke-dasharray: 56;
+  stroke-dashoffset: 56;
+  animation: result-check-mark 0.48s ease-out 0.78s forwards;
+}
+
+.animated-check--keep-ring .result-check__ring {
+  animation-name: result-check-ring-persistent;
+}
+
+@keyframes result-check-ring-persistent {
+  0% {
+    stroke-dashoffset: 327;
+  }
+
+  72%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes result-check-ring {
+  0% {
+    opacity: 1;
+    stroke-dashoffset: 327;
+  }
+
+  72% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes result-check-mark {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-check .result-check__ring {
+    animation: none;
+    opacity: 0;
+  }
+
+  .animated-check .result-check__mark {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .animated-check--keep-ring .result-check__ring {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}

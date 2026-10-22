@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 import { fetchUserSearch } from '../apis/fetchUserSearch'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
 import authLogo from '../../../assets/auth/auth-logo.png'
-import CheckIcon from '../../../assets/result/result-check.svg?react'
+import AnimatedCheck from '../../../components/animatedCheck/AnimatedCheck'
 import AlertIcon from '../../../assets/result/result-alert.svg?react'
 
 // 사용자 이벤트 신청 조회 결과 페이지
@@ -146,7 +146,7 @@ export default function UserResultPage() {
             {/* 상태 카드 */}
             <div className='user-result__status-card'>
               <div className='result__status-icon result__status-icon--ok'>
-                <CheckIcon />
+                <AnimatedCheck />
               </div>
               <h2 className='user-result__status-title'>확인되었습니다.</h2>
               <p className='user-result__status-subtitle'>명단에 존재하거나 신청이 완료되었습니다.</p>

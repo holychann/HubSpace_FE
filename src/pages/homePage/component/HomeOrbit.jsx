@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import SearchIcon from '../../../assets/home/home-search.svg?react'
-import CheckIcon from '../../../assets/home/home-check.svg?react'
+import AnimatedCheck from '../../../components/animatedCheck/AnimatedCheck'
 
 // 첫 화면 그림: 궤도 위의 점(신청자)들이 가운데 조회 검색창으로 모인다. 로고의 궤도 모양에서 가져왔다.
 // 좌표는 1200×540 기준이며, 위쪽 궤도 꼭대기에 온 점이 잘리지 않도록 viewBox 를 위로 40 만큼 넓혔다(-40~540).
@@ -74,7 +74,19 @@ function OrbitDot({ radius, degree, color, size, checked }) {
 
 export default function HomeOrbit() {
   const orbitRef = useRef(null)
+  const resultTimeoutRef = useRef(null)
   const [visible, setVisible] = useState(true)
+  const [showResult, setShowResult] = useState(false)
+  const [resultVersion, setResultVersion] = useState(0)
+
+  useEffect(() => () => window.clearTimeout(resultTimeoutRef.current), [])
+
+  const handleSearch = () => {
+    window.clearTimeout(resultTimeoutRef.current)
+    setResultVersion((version) => version + 1)
+    setShowResult(true)
+    resultTimeoutRef.current = window.setTimeout(() => setShowResult(false), 3000)
+  }
 
   // 그림이 화면 밖으로 나가면 공전을 멈춘다.
   useEffect(() => {
@@ -87,12 +99,13 @@ export default function HomeOrbit() {
   }, [])
 
   return (
-    <div ref={orbitRef} className={`home-orbit${visible ? '' : ' home-orbit--paused'}`} aria-hidden='true'>
+    <div ref={orbitRef} className={`home-orbit${visible ? '' : ' home-orbit--paused'}`}>
       <svg
         className='home-orbit__art'
         viewBox='0 -40 1200 580'
         preserveAspectRatio='xMidYMid slice'
         focusable='false'
+        aria-hidden='true'
       >
         <defs>
           <filter id='home-orbit-glow' x='-50%' y='-50%' width='200%' height='200%'>
@@ -141,14 +154,28 @@ export default function HomeOrbit() {
         <span className='home-orbit__value'>김허브</span>
         <span className='home-orbit__divider' />
         <span className='home-orbit__value'>040817</span>
-        <span className='home-orbit__button'>
-          <SearchIcon />
-        </span>
+        <button
+          type='button'
+          className='home-orbit__button'
+          aria-label='예시 조회하기'
+          onClick={handleSearch}
+        >
+          <SearchIcon
+            key={resultVersion}
+            className={resultVersion > 0 ? 'home-orbit__search-icon--clicked' : undefined}
+            aria-hidden='true'
+            focusable='false'
+          />
+        </button>
       </div>
 
-      <div className='home-orbit__result'>
-        <CheckIcon />
-        확인되었습니다
+      <div role='status' aria-live='polite' aria-atomic='true'>
+        {showResult && (
+          <div key={resultVersion} className='home-orbit__result'>
+            <AnimatedCheck keepRing />
+            확인되었습니다
+          </div>
+        )}
       </div>
     </div>
   )

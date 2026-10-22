@@ -165,21 +165,6 @@ li[data-sonner-toast].user-result__syncToast
   display: block;
 }
 
-.result__status-icon--ok .result-check__ring {
-  fill: none;
-  stroke-dasharray: 327;
-  stroke-dashoffset: 327;
-  transform-origin: center;
-  transform: rotate(70deg) scaleX(-1);
-  animation: result-check-ring 1.05s ease-in-out forwards;
-}
-
-.result__status-icon--ok .result-check__mark {
-  stroke-dasharray: 56;
-  stroke-dashoffset: 56;
-  animation: result-check-mark 0.48s ease-out 0.78s forwards;
-}
-
 .result__status-icon--no .result-alert__background {
   transform-origin: center;
   animation: result-alert-pulse 0.5s ease-out forwards;
@@ -195,29 +180,6 @@ li[data-sonner-toast].user-result__syncToast
   opacity: 0;
   transform-origin: center;
   animation: result-alert-dot 0.24s ease-out 0.52s forwards;
-}
-
-@keyframes result-check-ring {
-  0% {
-    opacity: 1;
-    stroke-dashoffset: 327;
-  }
-
-  72% {
-    opacity: 1;
-    stroke-dashoffset: 0;
-  }
-
-  100% {
-    opacity: 0;
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes result-check-mark {
-  to {
-    stroke-dashoffset: 0;
-  }
 }
 
 @keyframes result-alert-pulse {

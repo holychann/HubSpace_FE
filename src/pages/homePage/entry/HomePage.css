@@ -305,11 +305,39 @@
   border-radius: 50%;
   background-color: var(--color-text);
   color: var(--color-white);
+  transition: transform 0.12s ease-out;
+}
+
+.home-orbit__button:active {
+  transform: scale(0.9);
 }
 
 .home-orbit__button svg {
   width: 22px;
   height: 22px;
+}
+
+.home-orbit__search-icon--clicked {
+  animation: home-orbit-search-click 0.28s ease-out;
+}
+
+@keyframes home-orbit-search-click {
+  0% {
+    transform: scale(0.72);
+  }
+
+  60% {
+    transform: scale(1.12);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.home-orbit__button:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
 }
 
 .home-orbit__result {
@@ -329,6 +357,17 @@
   color: var(--color-action-view);
   white-space: nowrap;
   transform: translateX(-50%);
+  animation: home-orbit-result-out 0.3s ease-out 2.7s forwards;
+}
+
+@keyframes home-orbit-result-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 .home-orbit__result svg {
@@ -1329,6 +1368,7 @@
   }
 
   .home-button,
+  .home-orbit__button,
   .home-footer__link,
   .home-chat__rows {
     transition: none;
@@ -1347,8 +1387,14 @@
   }
 
   /* 동작 줄이기: 처음 자리에 멈춘 그림을 보여준다. */
+  .home-orbit__button:active {
+    transform: none;
+  }
+
   .home-hero__copy,
   .home-orbit,
+  .home-orbit__search-icon--clicked,
+  .home-orbit__result,
   .home-orbit__satellite,
   .home-orbit__satellite-body {
     animation: none;
