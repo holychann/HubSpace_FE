@@ -35,17 +35,13 @@ li[data-sonner-toast][data-type='info'].user-result__syncToast {
   align-items: flex-start;
   gap: 12px;
   padding: 18px 42px 18px 18px;
-  border: 1px solid rgba(177, 188, 228, 0.62);
+  border: 1px solid var(--normal-border);
   border-radius: 18px;
-  background: linear-gradient(
-    135deg,
-    rgba(245, 248, 255, 0.98),
-    rgba(248, 243, 255, 0.98)
-  );
+  background: var(--normal-bg);
   box-shadow:
     0 20px 48px rgba(37, 45, 92, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.96);
-  color: var(--color-text);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: var(--normal-text);
   font-family: var(--font-family);
 }
 
@@ -58,8 +54,8 @@ li[data-sonner-toast].user-result__syncToast [data-icon] {
   height: 28px;
   margin: 0;
   border-radius: 9px;
-  background: rgba(70, 97, 216, 0.1);
-  color: #4661d8;
+  background: rgba(255, 255, 255, 0.12);
+  color: inherit;
   line-height: 0;
 }
 
@@ -76,7 +72,7 @@ li[data-sonner-toast].user-result__syncToast [data-content] {
 }
 
 li[data-sonner-toast].user-result__syncToast [data-title] {
-  color: #181a7a;
+  color: inherit;
   font-family: var(--font-family);
   font-size: 15px;
   font-weight: var(--font-medium);
@@ -85,7 +81,7 @@ li[data-sonner-toast].user-result__syncToast [data-title] {
 }
 
 li[data-sonner-toast].user-result__syncToast [data-description] {
-  color: #595d73;
+  color: rgba(255, 255, 255, 0.82);
   font-family: var(--font-family);
   font-size: 13px;
   font-weight: var(--font-light);
@@ -103,19 +99,19 @@ li[data-sonner-toast].user-result__syncToast
   height: 24px;
   border: 0;
   background: transparent;
-  color: #5f6680;
+  color: inherit;
   transform: none;
 }
 
 li[data-sonner-toast].user-result__syncToast
   button[data-close-button]:hover {
   background: transparent;
-  color: #181a7a;
+  color: inherit;
 }
 
 li[data-sonner-toast].user-result__syncToast
   button[data-close-button]:focus-visible {
-  outline: 2px solid rgba(70, 97, 216, 0.28);
+  outline: 2px solid rgba(255, 255, 255, 0.6);
   outline-offset: 2px;
   box-shadow: none;
 }

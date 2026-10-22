@@ -6,3 +6,30 @@
   font-family: var(--font-family);
   font-weight: var(--font-regular);
 }
+
+.toast[data-sonner-toast][data-styled='true'] {
+  --normal-bg: #253173;
+  --normal-border: rgb(255 255 255 / 0.2);
+  --normal-text: var(--color-white);
+  --gray2: #394994;
+  --gray4: rgb(255 255 255 / 0.2);
+  --gray5: rgb(255 255 255 / 0.3);
+  --gray12: var(--color-white);
+}
+
+.toast[data-sonner-toast][data-styled='true'] [data-description] {
+  color: rgb(255 255 255 / 0.82);
+}
+
+@media (max-width: 600px) {
+  .toaster[data-sonner-toaster][data-x-position='center'] {
+    left: 50%;
+    right: auto;
+    width: min(320px, calc(100vw - 64px));
+    transform: translateX(-50%);
+  }
+
+  .toaster[data-sonner-toaster] [data-sonner-toast] {
+    width: 100%;
+  }
+}

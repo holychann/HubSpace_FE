@@ -58,13 +58,14 @@ function App() {
     <div className={styles.app}>
       <RouterProvider router={AppRouter} />
       <Toaster
+        className={styles.toaster}
         position='top-center'
         duration={2000}
-        richColors
         closeButton
         toastOptions={{
+          className: styles.toast,
           style: {
-            marginTop: '20px',
+            marginTop: '8px',
           },
         }}
       />
