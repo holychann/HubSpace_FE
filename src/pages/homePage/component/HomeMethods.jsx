@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import FileIcon from '../../../assets/home/home-file.svg?react'
 import FormIcon from '../../../assets/home/home-form.svg?react'
 import { getStepProgress, getStepWeights } from './methodProgress'
@@ -59,6 +59,7 @@ export default function HomeMethods() {
   const animationRef = useRef(null)
   const playerRef = useRef(null)
   const inViewRef = useRef(!('IntersectionObserver' in window))
+  const tablistRef = useRef(null)
   const tabRefs = useRef([])
   const fillRefs = useRef([])
   const [activeIndex, setActiveIndex] = useState(0)
@@ -167,6 +168,28 @@ export default function HomeMethods() {
     }
   }, [isVisible, activeIndex, isMobile])
 
+  // 토글의 흰 표시 막대를 선택된 탭 자리로 옮긴다. 두 탭의 폭이 달라 위치와 폭을 함께 잰다.
+  // 처음 자리를 잡을 때는 움직이지 않게, 자리를 잡은 다음 틀부터 이동 효과(data-ready)를 켠다.
+  useLayoutEffect(() => {
+    const tablist = tablistRef.current
+    const place = () => {
+      const tab = tabRefs.current[activeIndex]
+      tablist.style.setProperty('--indicator-x', `${tab.offsetLeft}px`)
+      tablist.style.setProperty('--indicator-w', `${tab.offsetWidth}px`)
+    }
+    place()
+    const frameId = window.requestAnimationFrame(() => {
+      tablist.dataset.ready = 'true'
+    })
+    // 글꼴이 늦게 불러와지거나 화면 폭이 바뀌어 탭 폭이 달라지면 다시 맞춘다.
+    const observer = new ResizeObserver(place)
+    tabRefs.current.forEach((tab) => observer.observe(tab))
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      observer.disconnect()
+    }
+  }, [activeIndex])
+
   const selectMethod = (index) => {
     if (index === activeIndex) return
     setActiveIndex(index)
@@ -201,7 +224,7 @@ export default function HomeMethods() {
           <span className='home-methods__line'>두 가지 방법</span>
         </h2>
 
-        <div className='home-methods__tabs' role='tablist' aria-label='시작 방식'>
+        <div ref={tablistRef} className='home-methods__tabs' role='tablist' aria-label='시작 방식'>
           {METHODS.map((item, index) => (
             <button
               key={item.type}

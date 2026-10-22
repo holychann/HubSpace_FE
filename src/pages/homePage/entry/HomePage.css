@@ -672,6 +672,7 @@
 }
 
 .home-methods__tabs {
+  position: relative;
   display: flex;
   gap: 4px;
   width: fit-content;
@@ -681,7 +682,29 @@
   background-color: var(--color-box-conditional);
 }
 
+/* 선택된 탭 뒤의 흰 표시 막대. HomeMethods 가 --indicator-x·--indicator-w 를 선택된 탭에 맞추고,
+   바뀔 때 좌우로 미끄러진다. */
+.home-methods__tabs::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: var(--indicator-w, 0);
+  border-radius: 999px;
+  background-color: var(--color-white);
+  box-shadow: 0 2px 8px rgba(5, 0, 100, 0.08);
+  transform: translateX(var(--indicator-x, 0));
+}
+
+.home-methods__tabs[data-ready='true']::before {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .home-methods__tab {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -699,10 +722,7 @@
   line-height: 1.5;
   white-space: nowrap;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .home-methods__tab svg {
@@ -714,9 +734,7 @@
 }
 
 .home-methods__tab[aria-selected='true'] {
-  background-color: var(--color-white);
   color: var(--color-text);
-  box-shadow: 0 2px 8px rgba(5, 0, 100, 0.08);
 }
 
 .home-methods__tab--file[aria-selected='true'] svg {
@@ -1211,6 +1229,11 @@
     box-sizing: border-box;
   }
 
+  .home-methods__tabs::before {
+    top: 5px;
+    bottom: 5px;
+  }
+
   .home-methods__tab {
     flex: 1 1 0;
     min-width: 0;
@@ -1351,6 +1374,7 @@
 
   .home-methods__tab,
   .home-methods__tab svg,
+  .home-methods__tabs[data-ready='true']::before,
   .home-methods__stage {
     transition: none;
   }
