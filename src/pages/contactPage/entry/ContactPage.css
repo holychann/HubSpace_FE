@@ -148,11 +148,13 @@
   }
 }
 
-/* 이메일 문의 */
+/* 이메일 문의. 배경 상자가 위 FAQ 와 같은 폭이면 작아 보여서 좌우로 16px(모바일 8px)씩 바깥으로 넓힌다.
+   안쪽 여백은 그대로라 상자 안 글자도 그만큼 바깥쪽으로 옮겨진다. */
 .home .contact-email {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin: 0 -16px;
   padding: 32px;
   border-radius: 24px;
   background-color: var(--color-box-default);
@@ -234,6 +236,7 @@
   }
 
   .home .contact-email {
+    margin: 0 -8px;
     padding: 24px;
   }
 
