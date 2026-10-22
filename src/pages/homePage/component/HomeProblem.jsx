@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
 // 같은 '신청 확인' 질문이 사람마다 따로 쌓인 채팅 목록 (예시). 머리글의 '안 읽은 대화' 수가 이 목록의 길이이고,
-// 대화마다 안 읽은 메시지는 1~2개다. 목록이 길수록 스크롤 효과가 길게 이어진다.
+// 대화마다 안 읽은 메시지는 1~2개다. 고정된 스크롤 거리(--pin-distance) 동안 목록 끝까지 넘어가므로,
+// 목록 길이를 바꾸면 그 거리도 함께 바꿔야 넘어가는 속도가 그대로다.
 const CHATS = [
   { name: '김*진', preview: '저 신청 됐는지 확인해주실 수 있나요?', unread: 2 },
   { name: '이*우', preview: '미리배움터 신청했는데 명단에 있나요?', unread: 1 },
@@ -22,25 +23,7 @@ const CHATS = [
   { name: '안*현', preview: '어제 신청했는데 반영됐을까요?', unread: 1 },
   { name: '전*빈', preview: '명단 확인 가능할까요?', unread: 2 },
   { name: '홍*수', preview: '신청 마감 전에 넣었는데 됐나요?', unread: 1 },
-  { name: '유*나', preview: '혹시 제 이름 있나요?', unread: 1 },
-  { name: '고*준', preview: '학번으로 확인해주실 수 있나요?', unread: 2 },
-  { name: '문*영', preview: '신청 확인 문의드려요', unread: 1 },
-  { name: '양*민', preview: '저 신청 들어갔는지 궁금합니다', unread: 1 },
-  { name: '손*희', preview: '두 번 신청한 것 같은데 괜찮을까요?', unread: 2 },
-  { name: '배*찬', preview: '명단 올라왔나요?', unread: 1 },
-  { name: '백*서', preview: '확인 한 번만 부탁드릴게요', unread: 1 },
-  { name: '허*진', preview: '신청 완료 문자를 못 받았어요', unread: 2 },
-  { name: '남*우', preview: '혹시 대기 명단인가요?', unread: 1 },
-  { name: '노*은', preview: '신청 됐는지 알려주실 수 있나요?', unread: 1 },
-  { name: '하*율', preview: '저도 명단에 있는지 궁금해요', unread: 2 },
-  { name: '곽*현', preview: '신청서 다시 내야 하나요?', unread: 1 },
-  { name: '성*아', preview: '확인 부탁드려요!', unread: 1 },
-  { name: '차*민', preview: '신청 내역 좀 봐주세요', unread: 2 },
-  { name: '주*훈', preview: '혹시 접수 확인되셨나요?', unread: 1 },
-  { name: '우*린', preview: '제 신청 상태 알 수 있을까요?', unread: 1 },
-  { name: '구*준', preview: '명단에 제 이름 있나요?', unread: 1 },
-  { name: '민*서', preview: '신청 잘 됐는지 확인 부탁드려요', unread: 2 },
-]
+  { name: '유*나', preview: '혹시 제 이름 있나요?', unread: 1 },]
 const AVATAR_COLORS = ['#d6e7ff', '#d3f4ea', '#e7e0ff', '#ffe1f4', '#fde9d2']
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)

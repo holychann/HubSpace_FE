@@ -420,9 +420,11 @@
   color: #667196;
 }
 
+/* 스크롤 진행도가 바뀔 때마다 새 위치로 천천히 따라가 휠 한 칸씩 끊겨 움직이지 않게 한다. */
 .home-chat__rows {
   padding: 8px 0;
   transform: translateY(calc(var(--chat-progress, 0) * var(--chat-shift, 0px) * -1));
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 
@@ -478,9 +480,11 @@
 }
 
 /* 고정 상태: 구간에 닿으면 화면이 멈추고, 그동안 채팅 목록만 아래로 넘어간다.
-   --pin-distance 는 화면이 멈춰 있는 스크롤 거리다. 목록(37개)이 이 거리 동안 끝까지 넘어간다. */
+   --pin-distance 는 화면이 멈춰 있는 스크롤 거리다. 목록(20개)이 이 거리 동안 끝까지 넘어간다.
+   목록은 페이지 스크롤의 약 1.3배 속도로 움직인다(화면 높이 800px 기준, 목록 이동 1018px ÷ 783px).
+   목록 길이를 바꾸면 이 속도가 유지되도록 거리도 함께 바꾼다. */
 .home-problem--pinned {
-  --pin-distance: 1200px;
+  --pin-distance: 783px;
   height: calc(100svh - var(--home-header-h) + var(--pin-distance));
   padding: 0;
 }
@@ -1325,7 +1329,8 @@
   }
 
   .home-button,
-  .home-footer__link {
+  .home-footer__link,
+  .home-chat__rows {
     transition: none;
   }
 
