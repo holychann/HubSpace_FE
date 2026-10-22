@@ -1233,6 +1233,11 @@
     font-size: 14px;
   }
 
+  /* 제목과 설명은 화면 폭과 상관없이 Figma 와 같은 자리에서 줄을 바꾼다. */
+  .home-methods__line {
+    display: block;
+  }
+
   .home-methods__stage {
     margin-top: 20px;
     padding: 16px;

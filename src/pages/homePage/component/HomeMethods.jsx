@@ -3,12 +3,29 @@ import FileIcon from '../../../assets/home/home-file.svg?react'
 import FormIcon from '../../../assets/home/home-form.svg?react'
 import { getStepProgress } from './methodProgress'
 
+// 첫 번째 방식이 기본 선택이다. description 은 모바일에서 줄을 바꿀 자리마다 나눠 둔다.
 // boundaries 는 단계가 바뀌는 프레임이다. 영상을 프레임별로 확인해 정했으므로 영상을 바꾸면 함께 고친다.
 const METHODS = [
   {
+    type: 'form',
+    title: 'Google Forms',
+    description: ['새로 들어오는 응답을', '실시간으로 반영해요.'],
+    Icon: FormIcon,
+    steps: ['질문 적기', '이벤트 생성', '신청 폼 완성'],
+    animationLabel: '받을 질문을 적고 이벤트를 만들면, Google Form 신청서가 자동으로 만들어지는 과정을 보여줍니다.',
+    desktop: {
+      load: () => import('../../../assets/animations/form-create-guide.json'),
+      boundaries: [240, 330],
+    },
+    mobile: {
+      load: () => import('../../../assets/animations/form-create-guide-mobile.json'),
+      boundaries: [270, 330],
+    },
+  },
+  {
     type: 'file',
-    title: '명단 파일로',
-    description: '정리된 CSV, TSV 명단이 있다면 올리기만 하면 돼요.',
+    title: '파일 업로드',
+    description: ['정리된 파일을 올려', '명단 조회에 사용해요.'],
     Icon: FileIcon,
     steps: ['파일 올리기', '조회 항목 고르기', '조회 화면 완성'],
     animationLabel:
@@ -20,22 +37,6 @@ const METHODS = [
     mobile: {
       load: () => import('../../../assets/animations/file-create-guide-mobile.json'),
       boundaries: [200, 490],
-    },
-  },
-  {
-    type: 'form',
-    title: 'Google Form으로',
-    description: '신청부터 받는다면, 들어온 응답으로 바로 조회해요.',
-    Icon: FormIcon,
-    steps: ['질문 적기', '이벤트 생성', '신청 폼 완성'],
-    animationLabel: '받을 질문을 적고 이벤트를 만들면, Google Form 신청서가 자동으로 만들어지는 과정을 보여줍니다.',
-    desktop: {
-      load: () => import('../../../assets/animations/form-create-guide.json'),
-      boundaries: [240, 330],
-    },
-    mobile: {
-      load: () => import('../../../assets/animations/form-create-guide-mobile.json'),
-      boundaries: [270, 330],
     },
   },
 ]
@@ -184,7 +185,8 @@ export default function HomeMethods() {
     >
       <div className='home-container'>
         <h2 id='home-methods-title' className='home-section-title'>
-          가진 데이터에 맞게 시작하세요
+          <span className='home-methods__line'>명단을 연결하는</span>{' '}
+          <span className='home-methods__line'>두 가지 방법</span>
         </h2>
 
         <div className='home-methods__tabs' role='tablist' aria-label='시작 방식'>
@@ -216,7 +218,14 @@ export default function HomeMethods() {
           role='tabpanel'
           aria-labelledby={`home-methods-tab-${method.type}`}
         >
-          <p className='home-methods__description'>{method.description}</p>
+          <p className='home-methods__description'>
+            {method.description.map((line, index) => (
+              <span key={line} className='home-methods__line'>
+                {index > 0 && ' '}
+                {line}
+              </span>
+            ))}
+          </p>
 
           <div className='home-methods__stage'>
             <div
