@@ -45,7 +45,9 @@ const AVATAR_COLORS = ['#d6e7ff', '#d3f4ea', '#e7e0ff', '#ffe1f4', '#fde9d2']
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 
-// 채팅 창 높이. 화면이 낮으면(휴대폰 브라우저의 주소창·도구막대) 창을 줄여 구간 전체가 한 화면에 들어가게 한다.
+// 모바일은 화면이 좁아 고정 스크롤을 쓰지 않고, 목록 앞부분만 그대로 보인다.
+const MOBILE_QUERY = '(max-width: 767px)'
+// 채팅 창 높이. 화면이 낮으면(브라우저 주소창·도구막대 등) 창을 줄여 구간 전체가 한 화면에 들어가게 한다.
 const CHAT_VIEWPORT_MAX = 432
 const CHAT_VIEWPORT_MIN = 204
 // 고정된 화면에서 구간 위아래로 남길 여유
@@ -58,15 +60,21 @@ export default function HomeProblem() {
   const rowsRef = useRef(null)
   const [pinned, setPinned] = useState(false)
 
-  // 구간이 한 화면에 들어가고 동작 줄이기 설정이 아닐 때만 화면을 고정한다.
+  // 모바일이 아니고, 구간이 한 화면에 들어가고, 동작 줄이기 설정이 아닐 때만 화면을 고정한다.
   // 화면 높이는 window.innerHeight 대신 .home 의 높이(100svh, 도구막대가 다 보일 때의 높이)로 잰다.
-  // 휴대폰에서 스크롤하며 도구막대가 숨었다 나타나도 고정이 풀렸다 걸렸다 하지 않는다.
+  // 스크롤하며 브라우저 도구막대가 숨었다 나타나도 고정이 풀렸다 걸렸다 하지 않는다.
   useEffect(() => {
     const section = sectionRef.current
     const scroller = section.closest('.home')
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
     const update = () => {
+      if (window.matchMedia(MOBILE_QUERY).matches) {
+        section.style.removeProperty('--chat-viewport-h')
+        setPinned(false)
+        return
+      }
+
       const headerHeight = parseFloat(getComputedStyle(section).getPropertyValue('--home-header-h')) || 0
       const available = scroller.clientHeight - headerHeight - STAGE_MARGIN
       // 채팅 창을 뺀 나머지(문구·채팅 머리글 등) 높이만큼을 빼고 남는 높이를 채팅 창에 준다.
