@@ -508,9 +508,10 @@
   color: var(--color-white);
 }
 
-/* 고정 상태: 구간에 닿으면 화면이 멈추고, 그동안 채팅 목록만 아래로 넘어간다. */
+/* 고정 상태: 구간에 닿으면 화면이 멈추고, 그동안 채팅 목록만 아래로 넘어간다.
+   --pin-distance 는 화면이 멈춰 있는 스크롤 거리다. 목록(37개)이 이 거리 동안 끝까지 넘어간다. */
 .home-problem--pinned {
-  --pin-distance: 640px;
+  --pin-distance: 1200px;
   height: calc(100svh - var(--home-header-h) + var(--pin-distance));
   padding: 0;
 }
@@ -523,9 +524,10 @@
   height: calc(100svh - var(--home-header-h));
 }
 
-/* 목록이 보이는 창(약 6줄). 진행도(--chat-progress)만큼 목록(.home-chat__rows)을 위로 밀어 아래 대화가 드러난다. */
+/* 목록이 보이는 창(최대 약 6줄). 진행도(--chat-progress)만큼 목록(.home-chat__rows)을 위로 밀어 아래 대화가 드러난다.
+   높이(--chat-viewport-h)는 HomeProblem 이 화면 높이에 맞춰 정한다. */
 .home-chat__viewport {
-  height: 432px;
+  height: var(--chat-viewport-h, 432px);
   overflow: hidden;
 }
 
@@ -1172,7 +1174,7 @@
   }
 
   .home-problem--pinned {
-    --pin-distance: 520px;
+    --pin-distance: 1000px;
     padding: 0;
   }
 
