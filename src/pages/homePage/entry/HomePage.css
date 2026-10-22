@@ -94,6 +94,14 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  animation: home-hero-copy-in 1.3s cubic-bezier(0.25, 0.8, 0.4, 1) backwards;
+}
+
+/* 첫 등장: 문구는 살짝 작았다가 원래 크기로 커진다. 1배를 넘었다가 돌아오지 않게 한다(Figma Home v3 히어로 모션). */
+@keyframes home-hero-copy-in {
+  from {
+    transform: scale(0.95);
+  }
 }
 
 /* 작은 줄은 Medium, 큰 줄은 Bold 로 둔다(이용 방법 하단 시작하기와 같은 굵기). */
@@ -165,12 +173,22 @@
    가장 바깥 궤도는 버튼 묶음 아래끝보다 50px 위에 온다(Figma Home v3 – Desktop). */
 .home-orbit {
   --orbit-cy: 340px;
+  --orbit-rise: 24px;
   position: relative;
   width: 100%;
   max-width: 1200px;
   height: 580px;
   margin: -100px auto 0;
   overflow: hidden;
+  animation: home-hero-orbit-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s backwards;
+}
+
+/* 첫 등장: 궤도는 문구보다 조금 늦게, 아래에서 살짝 올라오며 나타난다(Figma Home v3 히어로 모션). */
+@keyframes home-hero-orbit-in {
+  from {
+    opacity: 0;
+    translate: 0 var(--orbit-rise);
+  }
 }
 
 .home-orbit__art {
@@ -1066,6 +1084,7 @@
      틀 맨 위에서 가장 바깥 궤도까지 36px 이 비어 있다. 가장 바깥 궤도가 버튼 묶음 아래끝보다 4px 아래에 오게 한다. */
   .home-orbit {
     --orbit-cy: 239px;
+    --orbit-rise: 16px;
     height: 408px;
     margin-top: -32px;
   }
@@ -1310,6 +1329,8 @@
   }
 
   /* 동작 줄이기: 처음 자리에 멈춘 그림을 보여준다. */
+  .home-hero__copy,
+  .home-orbit,
   .home-orbit__satellite,
   .home-orbit__satellite-body {
     animation: none;
