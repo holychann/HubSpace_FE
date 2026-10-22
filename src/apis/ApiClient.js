@@ -64,6 +64,15 @@ export const authRefresher = createAuthRefresher({
 export const recoverAuthSession = () => authRefresher.recover()
 export const exchangeAuthSession = () => authRefresher.exchange()
 
+// 서버의 refresh 토큰을 지운 뒤 이 브라우저의 세션을 비운다. 서버 요청이 실패해도 로그아웃은 진행한다.
+// 이때 refresh 쿠키는 서버에 남아 있어, 관리 화면에 다시 들어가면 그 쿠키로 로그인이 이어질 수 있다.
+export const logout = async () => {
+  if (!isLocalPreviewMode) {
+    await postAuth('/logout', { timeoutMs: 5000 }).catch(() => {})
+  }
+  clearAuthSession()
+}
+
 // 401 로 세션이 지워졌을 때만 로그인 화면으로 보낸다. 일시 오류는 화면이 재시도 안내를 띄운다.
 export const handleAuthFailure = (error) => {
   if (!(error instanceof AuthUnauthorizedError) || !isProtectedPath()) return

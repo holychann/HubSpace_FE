@@ -72,7 +72,7 @@
   color: var(--color-text);
 }
 
-/* 닉네임은 누르지 않는 글자다. 길면 말줄임한다. */
+/* 닉네임을 불러오는 동안 스켈레톤을 담는 자리. 누르지 않는다. */
 .site-header__nickname {
   overflow: hidden;
   max-width: 240px;
@@ -81,6 +81,60 @@
   line-height: 44px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* 닉네임은 메뉴를 여는 버튼이다. 길이 제한은 위 자리와 같고, 길면 말줄임한다. */
+.site-header__account {
+  position: relative;
+  min-width: 0;
+}
+
+.site-header__accountButton {
+  max-width: 240px;
+}
+
+.site-header__accountName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 대시보드 카드의 더보기 메뉴와 같은 모양 */
+.site-header__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-white);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.site-header__menuItem {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-text);
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.site-header__menuItem:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 .site-header__divider {
@@ -106,6 +160,11 @@
   .site-header__link--account:hover {
     color: color-mix(in srgb, var(--color-text) 70%, black);
   }
+
+  /* 배경 없이 글자만 굵어진다. 메뉴 최소 폭이 글자보다 넓어 굵어져도 메뉴 크기는 그대로다. */
+  .site-header__menuItem:hover:not(:disabled) {
+    font-weight: var(--font-semibold);
+  }
 }
 
 @media (max-width: 767px) {
@@ -122,12 +181,17 @@
     display: none;
   }
 
-  .site-header__nickname {
+  .site-header__nickname,
+  .site-header__accountButton {
     max-width: 180px;
+  }
+
+  .site-header__menuItem {
+    min-height: 44px;
   }
 }
 
-/* 374px 이하: 로그인 상태의 '대시보드로 이동' 까지 한 줄에 들어가도록 로고·글자·간격을 조금씩 줄인다. */
+/* 374px 이하: 로그인 상태의 닉네임까지 한 줄에 들어가도록 로고·글자·간격을 조금씩 줄인다. */
 @media (max-width: 374px) {
   .site-header__inner {
     gap: 8px;
