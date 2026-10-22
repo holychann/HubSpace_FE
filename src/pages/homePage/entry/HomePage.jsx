@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { useEffect, useState, useSyncExternalStore } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './HomePage.css'
 import HomeOrbit from '../component/HomeOrbit'
 import HomeProblem from '../component/HomeProblem'
@@ -8,7 +8,7 @@ import HomeMethods from '../component/HomeMethods'
 import hubspaceLogo from '../../../assets/default/hubspace-logo.png'
 import CopyIcon from '../../../assets/home/home-copy.svg?react'
 import GoogleIcon from '../../../assets/home/home-google.svg?react'
-import { getStoredAccessToken, hasValidSession } from '../../../utils/authStorage'
+import { getAuthEventName, getStoredAccessToken, hasValidSession } from '../../../utils/authStorage'
 import { isLocalPreviewMode } from '../../../mocks/localPreview'
 import { recoverAuthSession } from '../../../apis/ApiClient'
 import { AuthChecking } from '../../../components/authGate/AuthGate'
@@ -18,6 +18,16 @@ const CONTACT_PATH = '/contact'
 
 const startGoogleLogin = () => {
   window.location.href = `${import.meta.env.VITE_SERVER_DOMAIN}/oauth2/authorization/google`
+}
+
+const subscribeToSession = (onChange) => {
+  const authEventName = getAuthEventName()
+  window.addEventListener(authEventName, onChange)
+  window.addEventListener('storage', onChange)
+  return () => {
+    window.removeEventListener(authEventName, onChange)
+    window.removeEventListener('storage', onChange)
+  }
 }
 
 // 주소에 #을 남기지 않고 같은 페이지의 구간으로 이동한다. 동작 줄이기 설정이면 바로 이동한다.
@@ -32,25 +42,44 @@ const scrollToSection = (event) => {
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const hasSession = isLocalPreviewMode || hasValidSession()
+  const { hash, key: locationKey } = useLocation()
+  const validSession = useSyncExternalStore(subscribeToSession, hasValidSession)
+  const hasSession = isLocalPreviewMode || validSession
   // 만료된 access 토큰이 남아 있으면 refresh 쿠키로 로그인이 이어질 수 있어, 그때만 서버에 확인하며 기다린다.
   // 토큰이 아예 없으면 로그아웃 상태다(refresh 가 401 이면 토큰을 지운다). 서버에 묻지 않고 바로 홈을 보인다.
   const [checkingSession, setCheckingSession] = useState(() => !hasSession && !!getStoredAccessToken())
 
-  // 복구되면 대시보드로 보내고, 실패하면(401·일시 오류) 홈을 보인다.
+  // 세션 복구 여부와 관계없이 홈을 유지하고, 로그인 상태에 맞춰 이동 버튼을 표시한다.
   useEffect(() => {
     if (!checkingSession) return undefined
 
     let active = true
-    recoverAuthSession()
-      .then(() => active && navigate('/dashboard', { replace: true }))
-      .catch(() => active && setCheckingSession(false))
+    const finishChecking = () => {
+      if (active) setCheckingSession(false)
+    }
+    recoverAuthSession().then(finishChecking, finishChecking)
     return () => {
       active = false
     }
-  }, [checkingSession, navigate])
+  }, [checkingSession])
 
-  if (hasSession) return <Navigate to='/dashboard' replace />
+  // 관리 화면에서 /#how 로 돌아올 때도 홈의 내부 스크롤 영역을 이동한다.
+  useEffect(() => {
+    if (checkingSession) return
+
+    if (hash) {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'instant', block: 'start' })
+    } else {
+      document.querySelector('.home')?.scrollTo({ top: 0, behavior: 'instant' })
+    }
+  }, [hash, locationKey, checkingSession])
+
+  const handleStart = () => {
+    if (hasSession) navigate('/dashboard')
+    else startGoogleLogin()
+  }
+  const primaryButtonClassName = `home-button home-button--primary${hasSession ? ' home-button--dashboard' : ''}`
+
   if (checkingSession) return <AuthChecking />
 
   return (
@@ -71,9 +100,9 @@ export default function HomePage() {
             <button
               type='button'
               className='home-header__link home-header__link--login'
-              onClick={startGoogleLogin}
+              onClick={handleStart}
             >
-              로그인
+              {hasSession ? '대시보드로 이동' : '로그인'}
             </button>
           </nav>
         </div>
@@ -91,9 +120,9 @@ export default function HomePage() {
               <span className='home-hero__lead-line'>신청자가 직접 결과를 확인해요.</span>
             </p>
             <div className='home-hero__actions'>
-              <button type='button' className='home-button home-button--primary' onClick={startGoogleLogin}>
-                <GoogleIcon aria-hidden='true' />
-                Google 계정으로 시작하기
+              <button type='button' className={primaryButtonClassName} onClick={handleStart}>
+                {!hasSession && <GoogleIcon aria-hidden='true' />}
+                {hasSession ? '대시보드로 이동' : 'Google 계정으로 시작하기'}
               </button>
               <a href='#how' className='home-hero__link' onClick={scrollToSection}>
                 이용 방법 보기
@@ -117,9 +146,9 @@ export default function HomePage() {
                   첫 조회 페이지를 만들어 보세요
                 </h2>
                 <p className='home-closing__lead'>이벤트를 만들면 공유할 링크가 바로 생겨요.</p>
-                <button type='button' className='home-button home-button--primary' onClick={startGoogleLogin}>
-                  <GoogleIcon aria-hidden='true' />
-                  Google 계정으로 시작하기
+                <button type='button' className={primaryButtonClassName} onClick={handleStart}>
+                  {!hasSession && <GoogleIcon aria-hidden='true' />}
+                  {hasSession ? '대시보드로 이동' : 'Google 계정으로 시작하기'}
                 </button>
               </div>
 

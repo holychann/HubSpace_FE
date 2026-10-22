@@ -62,6 +62,11 @@
   color: var(--color-white);
 }
 
+.home-button--dashboard {
+  min-width: 234px;
+  padding: 0 24px;
+}
+
 /* Google 로그인으로 시작하므로 공식 색 그대로의 G 로고를 붙인다. */
 .home-button--primary svg {
   flex-shrink: 0;
@@ -1074,6 +1079,10 @@
 
 /* 767px 이하: 모바일 */
 @media (max-width: 767px) {
+  .home-button--dashboard {
+    min-width: 0;
+  }
+
   .home-container {
     padding: 0 20px;
   }

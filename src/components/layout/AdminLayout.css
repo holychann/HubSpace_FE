@@ -1,5 +1,5 @@
 .adminLayout {
-  --admin-header-height: 56px;
+  --admin-header-height: 100px;
 
   background-color: var(--color-background);
   height: 100svh;
@@ -13,6 +13,6 @@
 
 @media (min-width: 1024px) {
   .adminLayout {
-    --admin-header-height: 65px;
+    --admin-header-height: 72px;
   }
 }
