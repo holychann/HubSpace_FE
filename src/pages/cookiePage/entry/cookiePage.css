@@ -27,7 +27,7 @@
 
 .cookiePage-text {
   color: #2b2f5f;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 15px;
   font-weight: var(--font-medium);
   line-height: 1.5;

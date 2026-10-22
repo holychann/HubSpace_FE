@@ -1,39 +1,12 @@
 /* 폰트를 불러오고, 관련 변수를 관리합니다. */
+
+/* Pretendard 가변 폰트. 글자 범위별로 잘게 나눈 파일이라 화면에 쓰인 글자의 파일만 내려받는다. */
+@import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+
 :root {
+  --font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-light: 300;
   --font-regular: 400;
   --font-medium: 500;
   --font-bold: 700;
-}
-
-/* Light */
-@font-face {
-  font-family: 'SpoqaHanSansNeo';
-  src: url('../assets/font/SpoqaHanSansNeo-Light.woff2') format('woff2');
-  font-display: optional;
-  font-weight: 300;
-}
-
-/* Regular */
-@font-face {
-  font-family: 'SpoqaHanSansNeo';
-  src: url('../assets/font/SpoqaHanSansNeo-Regular.woff2') format('woff2');
-  font-display: optional;
-  font-weight: 400;
-}
-
-/* Medium */
-@font-face {
-  font-family: 'SpoqaHanSansNeo';
-  src: url('../assets/font/SpoqaHanSansNeo-Medium.woff2') format('woff2');
-  font-display: optional;
-  font-weight: 500;
-}
-
-/* Bold */
-@font-face {
-  font-family: 'SpoqaHanSansNeo';
-  src: url('../assets/font/SpoqaHanSansNeo-Bold.woff2') format('woff2');
-  font-display: optional;
-  font-weight: 700;
 }

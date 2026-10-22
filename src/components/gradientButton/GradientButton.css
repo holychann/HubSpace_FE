@@ -2,7 +2,7 @@
 /* 모바일 */
 .gradient-button {
   color: var(--color-text);
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-weight: var(--font-bold);
   line-height: normal;
   font-size: 14px;

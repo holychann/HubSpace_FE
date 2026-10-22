@@ -47,7 +47,7 @@
 
 .user-detail__loadingText {
   color: #2b2f5f;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: var(--font-medium);
   line-height: 1.4;
@@ -56,7 +56,7 @@
 /* 페이지 제목 */
 .user-detail__title {
   color: var(--color-text);
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 16px;
   font-weight: var(--font-medium);
   line-height: normal;
@@ -71,7 +71,7 @@
 /* 설명 텍스트 */
 .user-detail__description {
   color: var(--color-text-additional);
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
 
   font-weight: var(--font-light);
@@ -103,7 +103,7 @@
 /* 라벨 스타일 */
 .user-detail__label {
   color: var(--color-text);
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 15px;
   font-weight: var(--font-regular);
   line-height: normal;
@@ -114,7 +114,7 @@
 /* 입력 필드 스타일 */
 .user-detail__input {
   color: var(--color-text);
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 16px;
   font-weight: var(--font-regular);
   line-height: normal;

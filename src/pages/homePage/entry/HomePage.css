@@ -96,7 +96,7 @@
   text-align: center;
 }
 
-/* 화면의 주인공은 아래 궤도 그림이라 제목은 Medium 굵기로 조용하게 둔다. */
+/* 작은 줄은 Medium, 큰 줄은 Bold 로 둔다(이용 방법 하단 시작하기와 같은 굵기). */
 .home-hero__title {
   font-weight: var(--font-medium);
   color: var(--color-text-strong);
@@ -116,6 +116,7 @@
 
 .home-hero__solution {
   font-size: 56px;
+  font-weight: var(--font-bold);
   line-height: 1.2;
   letter-spacing: -0.035em;
   color: var(--color-text);

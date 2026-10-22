@@ -53,7 +53,7 @@
 
 ## 3. 타이포그래피
 
-글꼴은 `SpoqaHanSansNeo` 하나이며 굵기는 `--font-light`(300), `--font-regular`(400), `--font-medium`(500), `--font-bold`(700)만 쓴다 (`src/styles/font.css`).
+글꼴은 Pretendard 가변 폰트(`pretendard` 패키지의 dynamic subset) 하나이며, 글꼴 이름은 직접 쓰지 않고 `var(--font-family)`로 지정한다. 굵기는 `--font-light`(300), `--font-regular`(400), `--font-medium`(500), `--font-bold`(700)만 쓴다 (`src/styles/font.css`).
 
 | 역할 | 크기 / 굵기 | 예 |
 |---|---|---|

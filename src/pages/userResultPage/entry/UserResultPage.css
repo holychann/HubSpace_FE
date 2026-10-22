@@ -24,7 +24,7 @@
 
 .user-result__loadingText {
   color: #2b2f5f;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: var(--font-medium);
   line-height: 1.4;
@@ -46,7 +46,7 @@ li[data-sonner-toast][data-type='info'].user-result__syncToast {
     0 20px 48px rgba(37, 45, 92, 0.14),
     inset 0 1px 0 rgba(255, 255, 255, 0.96);
   color: var(--color-text);
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
 }
 
 li[data-sonner-toast].user-result__syncToast [data-icon] {
@@ -77,7 +77,7 @@ li[data-sonner-toast].user-result__syncToast [data-content] {
 
 li[data-sonner-toast].user-result__syncToast [data-title] {
   color: #181a7a;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 15px;
   font-weight: var(--font-medium);
   line-height: 1.45;
@@ -86,7 +86,7 @@ li[data-sonner-toast].user-result__syncToast [data-title] {
 
 li[data-sonner-toast].user-result__syncToast [data-description] {
   color: #595d73;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 13px;
   font-weight: var(--font-light);
   line-height: 1.55;
@@ -257,7 +257,7 @@ li[data-sonner-toast].user-result__syncToast
 
 .user-result__status-title {
   color: #181a7a;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 20px;
   font-weight: var(--font-medium);
   line-height: 1.22;
@@ -268,7 +268,7 @@ li[data-sonner-toast].user-result__syncToast
 
 .user-result__status-subtitle {
   color: #595d73;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: var(--font-light);
   line-height: 1.55;
@@ -300,7 +300,7 @@ li[data-sonner-toast].user-result__syncToast
 
 .user-result__info-label {
   color: #4f5266;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 1em;
   font-weight: var(--font-light);
   line-height: 1.4;
@@ -309,7 +309,7 @@ li[data-sonner-toast].user-result__syncToast
 
 .user-result__info-value {
   color: #181a7a;
-  font-family: 'SpoqaHanSansNeo', sans-serif;
+  font-family: var(--font-family);
   font-size: 1em;
   font-weight: var(--font-medium);
   line-height: 1.4;
