@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useId, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import '../../homePage/entry/HomePage.css'
 import './ContactPage.css'
@@ -32,6 +32,40 @@ const FAQS = [
       '공유받은 링크와 입력한 정보를 먼저 확인해 주세요. 신청 여부·선발 결과·납부 정보는 해당 행사 운영진에게 문의해 주세요. 서비스 화면에 오류가 생겼다면 아래 이메일로 알려주세요.',
   },
 ]
+
+// <details> 는 열고 닫을 때 높이를 애니메이션할 수 없어서 버튼과 펼침 영역으로 만든다.
+// 닫힌 답은 inert 로 화면 낭독기와 탭 이동에서 뺀다.
+function FaqItem({ question, answer }) {
+  const [open, setOpen] = useState(false)
+  const answerId = useId()
+
+  return (
+    <div className={`contact-faq__item${open ? ' contact-faq__item--open' : ''}`}>
+      <button
+        type='button'
+        className='contact-faq__question'
+        aria-expanded={open}
+        aria-controls={answerId}
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        <span className='contact-faq__question-text'>
+          {question.map((line, index) => (
+            <span key={line} className='contact__mobile-line'>
+              {index > 0 && ' '}
+              {line}
+            </span>
+          ))}
+        </span>
+        <ChevronIcon className='contact-faq__icon' aria-hidden='true' />
+      </button>
+      <div id={answerId} className='contact-faq__panel' inert={!open}>
+        <div className='contact-faq__panel-inner'>
+          <p className='contact-faq__answer'>{answer}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 // 문의하기 화면 (Figma 'Contact v3'). 로그인 없이 보이며, 헤더는 홈과 같다.
 // 홈의 스크롤 영역·헤더 스타일을 그대로 쓰려고 루트에 home 클래스를 함께 둔다.
@@ -80,20 +114,7 @@ export default function ContactPage() {
             {/* 항목마다 따로 열고 닫는다. */}
             <div className='contact-faq__list'>
               {FAQS.map(({ question, answer }) => (
-                <details key={question.join(' ')} className='contact-faq__item'>
-                  <summary className='contact-faq__question'>
-                    <span className='contact-faq__question-text'>
-                      {question.map((line, index) => (
-                        <span key={line} className='contact__mobile-line'>
-                          {index > 0 && ' '}
-                          {line}
-                        </span>
-                      ))}
-                    </span>
-                    <ChevronIcon className='contact-faq__icon' aria-hidden='true' />
-                  </summary>
-                  <p className='contact-faq__answer'>{answer}</p>
-                </details>
+                <FaqItem key={question.join(' ')} question={question} answer={answer} />
               ))}
             </div>
           </section>
