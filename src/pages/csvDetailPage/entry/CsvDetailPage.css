@@ -135,10 +135,6 @@
   text-align: center;
 }
 
-.csvDetail-status__spinner {
-  margin: 0 0 4px;
-}
-
 .csvDetail-status__title {
   font-size: 18px;
   font-weight: var(--font-medium);

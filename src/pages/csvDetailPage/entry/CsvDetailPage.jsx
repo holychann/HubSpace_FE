@@ -6,9 +6,9 @@ import EventButton from '../../../components/eventButton/EventButton'
 import CsvFileUpload from '../../../components/csvFileUpload/CsvFileUpload'
 import CsvColumnSelect from '../../../components/csvColumnSelect/CsvColumnSelect'
 import CsvPreview from '../../../components/csvPreview/CsvPreview'
-import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
 import ConfirmModal from '../../../components/confirmModal/ConfirmModal'
 import { Icon } from '../../../components/icon/Icon'
+import CurrentSettingsSkeleton from '../component/CurrentSettingsSkeleton'
 import { fetchFileEventDetail } from '../apis/fetchFileEventDetail'
 import { replaceFileDataset } from '../apis/replaceFileDataset'
 import { parseCsvDataset } from '../../../utils/csvDatasetParser'
@@ -226,21 +226,16 @@ function CsvDatasetEditor({ eventId }) {
 
   const goDashboard = () => navigate('/dashboard')
 
-  const renderStatus = ({ title, message, isLoading = false }) => (
-    <div className='csvDetail-status' role={isLoading ? undefined : 'alert'}>
-      {isLoading && (
-        <LoadingSpinner className='csvDetail-status__spinner' size={48} cubeSize={16} color='#2d3b86' />
-      )}
+  const renderStatus = ({ title, message }) => (
+    <div className='csvDetail-status' role='alert'>
       <div className='csvDetail-status__title'>{title}</div>
       {message && <div className='csvDetail-status__message'>{message}</div>}
-      {!isLoading && (
-        <div className='csvDetail-status__actions'>
-          <button type='button' className='csvDetail-secondaryButton' onClick={goDashboard}>
-            대시보드로 돌아가기
-          </button>
-          <EventButton text='다시 시도' onClick={handleRetryLoad} />
-        </div>
-      )}
+      <div className='csvDetail-status__actions'>
+        <button type='button' className='csvDetail-secondaryButton' onClick={goDashboard}>
+          대시보드로 돌아가기
+        </button>
+        <EventButton text='다시 시도' onClick={handleRetryLoad} />
+      </div>
     </div>
   )
 
@@ -250,7 +245,8 @@ function CsvDatasetEditor({ eventId }) {
   if (loadError) {
     content = renderStatus({ title: '이벤트 정보를 불러오지 못했습니다', message: loadError })
   } else if (!event) {
-    content = renderStatus({ title: '이벤트 정보를 불러오는 중입니다', isLoading: true })
+    // 변경할 수 없는 이벤트일 수도 있어 파일 선택 영역은 정보를 받은 뒤에 보여 준다.
+    content = <CurrentSettingsSkeleton />
   } else if (blockedReason) {
     content = renderStatus({ title: '파일을 변경할 수 없는 이벤트입니다', message: blockedReason })
   } else {
