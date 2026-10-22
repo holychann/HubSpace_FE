@@ -138,7 +138,7 @@ export default function HomeOrbit() {
 
       <div className='home-orbit__search'>
         {/* 동명이인이 없도록 이름 + 생년월일(6자리) 예시를 쓴다. */}
-        <span className='home-orbit__value'>박서윤</span>
+        <span className='home-orbit__value'>김허브</span>
         <span className='home-orbit__divider' />
         <span className='home-orbit__value'>040817</span>
         <span className='home-orbit__button'>
