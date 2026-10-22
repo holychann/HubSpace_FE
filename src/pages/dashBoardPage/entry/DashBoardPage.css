@@ -155,32 +155,11 @@
   padding: 20px 8px;
 }
 
-.dashBoard-loadingState {
-  min-height: 320px;
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 249, 255, 0.98) 100%);
-  border: 1px solid rgba(177, 188, 228, 0.45);
-  box-shadow:
-    0 28px 50px rgba(57, 74, 138, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+/* 스켈레톤 카드 사이 간격을 실제 목록과 같게 한다. */
+.dashBoard-skeletonList {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  padding: 40px 24px;
-}
-
-.dashBoard-loadingState__spinner {
-  margin: 0;
-}
-
-.dashBoard-loadingState__text {
-  font-size: 15px;
-  font-weight: var(--font-medium);
-  color: var(--color-text-additional);
-  text-align: center;
+  gap: inherit;
 }
 
 .dashBoard-emptyState {
@@ -281,16 +260,6 @@
 }
 
 @media (max-width: 960px) {
-  .dashBoard-loadingState {
-    min-height: 260px;
-    border-radius: 22px;
-    padding: 32px 20px;
-  }
-
-  .dashBoard-loadingState__text {
-    font-size: 14px;
-  }
-
   .dashBoard-emptyState {
     min-height: 300px;
     padding: 40px 20px;

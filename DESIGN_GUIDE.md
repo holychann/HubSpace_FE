@@ -137,6 +137,7 @@
 ### 5.6 진행·알림
 
 - 화면 전체 작업: 고정 오버레이 `rgba(240, 244, 255, 0.68)` + `backdrop-filter: blur(4px)` + `LoadingSpinner`(`color='#2d3b86'`, size 48) + 15px medium 문구.
+- 데이터 조회 대기: 내용이 들어올 자리에 `Skeleton`(`src/components/skeleton`)을 실제 요소와 같은 크기로 둔다. 감싸는 요소에 `role='status'`와 `aria-label`로 불러오는 중임을 알린다. 대시보드 카드 목록(`EventItemSkeleton`)과 헤더 닉네임이 이 방식이다.
 - 확인 모달에서 시작한 작업(이벤트 삭제, 파일 변경): 별도 오버레이 없이 모달의 확인 버튼이 스피너와 "삭제 중..." 같은 문구로 진행 상태를 보여준다.
 - 결과 알림: `sonner` 토스트, 상단 가운데, 기본 2초, `richColors` (`src/App.jsx`).
 - 문구 톤: 성공은 "~되었습니다!", 실패는 "~에 실패했습니다.", 요청은 "~해주세요."

@@ -5,7 +5,10 @@ import EventCreateModal from '../component/EventCreateModal'
 import EventTitleEditModal from '../component/EventTitleEditModal'
 import EventButton from '../../../components/eventButton/EventButton'
 import { useFetchEvents } from '../apis/fetchEvents'
-import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
+import EventItemSkeleton from '../component/EventItemSkeleton'
+import Skeleton from '../../../components/skeleton/Skeleton'
+
+const SKELETON_COUNT = 3
 
 export default function DashBoardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -19,21 +22,17 @@ export default function DashBoardPage() {
         <div className='dashBoard-header__header'>
           <div className='dashBoard-header__title'>내 이벤트</div>
           <div className='dashBoard-header__info'>
-            {loading ? '이벤트를 불러오는 중입니다.' : `총 ${count}개의 이벤트를 관리하고 있어요.`}
+            {loading ? <Skeleton width={240} height={16} /> : `총 ${count}개의 이벤트를 관리하고 있어요.`}
           </div>
         </div>
         <EventButton text='+ 새 이벤트' onClick={() => setIsModalOpen(true)} />
       </div>
       <div className='dashBoard-eventList'>
         {loading && (
-          <div className='dashBoard-loadingState'>
-            <LoadingSpinner
-              className='dashBoard-loadingState__spinner'
-              size={48}
-              cubeSize={16}
-              color='#2d3b86'
-            />
-            <div className='dashBoard-loadingState__text'>이벤트 목록을 불러오는 중입니다</div>
+          <div className='dashBoard-skeletonList' role='status' aria-label='이벤트 목록을 불러오는 중입니다'>
+            {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+              <EventItemSkeleton key={index} />
+            ))}
           </div>
         )}
         {!loading && error && (

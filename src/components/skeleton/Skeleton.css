@@ -1,0 +1,31 @@
+/* 색은 디자인 가이드의 연한 파랑 테두리 값(rgba(183, 193, 231, a))을 쓴다. */
+.skeleton {
+  display: inline-block;
+  flex-shrink: 0;
+  max-width: 100%;
+  vertical-align: middle;
+  background: linear-gradient(
+    90deg,
+    rgba(183, 193, 231, 0.2) 0%,
+    rgba(183, 193, 231, 0.42) 50%,
+    rgba(183, 193, 231, 0.2) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeletonShimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
