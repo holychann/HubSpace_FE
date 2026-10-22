@@ -651,6 +651,8 @@
   line-height: 1.5;
   white-space: nowrap;
   cursor: pointer;
+  /* iOS 는 버튼을 누르는 순간 반투명 검은 사각형을 띄운다. 선택 표시는 흰 막대가 맡으므로 끈다. */
+  -webkit-tap-highlight-color: transparent;
   transition: color 0.2s ease;
 }
 
