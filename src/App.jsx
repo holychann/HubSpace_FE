@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { AppRouter } from './components/AppRouter'
 import styles from './App.module.css'
@@ -7,6 +7,38 @@ import { getAccessToken, getAuthEventName, getRefreshDelay, isExchangePath } fro
 import { authRefresher, handleAuthFailure } from './apis/ApiClient'
 
 function App() {
+  const [fontStatus, setFontStatus] = useState(() => (document.fonts ? 'loading' : 'ready'))
+
+  useEffect(() => {
+    if (!document.fonts) return undefined
+
+    let active = true
+    const finish = (status) => {
+      if (!active) return
+      active = false
+      window.clearTimeout(timeoutId)
+      setFontStatus(status)
+    }
+    const timeoutId = window.setTimeout(() => finish('fallback'), 2000)
+    const frameId = window.requestAnimationFrame(() => {
+      // 숨긴 화면의 레이아웃을 계산해야 실제로 필요한 글자의 폰트 요청이 시작된다.
+      document.body.getBoundingClientRect()
+      document.fonts.ready.then(
+        () => {
+          const failed = Array.from(document.fonts).some((font) => font.status === 'error')
+          finish(failed ? 'fallback' : 'ready')
+        },
+        () => finish('fallback'),
+      )
+    })
+
+    return () => {
+      active = false
+      window.clearTimeout(timeoutId)
+      window.cancelAnimationFrame(frameId)
+    }
+  }, [])
+
   useEffect(() => {
     let timeoutId = null
 
@@ -55,7 +87,7 @@ function App() {
   }, [])
 
   return (
-    <div className={styles.app}>
+    <div className={styles.app} data-font-status={fontStatus}>
       <RouterProvider router={AppRouter} />
       <Toaster
         className={styles.toaster}

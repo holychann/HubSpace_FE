@@ -7,6 +7,19 @@
   font-weight: var(--font-regular);
 }
 
+.app[data-font-status='loading'] {
+  visibility: hidden;
+}
+
+.app[data-font-status='loading'] :global(.home-hero__copy),
+.app[data-font-status='loading'] :global(.home-orbit) {
+  animation-play-state: paused;
+}
+
+.app[data-font-status='fallback'] {
+  --font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
 .toast[data-sonner-toast][data-styled='true'] {
   --normal-bg: #253173;
   --normal-border: rgb(255 255 255 / 0.2);
