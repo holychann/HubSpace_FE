@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import './HomePage.css'
 import HomeOrbit from '../component/HomeOrbit'
 import HomeProblem from '../component/HomeProblem'
@@ -7,7 +7,7 @@ import HomeSteps from '../component/HomeSteps'
 import HomeMethods from '../component/HomeMethods'
 import hubspaceLogo from '../../../assets/default/hubspace-logo.png'
 import CopyIcon from '../../../assets/home/home-copy.svg?react'
-import { hasValidSession } from '../../../utils/authStorage'
+import { getStoredAccessToken, hasValidSession } from '../../../utils/authStorage'
 import { isLocalPreviewMode } from '../../../mocks/localPreview'
 import { recoverAuthSession } from '../../../apis/ApiClient'
 import { AuthChecking } from '../../../components/authGate/AuthGate'
@@ -31,14 +31,14 @@ const scrollToSection = (event) => {
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const [checkingSession, setCheckingSession] = useState(true)
+  const hasSession = isLocalPreviewMode || hasValidSession()
+  // 만료된 access 토큰이 남아 있으면 refresh 쿠키로 로그인이 이어질 수 있어, 그때만 서버에 확인하며 기다린다.
+  // 토큰이 아예 없으면 로그아웃 상태다(refresh 가 401 이면 토큰을 지운다). 서버에 묻지 않고 바로 홈을 보인다.
+  const [checkingSession, setCheckingSession] = useState(() => !hasSession && !!getStoredAccessToken())
 
-  // access 토큰이 없거나 만료됐어도 refresh 쿠키가 유효하면 대시보드로 보낸다. 실패하면(401·일시 오류) 홈을 보인다.
+  // 복구되면 대시보드로 보내고, 실패하면(401·일시 오류) 홈을 보인다.
   useEffect(() => {
-    if (isLocalPreviewMode || hasValidSession()) {
-      navigate('/dashboard', { replace: true })
-      return undefined
-    }
+    if (!checkingSession) return undefined
 
     let active = true
     recoverAuthSession()
@@ -47,8 +47,9 @@ export default function HomePage() {
     return () => {
       active = false
     }
-  }, [navigate])
+  }, [checkingSession, navigate])
 
+  if (hasSession) return <Navigate to='/dashboard' replace />
   if (checkingSession) return <AuthChecking />
 
   return (
