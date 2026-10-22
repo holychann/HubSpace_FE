@@ -11,6 +11,7 @@ import UserDetailPage from '../pages/userDetailPage/entry/UserDetailPage'
 import UserResultPage from '../pages/userResultPage/entry/UserResultPage'
 import PolicyPage from '../pages/policyPage/entry/PolicyPage'
 import ContactPage from '../pages/contactPage/entry/ContactPage'
+import GuidePage from '../pages/guidePage/entry/GuidePage'
 import SeoController from './seo/SeoController'
 import AuthGate from './authGate/AuthGate'
 import FooterLayout from './footer/FooterLayout'
@@ -45,6 +46,7 @@ export const AppRouter = createBrowserRouter([
           { path: '/privacy', element: <PolicyPage type='privacy' /> },
           { path: '/terms', element: <PolicyPage type='terms' /> },
           { path: '/contact', element: <ContactPage /> },
+          { path: '/guide', element: <GuidePage /> },
 
           // AdminLayout 하위 페이지
           {

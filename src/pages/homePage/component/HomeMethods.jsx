@@ -1,7 +1,8 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import FileIcon from '../../../assets/home/home-file.svg?react'
 import FormIcon from '../../../assets/home/home-form.svg?react'
 import { getStepProgress, getStepWeights } from './methodProgress'
+import MethodTabs from './MethodTabs'
 
 // 첫 번째 방식이 기본 선택이다. description 은 모바일에서 줄을 바꿀 자리마다 나눠 둔다.
 // boundaries 는 단계가 바뀌는 프레임, lastFrame 은 영상의 마지막 프레임(JSON 의 op - 1)이다.
@@ -59,8 +60,6 @@ export default function HomeMethods() {
   const animationRef = useRef(null)
   const playerRef = useRef(null)
   const inViewRef = useRef(!('IntersectionObserver' in window))
-  const tablistRef = useRef(null)
-  const tabRefs = useRef([])
   const fillRefs = useRef([])
   const [activeIndex, setActiveIndex] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
@@ -168,48 +167,10 @@ export default function HomeMethods() {
     }
   }, [isVisible, activeIndex, isMobile])
 
-  // 토글의 흰 표시 막대를 선택된 탭 자리로 옮긴다. 두 탭의 폭이 달라 위치와 폭을 함께 잰다.
-  // 처음 자리를 잡을 때는 움직이지 않게, 자리를 잡은 다음 틀부터 이동 효과(data-ready)를 켠다.
-  useLayoutEffect(() => {
-    const tablist = tablistRef.current
-    const place = () => {
-      const tab = tabRefs.current[activeIndex]
-      tablist.style.setProperty('--indicator-x', `${tab.offsetLeft}px`)
-      tablist.style.setProperty('--indicator-w', `${tab.offsetWidth}px`)
-    }
-    place()
-    const frameId = window.requestAnimationFrame(() => {
-      tablist.dataset.ready = 'true'
-    })
-    // 글꼴이 늦게 불러와지거나 화면 폭이 바뀌어 탭 폭이 달라지면 다시 맞춘다.
-    const observer = new ResizeObserver(place)
-    tabRefs.current.forEach((tab) => observer.observe(tab))
-    return () => {
-      window.cancelAnimationFrame(frameId)
-      observer.disconnect()
-    }
-  }, [activeIndex])
-
   const selectMethod = (index) => {
     if (index === activeIndex) return
     setActiveIndex(index)
     setCurrentStep(0)
-  }
-
-  // 탭 목록 안에서는 화살표·Home·End 로 옮겨 다니고, 옮기면 바로 그 방식을 보인다.
-  const handleTabKeyDown = (event) => {
-    const lastIndex = METHODS.length - 1
-    const nextIndex = {
-      ArrowRight: activeIndex === lastIndex ? 0 : activeIndex + 1,
-      ArrowLeft: activeIndex === 0 ? lastIndex : activeIndex - 1,
-      Home: 0,
-      End: lastIndex,
-    }[event.key]
-    if (nextIndex === undefined) return
-
-    event.preventDefault()
-    selectMethod(nextIndex)
-    tabRefs.current[nextIndex].focus()
   }
 
   return (
@@ -224,28 +185,13 @@ export default function HomeMethods() {
           <span className='home-methods__line'>두 가지 방법</span>
         </h2>
 
-        <div ref={tablistRef} className='home-methods__tabs' role='tablist' aria-label='시작 방식'>
-          {METHODS.map((item, index) => (
-            <button
-              key={item.type}
-              ref={(node) => {
-                tabRefs.current[index] = node
-              }}
-              type='button'
-              role='tab'
-              id={`home-methods-tab-${item.type}`}
-              className={`home-methods__tab home-methods__tab--${item.type}`}
-              aria-selected={index === activeIndex}
-              aria-controls='home-methods-panel'
-              tabIndex={index === activeIndex ? 0 : -1}
-              onClick={() => selectMethod(index)}
-              onKeyDown={handleTabKeyDown}
-            >
-              <item.Icon aria-hidden='true' />
-              {item.title}
-            </button>
-          ))}
-        </div>
+        <MethodTabs
+          methods={METHODS}
+          activeIndex={activeIndex}
+          onSelect={selectMethod}
+          idPrefix='home-methods'
+          panelId='home-methods-panel'
+        />
 
         <div
           id='home-methods-panel'

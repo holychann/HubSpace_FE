@@ -47,7 +47,7 @@ export default function HomePage() {
     }
   }, [checkingSession])
 
-  // 관리 화면에서 /#how 로 돌아올 때도 홈의 내부 스크롤 영역을 이동한다.
+  // /#how 처럼 구간 주소로 들어와도 홈의 내부 스크롤 영역을 이동한다.
   useEffect(() => {
     if (checkingSession) return
 
@@ -64,7 +64,7 @@ export default function HomePage() {
 
   return (
     <div className='home'>
-      <Header hasSession={hasSession} onStart={handleStart} onHowClick={scrollToSection} />
+      <Header hasSession={hasSession} onStart={handleStart} />
 
       <main>
         <section className='home-hero'>

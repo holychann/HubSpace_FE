@@ -1,0 +1,833 @@
+/* 이용 방법 화면 (Figma 'Guide v3'). 960px 이하는 단계 글과 화면 예시를 세로로 쌓고, 767px 이하는 모바일 배치를 쓴다.
+   루트의 .home(HomePage.css)이 세로 스크롤·흰 배경·버튼 모양을 맡고, 헤더는 공통 Header 다. */
+
+.guide {
+  /* palette.css 에 없는 Figma 색. 다른 화면(Footer, 문의하기)에도 같은 값이 직접 쓰여 있다. */
+  --guide-border-soft: rgb(206 213 236 / 0.72);
+  --guide-link-muted: #667196;
+  --guide-accent-navy: #2d3b86;
+}
+
+/* 아래에 떠 있는 공통 푸터(Footer)에 마지막 영역이 가리지 않도록 Figma 의 푸터 높이(104px)만큼 더 비운다. */
+.guide__body {
+  display: block;
+  padding: 64px 24px calc(168px + env(safe-area-inset-bottom));
+}
+
+.guide__main {
+  display: flex;
+  flex-direction: column;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/* 소개 */
+.guide__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.guide__title {
+  font-size: 32px;
+  font-weight: var(--font-bold);
+  line-height: 1.38;
+  letter-spacing: -0.64px;
+  color: var(--color-text);
+}
+
+.guide__lead {
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -0.08px;
+  color: var(--color-text-additional);
+}
+
+/* 방식 토글은 홈 Methods 와 같은 MethodTabs 다. 홈에서는 가운데 두지만 여기서는 왼쪽에 붙인다. */
+.guide .home-methods__tabs {
+  margin: 16px 0 0;
+}
+
+.guide__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  margin-top: 16px;
+}
+
+.guide__method-description {
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: -0.075px;
+  color: var(--color-text-additional);
+}
+
+/* 단계 목록. 단계 사이에 위아래 48px 간격을 둔 구분선이 들어간다. */
+.guide-steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.guide-step {
+  display: grid;
+  grid-template-columns: minmax(0, 384fr) minmax(0, 672fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.guide-step + .guide-step {
+  margin-top: 48px;
+  padding-top: 48px;
+  border-top: 1px solid var(--guide-border-soft);
+}
+
+.guide-step__text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.guide-step__number {
+  font-size: 28px;
+  font-weight: var(--font-bold);
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  /* 서비스 대표색인 남색(로고·'대시보드로 이동'과 같은 색) */
+  color: var(--color-text);
+}
+
+.guide-step__title {
+  font-size: 24px;
+  font-weight: var(--font-bold);
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: var(--color-text);
+}
+
+.guide-step__body {
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: -0.075px;
+  color: var(--color-text-additional);
+}
+
+.guide-step__note {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: var(--color-box-default);
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: -0.039px;
+  color: var(--color-text-additional);
+}
+
+/* 화면 예시 틀 */
+.guide-mockup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px;
+  border-radius: 24px;
+  background-color: var(--color-background);
+}
+
+.guide-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  background-color: var(--color-white);
+}
+
+/* Figma 의 테두리는 안쪽 선이라 크기에 더해지지 않는다. 테두리가 있는 칸은 안쪽 여백을 1px 줄여 같은 크기로 맞춘다. */
+
+/* 모달·대시보드 카드처럼 테두리가 있는 화면 */
+.guide-card--outlined {
+  padding: 23px;
+  border: 1px solid var(--guide-border-soft);
+}
+
+.guide-card--compact {
+  gap: 12px;
+  padding: 16px;
+}
+
+.guide-card__title {
+  font-size: 15px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.075px;
+  color: var(--color-text-strong);
+}
+
+.guide-card__required,
+.guide-card__caption {
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.036px;
+}
+
+.guide-card__required {
+  color: var(--color-exit);
+}
+
+.guide-card__caption {
+  color: var(--color-text-additional);
+}
+
+/* 입력칸 */
+.guide-fields {
+  display: flex;
+  gap: 12px;
+}
+
+.guide-fields .guide-field {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.guide-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guide-field__label {
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.065px;
+  color: var(--color-text);
+}
+
+/* 드롭다운의 '이름  ⌄' 처럼 띄어 쓴 칸을 그대로 둔다. */
+.guide-field__input {
+  overflow: hidden;
+  padding: 11px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-white);
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.065px;
+  color: var(--guide-accent-navy);
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.guide-field__input--placeholder {
+  color: var(--color-input);
+}
+
+.guide-field__input--display {
+  width: 220px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.guide-notice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--color-box-conditional);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.036px;
+  color: var(--color-text-additional);
+}
+
+.guide-notice__warning {
+  color: var(--color-exit);
+}
+
+/* 새 이벤트 생성 모달 */
+.guide-modal__title {
+  font-size: 20px;
+  font-weight: var(--font-bold);
+  line-height: 1.45;
+  letter-spacing: -0.2px;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.guide-modal__description {
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: -0.039px;
+  color: var(--color-text-additional);
+  text-align: center;
+}
+
+.guide-choices {
+  display: flex;
+  gap: 16px;
+}
+
+.guide-choice {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--guide-border-soft);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.guide-choice--form {
+  background-color: var(--color-button-form-bg);
+}
+
+.guide-choice--file {
+  background-color: var(--color-button-csv-bg);
+}
+
+/* 대시보드 그림은 흰 바탕이 있어 곱하기로 섞어 칸 색이 비치게 한다. */
+.guide-choice__image {
+  height: 64px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.guide-choice__image--form {
+  width: 46px;
+}
+
+.guide-choice__image--file {
+  width: 64px;
+}
+
+.guide-choice__name {
+  font-size: 15px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.075px;
+  color: var(--color-text);
+}
+
+.guide-choice__description {
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.036px;
+  color: var(--color-text-additional);
+}
+
+/* 이벤트 생성 버튼 */
+.guide-mock-button {
+  align-self: flex-end;
+  width: 156px;
+  padding: 11px;
+  border: 1px solid var(--guide-border-soft);
+  border-radius: 12px;
+  box-sizing: border-box;
+  background-color: var(--color-white);
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.07px;
+  color: var(--color-text);
+  text-align: center;
+}
+
+/* 대시보드 이벤트 카드 */
+.guide-event__title {
+  font-size: 18px;
+  font-weight: var(--font-bold);
+  line-height: 1.45;
+  letter-spacing: -0.18px;
+  color: var(--color-text-strong);
+}
+
+.guide-badges {
+  display: flex;
+  gap: 8px;
+}
+
+/* 배지 폭은 Figma 값 그대로 고정한다. */
+.guide-badge {
+  align-self: flex-start;
+  padding: 8px 0;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.036px;
+  text-align: center;
+  white-space: pre;
+}
+
+.guide-badge--active {
+  width: 50px;
+  background-color: var(--color-active-bg);
+  color: var(--color-active);
+}
+
+.guide-badge--form {
+  width: 40px;
+  background-color: var(--color-button-form-bg);
+  color: var(--color-button-form);
+}
+
+.guide-badge--file {
+  width: 48px;
+  background-color: var(--color-button-csv-bg);
+  color: var(--color-main);
+}
+
+.guide-badge--chip {
+  width: 76px;
+  background-color: var(--color-button-csv-bg);
+  color: var(--guide-accent-navy);
+}
+
+.guide-event__file,
+.guide-event__meta {
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.036px;
+}
+
+.guide-event__file {
+  color: var(--guide-link-muted);
+}
+
+.guide-event__meta {
+  color: var(--color-text-additional);
+  white-space: pre;
+}
+
+.guide-links {
+  display: flex;
+  gap: 12px;
+}
+
+.guide-link {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.guide-link--view {
+  background-color: var(--color-box-view);
+  color: var(--color-action-view);
+}
+
+.guide-link--apply {
+  background-color: var(--color-box-apply);
+  color: var(--color-action-apply);
+}
+
+.guide-link__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.guide-link__label {
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.065px;
+}
+
+.guide-link__url {
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.036px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guide-link__icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+/* 명단 파일 표 */
+.guide-roster__name {
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.065px;
+  color: var(--color-text-strong);
+}
+
+/* 머리 행 배경이 테두리를 덮지 않도록 테두리를 표 위에 덧그린다. */
+.guide-roster {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.guide-roster::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--guide-border-soft);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.guide-roster__table {
+  width: 100%;
+  table-layout: fixed;
+  text-align: left;
+}
+
+/* 열 폭은 Figma 비율(150 : 258 : 192)을 따른다. */
+.guide-roster__col--name {
+  width: 25%;
+}
+
+.guide-roster__col--id {
+  width: 43%;
+}
+
+.guide-roster__table th,
+.guide-roster__table td {
+  padding: 8px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.guide-roster__table th {
+  background-color: var(--color-box-conditional);
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.065px;
+  color: var(--color-text);
+}
+
+.guide-roster__table td {
+  line-height: 1.55;
+  letter-spacing: -0.039px;
+  color: var(--color-text-strong);
+}
+
+/* 파일 업로드 */
+.guide-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 15px;
+  border: 1px solid var(--guide-border-soft);
+  border-radius: 16px;
+  background-color: var(--color-button-csv-bg);
+}
+
+.guide-upload__icon {
+  flex-shrink: 0;
+  color: var(--guide-accent-navy);
+}
+
+.guide-upload__title {
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.07px;
+  color: var(--color-text-strong);
+}
+
+.guide-upload__description {
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.036px;
+  color: var(--color-text-additional);
+}
+
+.guide-upload__file {
+  width: 220px;
+  max-width: 100%;
+  padding: 8px;
+  border-radius: 999px;
+  box-sizing: border-box;
+  background-color: var(--color-white);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -0.036px;
+  color: var(--guide-link-muted);
+  text-align: center;
+}
+
+/* 조회 화면 → 조회 결과. 화살표는 두 화면 중 긴 쪽 높이의 가운데에 온다. */
+.guide-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.guide-compare__arrow {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
+
+.guide-compare__arrow-down {
+  display: none;
+}
+
+.guide-shot {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.guide-shot__label {
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  letter-spacing: -0.065px;
+  color: var(--guide-link-muted);
+}
+
+/* 스크린샷은 Figma 가 보여 주는 부분만 잘라 두었다. 틀 비율만 Figma 에 맞추고 위쪽부터 채운다. */
+.guide-shot__frame {
+  --shot-ratio: 288 / 334.013;
+  overflow: hidden;
+  aspect-ratio: var(--shot-ratio);
+  border-radius: 15px;
+}
+
+.guide-shot__frame--result {
+  --shot-ratio: 288 / 391.195;
+}
+
+.guide--file .guide-shot__frame--result {
+  --shot-ratio: 288 / 440.156;
+}
+
+.guide-shot__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* 시작하기. 홈 첫 화면처럼 배경 상자 없이 작은 줄과 큰 줄의 두 줄 제목, 부제, 버튼과 글자 링크를 세로로 둔다.
+   페이지 끝의 마무리라 첫 화면보다 한 단계 작게 쓴다. 작은 줄은 회색 Medium, 큰 줄은 남색 Bold 로 둔다. */
+.home .guide-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 160px;
+  text-align: center;
+}
+
+.guide-start__title {
+  color: var(--color-text-strong);
+}
+
+.guide-start__problem,
+.guide-start__solution {
+  display: block;
+}
+
+.guide-start__problem {
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: var(--font-medium);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--color-text-additional);
+}
+
+.guide-start__solution {
+  font-size: 40px;
+  font-weight: var(--font-bold);
+  line-height: 1.3;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+.guide-start__lead {
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -0.08px;
+  color: var(--color-text-additional);
+}
+
+.guide-start__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 36px;
+}
+
+/* 버튼 아래 보조 링크. 버튼보다 눈에 덜 띄게 작은 회색 밑줄 글자로 둔다. */
+.guide-start__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-additional);
+  text-decoration: underline;
+  text-decoration-color: rgb(67 65 79 / 0.4);
+  text-underline-offset: 4px;
+  transition: color 0.15s ease;
+}
+
+@media (hover: hover) {
+  .guide-start__link:hover {
+    color: var(--color-text-strong);
+    text-decoration-color: currentColor;
+  }
+}
+
+/* 기기에 따라 줄을 나누거나 숨기는 단위. 데스크탑에서는 한 줄로 이어 쓴다. */
+.guide__mobile-line {
+  display: inline;
+}
+
+/* 960px 이하: 단계 글 아래에 화면 예시를 둔다. */
+@media (max-width: 960px) {
+  .guide-step {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+}
+
+/* 767px 이하: 모바일 */
+@media (max-width: 767px) {
+  .guide__body {
+    padding: 40px 20px calc(141px + env(safe-area-inset-bottom));
+  }
+
+  .guide__title {
+    font-size: 28px;
+    line-height: 1.4;
+    letter-spacing: -0.56px;
+  }
+
+  .guide-step + .guide-step {
+    margin-top: 40px;
+    padding-top: 40px;
+  }
+
+  .guide-step__title {
+    font-size: 20px;
+    line-height: 1.45;
+    letter-spacing: -0.2px;
+  }
+
+  .guide-mockup {
+    padding: 12px;
+  }
+
+  .guide-card {
+    padding: 16px;
+  }
+
+  .guide-card--outlined {
+    padding: 15px;
+  }
+
+  .guide-choices,
+  .guide-fields,
+  .guide-links {
+    flex-direction: column;
+  }
+
+  .guide-fields .guide-field,
+  .guide-choice,
+  .guide-link {
+    flex: none;
+  }
+
+  .guide-mock-button {
+    width: 100%;
+  }
+
+  .guide-compare {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .guide-compare__arrow {
+    align-items: center;
+    height: 40px;
+  }
+
+  .guide-compare__arrow-right {
+    display: none;
+  }
+
+  .guide-compare__arrow-down {
+    display: block;
+  }
+
+  .guide-shot__frame {
+    --shot-ratio: 311 / 357;
+    border-radius: 16px;
+  }
+
+  .guide-shot__frame--result {
+    --shot-ratio: 311 / 375;
+  }
+
+  .guide--file .guide-shot__frame--result {
+    --shot-ratio: 311 / 405;
+  }
+
+  .home .guide-start {
+    margin-top: 120px;
+  }
+
+  .guide-start__problem {
+    margin-bottom: 4px;
+    font-size: 16px;
+  }
+
+  .guide-start__solution {
+    font-size: 28px;
+  }
+
+  .guide-start__lead {
+    margin-top: 12px;
+    font-size: 15px;
+    letter-spacing: -0.075px;
+  }
+
+  .guide-start__actions {
+    align-self: stretch;
+    margin-top: 32px;
+  }
+
+  .guide-start__actions .home-button {
+    align-self: stretch;
+  }
+
+  /* 모바일은 Figma 처럼 의미 단위로 줄을 나눈다. */
+  .guide__mobile-line {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-start__link {
+    transition: none;
+  }
+}

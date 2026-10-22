@@ -10,6 +10,7 @@
 | 공개 화면 | 조회(`/search`), 결과(`/result`), 약관 | `GradientLayout`의 그라데이션 SVG 배경 위에 가운데 정렬된 좁은 카드(최대 411px) |
 | 홈 | 홈(`/`, 로그인 버튼 포함) | 흰 바탕의 소개 화면. 공통 헤더(`src/components/header`)와 자체 푸터를 쓰고, 공통 푸터는 붙이지 않는다. 첫 화면은 궤도 그림(`HomeOrbit`), 버튼은 알약 모양(`src/pages/homePage`) |
 | 문의하기 | 문의하기(`/contact`) | 공통 헤더(`src/components/header`)와 흰 바탕에 FAQ·이메일 문의 영역. 아래에는 공통 푸터를 붙인다(`src/pages/contactPage`) |
+| 이용 방법 | 이용 방법(`/guide`) | 공통 헤더와 흰 바탕에 Google Forms·파일 업로드 탭, 단계별 설명과 화면 예시. 화면 예시는 실제 화면을 단순하게 옮긴 그림이다. 아래에는 공통 푸터를 붙인다(`src/pages/guidePage`) |
 
 관리자 화면을 새로 만들 때는 `src/pages/csvCreatePage`와 `src/pages/csvDetailPage`(파일 변경)를 기준 화면으로 삼는다. 두 화면은 데이터 파일 업로드·컬럼 선택·미리보기를 공통 컴포넌트 `CsvFileUpload`, `CsvColumnSelect`, `CsvPreview`(`src/components`)로 함께 쓴다.
 
