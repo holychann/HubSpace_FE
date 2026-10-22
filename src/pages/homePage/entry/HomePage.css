@@ -277,7 +277,7 @@
   border: 1px solid rgb(206 213 236 / 0.72);
   border-radius: 999px;
   box-sizing: border-box;
-  background-color: var(--color-white);
+  background-color: color-mix(in srgb, var(--color-white) 35%, transparent);
   box-shadow: 0 16px 40px rgb(45 59 134 / 0.12);
   transform: translateX(-50%);
 }
@@ -303,9 +303,17 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: var(--color-text);
+  background-color: color-mix(in srgb, var(--color-text) 60%, transparent);
   color: var(--color-white);
-  transition: transform 0.12s ease-out;
+  transition:
+    transform 0.12s ease-out,
+    background-color 0.22s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-orbit__button:hover {
+    background-color: color-mix(in srgb, var(--color-text) 85%, transparent);
+  }
 }
 
 .home-orbit__button:active {
@@ -373,6 +381,11 @@
 .home-orbit__result svg {
   width: 20px;
   height: 20px;
+}
+
+.home-orbit__result .result-check__ring,
+.home-orbit__result .result-check__mark {
+  stroke: currentColor;
 }
 
 /* 문제 상황: 같은 질문이 쌓인 채팅 목록 */
@@ -1133,7 +1146,9 @@
   }
 
   .home-hero__actions .home-button {
-    align-self: stretch;
+    align-self: center;
+    width: 100%;
+    max-width: 360px;
   }
 
   /* 그림 높이 408px 에 맞춰 0.7배로 줄어들어 궤도 중심이 239px 이 된다.
