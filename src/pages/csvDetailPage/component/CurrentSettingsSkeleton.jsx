@@ -11,7 +11,7 @@ export default function CurrentSettingsSkeleton() {
   return (
     <div className='csvDetail-summary' role='status' aria-label='이벤트 정보를 불러오는 중입니다'>
       <div className='csvDetail-summary__title'>현재 설정</div>
-      <dl className='csvDetail-summary__list' aria-hidden='true'>
+      <dl className='csvDetail-summary__list csvDetail-summary__list--loading' aria-hidden='true'>
         {TEXT_ROWS.map(({ label, width }) => (
           <div key={label} className='csvDetail-summary__row'>
             <dt className='csvDetail-summary__label'>{label}</dt>
@@ -24,8 +24,6 @@ export default function CurrentSettingsSkeleton() {
           <dt className='csvDetail-summary__label'>이벤트 ID</dt>
           <dd className='csvDetail-summary__value csvDetail-summary__value--id'>
             <Skeleton width={120} height={12} />
-            {/* 실제 복사 버튼과 같은 크기이고, 모바일에서 함께 숨는다. 이 칸이 행 높이를 정한다. */}
-            <Skeleton width={28} height={28} className='csvDetail-summary__copy' />
           </dd>
         </div>
         <div className='csvDetail-summary__row'>

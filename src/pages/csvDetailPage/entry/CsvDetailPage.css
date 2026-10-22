@@ -54,6 +54,12 @@
   gap: 14px;
 }
 
+/* 불러오는 동안의 카드(CurrentSettingsSkeleton)에는 복사 버튼이 없다. 실제 카드에서는 그 버튼(28px)이
+   모든 줄 높이를 정하므로 같은 높이를 직접 준다. 모바일은 아래 미디어 쿼리에서 auto 로 돌아간다. */
+.csvDetail-summary__list--loading {
+  grid-auto-rows: minmax(28px, 1fr);
+}
+
 .csvDetail-summary__row {
   display: grid;
   grid-template-columns: 160px minmax(0, 1fr);
