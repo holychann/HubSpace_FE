@@ -329,6 +329,13 @@
   text-wrap: balance;
 }
 
+/* 쉼표 뒤에서만 줄을 나눈다. 한글은 폭에 따라 어색한 자리에서 줄이 바뀌기 쉬워 직접 정한다.
+   글 칸이 좁아지는 폭(961~1100px)에서는 줄을 지키고 채팅 그림이 대신 줄어든다. */
+.home-problem__title-line {
+  display: block;
+  white-space: nowrap;
+}
+
 .home-problem__lead {
   margin-top: 16px;
   font-size: 18px;
@@ -339,7 +346,8 @@
 
 .home-chat {
   position: relative;
-  flex: 0 0 560px;
+  flex: 0 1 560px;
+  min-width: 0;
   overflow: hidden;
   border: 1px solid rgb(206 213 236 / 0.72);
   border-radius: 24px;

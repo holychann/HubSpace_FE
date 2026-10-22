@@ -49,7 +49,7 @@ export default function HomeSteps() {
     >
       <div className='home-container'>
         <h2 id='home-steps-title' className='home-section-title'>
-          세 단계로 만들어요
+          세 단계로 조회를 자동화해요
         </h2>
         <ol className='home-steps__list'>
           {STEPS.map((step, index) => (

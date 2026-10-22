@@ -143,7 +143,8 @@ export default function HomeProblem() {
         <div ref={innerRef} className='home-container home-problem__inner'>
           <div className='home-problem__copy'>
             <h2 id='home-problem-title' className='home-problem__title'>
-              아직도 하나하나 답하고 계신가요?
+              <span className='home-problem__title-line'>조회 문의,</span>{' '}
+              <span className='home-problem__title-line'>아직 직접 응대하시나요?</span>
             </h2>
             <p className='home-problem__lead'>신청이 됐는지 묻는 메시지가 끝없이 쌓여요.</p>
           </div>
