@@ -1,10 +1,7 @@
 /* 색은 디자인 가이드의 연한 파랑 테두리 값(rgba(183, 193, 231, a))을 쓴다.
    바탕은 옅게 두어 블록이 무거워 보이지 않게 하고, 지나가는 빛과의 차이는 남겨 움직임이 보이게 한다. */
-.skeleton {
-  display: inline-block;
-  flex-shrink: 0;
-  max-width: 100%;
-  vertical-align: middle;
+.skeleton,
+.skeleton-fill {
   background: linear-gradient(
     90deg,
     rgba(183, 193, 231, 0.15) 0%,
@@ -13,6 +10,23 @@
   );
   background-size: 200% 100%;
   animation: skeletonShimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton {
+  display: inline-block;
+  flex-shrink: 0;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+/* 버튼처럼 화면 폭마다 크기가 달라지는 요소는 그 요소의 크기 클래스를 그대로 두고 이 클래스로 스켈레톤처럼 보이게 한다.
+   안의 글자·아이콘은 자리만 차지하고 보이지 않는다. */
+.skeleton-fill {
+  color: transparent;
+}
+
+.skeleton-fill > * {
+  visibility: hidden;
 }
 
 @keyframes skeletonShimmer {
@@ -26,7 +40,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .skeleton {
+  .skeleton,
+  .skeleton-fill {
     animation: none;
   }
 }

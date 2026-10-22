@@ -7,7 +7,7 @@ import { AuthUnavailableError } from '../../utils/authRefresh'
 import { isLocalPreviewMode } from '../../mocks/localPreview'
 import './AuthGate.css'
 
-export function AuthChecking() {
+function AuthChecking() {
   return (
     <div className='authGate'>
       <div className='authGate-panel'>
