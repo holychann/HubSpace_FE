@@ -1053,26 +1053,56 @@
     margin-top: 32px;
   }
 
-  /* 그림 높이 408px 에 맞춰 0.7배로 줄어들어 궤도 중심이 239px 이 된다. 위 여백도 같은 비율로 줄였다. */
+  /* 그림 높이 408px 에 맞춰 0.7배로 줄어들어 궤도 중심이 239px 이 된다.
+     버튼과 그림이 붙어 보이지 않게, 버튼 아래에서 가장 바깥 궤도까지 약 72px 을 둔다. */
   .home-orbit {
     --orbit-cy: 239px;
     height: 408px;
-    margin-top: 4px;
+    margin-top: 36px;
   }
 
   .home-orbit::after {
     height: 110px;
   }
 
+  /* 검색창과 결과 뱃지도 궤도 그림처럼 0.7배로 줄인다. 글자는 0.7배면 읽기 어려워 12px 에서 멈춘다. */
   .home-orbit__search {
-    top: calc(var(--orbit-cy) - 28px);
-    width: 315px;
-    height: 56px;
-    padding-right: 4px;
+    top: calc(var(--orbit-cy) - 22px);
+    gap: 14px;
+    width: 308px;
+    height: 44px;
+    padding: 0 5px 0 20px;
+    box-shadow: 0 11px 28px rgb(45 59 134 / 0.12);
+  }
+
+  .home-orbit__value {
+    font-size: 12px;
+  }
+
+  .home-orbit__divider {
+    height: 17px;
+  }
+
+  .home-orbit__button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .home-orbit__button svg {
+    width: 15px;
+    height: 15px;
   }
 
   .home-orbit__result {
-    top: calc(var(--orbit-cy) + 44px);
+    top: calc(var(--orbit-cy) + 36px);
+    gap: 6px;
+    padding: 6px 11px 6px 7px;
+    font-size: 12px;
+  }
+
+  .home-orbit__result svg {
+    width: 14px;
+    height: 14px;
   }
 
   .home-problem {
