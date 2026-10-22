@@ -167,14 +167,29 @@
   text-align: center;
 }
 
-/* 화면의 주인공은 아래 궤도 그림이라 제목은 강조 없이 검정 한 가지, 굵기도 Medium 으로 둔다. */
+/* 화면의 주인공은 아래 궤도 그림이라 제목은 Medium 굵기로 조용하게 둔다. */
 .home-hero__title {
-  font-size: 56px;
   font-weight: var(--font-medium);
+  color: var(--color-text-strong);
+}
+
+/* 운영진이 겪는 문제는 작게, 해결은 크게 두 줄로 쌓는다(Figma Hero Copy – 운영진 메시지 비교 4안). */
+.home-hero__problem,
+.home-hero__solution {
+  display: block;
+}
+
+.home-hero__problem {
+  font-size: 32px;
+  line-height: 1.28;
+  letter-spacing: -0.03em;
+}
+
+.home-hero__solution {
+  font-size: 56px;
   line-height: 1.2;
   letter-spacing: -0.035em;
-  color: var(--color-text-strong);
-  text-wrap: balance;
+  color: var(--color-text);
 }
 
 .home-hero__lead {
@@ -1064,10 +1079,21 @@
     padding-top: 48px;
   }
 
-  .home-hero__title {
-    font-size: 38px;
+  .home-hero__problem {
+    font-size: 24px;
+  }
+
+  /* 375px 이상에서는 38px. 그보다 좁은 화면에서는 한 줄을 지키도록 폭에 맞춰 줄인다(320px 에서 약 34px). */
+  .home-hero__solution {
+    font-size: min(38px, 10.6vw);
     line-height: 1.28;
     letter-spacing: -0.03em;
+    white-space: nowrap;
+  }
+
+  /* 부제는 문장마다 줄을 바꾼다. */
+  .home-hero__lead-line {
+    display: block;
   }
 
   .home-hero__lead {

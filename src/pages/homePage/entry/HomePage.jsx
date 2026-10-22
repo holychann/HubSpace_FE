@@ -82,8 +82,14 @@ export default function HomePage() {
       <main>
         <section className='home-hero'>
           <div className='home-container home-hero__copy'>
-            <h1 className='home-hero__title'>결과 확인은 링크 하나로</h1>
-            <p className='home-hero__lead'>링크를 공유하면, 신청자가 직접 결과를 확인해요.</p>
+            <h1 className='home-hero__title'>
+              <span className='home-hero__problem'>반복되는 조회 문의</span>{' '}
+              <span className='home-hero__solution'>링크 하나로 끝내요</span>
+            </h1>
+            <p className='home-hero__lead'>
+              <span className='home-hero__lead-line'>명단을 올리고 링크만 공유하세요.</span>{' '}
+              <span className='home-hero__lead-line'>신청자가 직접 결과를 확인해요.</span>
+            </p>
             <div className='home-hero__actions'>
               <button type='button' className='home-button home-button--primary' onClick={startGoogleLogin}>
                 <GoogleIcon aria-hidden='true' />
