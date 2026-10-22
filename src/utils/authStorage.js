@@ -1,5 +1,6 @@
 import { clearEventListCache } from './eventListCache'
 import { getTokenExpiresAt, REFRESH_THRESHOLD_MS } from './authToken'
+import { clearNicknameCache } from './nicknameCache'
 
 const ACCESS_TOKEN_KEY = 'accessToken'
 const REFRESH_TOKEN_KEY = 'refreshToken'
@@ -47,15 +48,17 @@ const writeAuthSession = ({ accessToken, refreshToken }) => {
   emitAuthChange()
 }
 
-// 새 로그인은 다른 계정일 수 있으므로 이전 세션의 이벤트 목록 캐시를 비운다.
+// 새 로그인은 다른 계정일 수 있으므로 이전 세션의 이벤트 목록·닉네임 캐시를 비운다.
 export const setAuthSession = (session) => {
   clearEventListCache()
+  clearNicknameCache()
   localStorage.setItem(SESSION_ID_KEY, crypto.randomUUID())
   writeAuthSession(session)
 }
 
 export const clearAuthSession = () => {
   clearEventListCache()
+  clearNicknameCache()
   localStorage.removeItem(ACCESS_TOKEN_KEY)
   localStorage.removeItem(REFRESH_TOKEN_KEY)
   localStorage.removeItem(EXPIRES_AT_KEY)
