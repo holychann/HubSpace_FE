@@ -65,7 +65,7 @@
 
 .dashBoard-header__title {
   font-size: 28px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   letter-spacing: -0.025em;
   color: var(--color-text);
 }

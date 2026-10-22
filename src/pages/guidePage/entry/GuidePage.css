@@ -30,7 +30,7 @@
 
 .guide__title {
   font-size: 32px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.38;
   letter-spacing: -0.64px;
   color: var(--color-text);
@@ -89,7 +89,7 @@
 
 .guide-step__number {
   font-size: 28px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.4;
   letter-spacing: -0.56px;
   /* 서비스 대표색인 남색(로고·'대시보드로 이동'과 같은 색) */
@@ -98,7 +98,7 @@
 
 .guide-step__title {
   font-size: 24px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.4;
   letter-spacing: -0.36px;
   color: var(--color-text);
@@ -248,7 +248,7 @@
 /* 새 이벤트 생성 모달 */
 .guide-modal__title {
   font-size: 20px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.45;
   letter-spacing: -0.2px;
   color: var(--color-text);
@@ -339,7 +339,7 @@
 /* 대시보드 이벤트 카드 */
 .guide-event__title {
   font-size: 18px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.45;
   letter-spacing: -0.18px;
   color: var(--color-text-strong);

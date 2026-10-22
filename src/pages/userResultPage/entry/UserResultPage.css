@@ -328,7 +328,7 @@ li[data-sonner-toast].user-result__syncToast
   background: transparent;
   min-height: 54px;
   font-size: 18px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   transition:
     color 0.25s ease,
     transform 0.25s ease,

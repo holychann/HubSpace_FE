@@ -53,13 +53,13 @@
 
 ## 3. 타이포그래피
 
-글꼴은 Pretendard 가변 폰트(`pretendard` 패키지의 dynamic subset) 하나이며, 글꼴 이름은 직접 쓰지 않고 `var(--font-family)`로 지정한다. 굵기는 `--font-light`(300), `--font-regular`(400), `--font-medium`(500), `--font-bold`(700)만 쓴다 (`src/styles/font.css`).
+글꼴은 Pretendard 가변 폰트(`pretendard` 패키지의 dynamic subset) 하나이며, 글꼴 이름은 직접 쓰지 않고 `var(--font-family)`로 지정한다. 굵기는 `--font-light`(300), `--font-regular`(400), `--font-medium`(500), `--font-semibold`(600), `--font-bold`(700)만 쓴다 (`src/styles/font.css`). 제목은 `--font-semibold`를 쓰고, `--font-bold`는 홈 첫 화면과 이용 방법 시작하기의 큰 제목 줄(`.home-hero__solution`, `.guide-start__solution`)에만 쓴다.
 
 | 역할 | 크기 / 굵기 | 예 |
 |---|---|---|
-| 대시보드 제목 | 28px / bold, `letter-spacing: -0.025em` | `.dashBoard-header__title` |
-| 모달 제목 | 22px / bold | `.editTitleModal-header__title` |
-| 생성·파일 변경 화면 제목 | 24px / bold, `letter-spacing: -0.02em` (모바일 22px) | `.csvCreate-title` |
+| 대시보드 제목 | 28px / semibold, `letter-spacing: -0.025em` | `.dashBoard-header__title` |
+| 모달 제목 | 22px / semibold | `.editTitleModal-header__title` |
+| 생성·파일 변경 화면 제목 | 24px / semibold, `letter-spacing: -0.02em` (모바일 22px) | `.csvCreate-title` |
 | 섹션 제목, 카드 제목 | 18px / medium (모바일 16px) | `.csvFileUpload__title--title`, `.eventItem-title__title` |
 | 본문, 버튼 | 14~15px / regular·medium | `.eventItem-info__info`, `.eventButton-button` |
 | 표, 미리보기 설명 | 13px | `.csvPreview__table td` |

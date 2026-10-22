@@ -323,7 +323,7 @@
 
 .home-problem__title {
   font-size: 36px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.35;
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -464,7 +464,7 @@
 /* 구간 공통 제목 */
 .home-section-title {
   font-size: 36px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.35;
   letter-spacing: -0.02em;
   text-align: center;
@@ -552,7 +552,7 @@
 
 .home-step__title {
   font-size: 21px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.45;
   letter-spacing: -0.01em;
 }
@@ -782,7 +782,7 @@
 
 .home-closing__title {
   font-size: 36px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   line-height: 1.35;
   letter-spacing: -0.02em;
   text-wrap: balance;

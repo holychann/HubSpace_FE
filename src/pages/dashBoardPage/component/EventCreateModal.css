@@ -85,7 +85,7 @@
 
 .createModal-header__title {
   font-size: 24px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   color: var(--color-text);
 }
 
@@ -142,7 +142,7 @@
 
 .createModal-button__title {
   font-size: 20px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   color: var(--color-text);
   margin-top: 24px;
   margin-bottom: 10px;

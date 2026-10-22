@@ -78,7 +78,7 @@
 .confirmModal-header__title {
   color: var(--color-text);
   font-size: 22px;
-  font-weight: var(--font-bold);
+  font-weight: var(--font-semibold);
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
