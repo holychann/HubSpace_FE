@@ -2,7 +2,7 @@ import { useId, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import '../../homePage/entry/HomePage.css'
 import './ContactPage.css'
-import HomeHeader from '../../homePage/component/HomeHeader'
+import Header from '../../../components/header/Header'
 import { usePublicSession } from '../../homePage/utils/publicSession'
 import ChevronIcon from '../../../assets/contact/contact-chevron.svg?react'
 
@@ -68,7 +68,7 @@ function FaqItem({ question, answer }) {
 }
 
 // 문의하기 화면 (Figma 'Contact v3'). 로그인 없이 보이며, 헤더는 홈과 같다.
-// 홈의 스크롤 영역·헤더 스타일을 그대로 쓰려고 루트에 home 클래스를 함께 둔다.
+// 홈의 스크롤 영역·버튼 스타일을 그대로 쓰려고 루트에 home 클래스를 함께 둔다.
 export default function ContactPage() {
   const { hasSession, handleStart } = usePublicSession()
   const emailRef = useRef(null)
@@ -95,7 +95,7 @@ export default function ContactPage() {
 
   return (
     <div className='home contact'>
-      <HomeHeader hasSession={hasSession} onStart={handleStart} />
+      <Header hasSession={hasSession} onStart={handleStart} />
 
       <main className='contact__body'>
         <div className='contact__main'>

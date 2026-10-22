@@ -2,6 +2,7 @@
 
 /* .app 이 화면 높이로 잘려 있어서 홈이 직접 세로 스크롤을 맡는다. */
 .home {
+  /* 공통 헤더(Header.css)의 높이와 같아야 한다. */
   --home-header-h: 72px;
   height: 100svh;
   overflow-x: hidden;
@@ -77,83 +78,6 @@
 @media (hover: hover) {
   .home-button--primary:hover {
     background-color: #353c48;
-  }
-}
-
-/* 헤더 */
-.home-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background-color: rgb(255 255 255 / 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.home-header__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-}
-
-.home-header__logo {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-}
-
-.home-header__logo img {
-  display: block;
-  width: auto;
-  height: 42px;
-}
-
-/* 링크 글자 끝을 본문 오른쪽 끝선에 맞추려고 마지막 링크의 안쪽 여백만큼 당긴다. */
-.home-header__nav {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-right: -12px;
-}
-
-/* 글자 링크도 누르는 영역은 높이 44px */
-.home-header__link {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0 12px;
-  border: 0;
-  border-radius: 8px;
-  background: none;
-  font: inherit;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--color-text-additional);
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    color 0.15s ease,
-    background-color 0.15s ease;
-}
-
-/* 페이지 안 이동 링크와 계정 동작을 세로선·굵기·색으로 구분한다. */
-.home-header__link--login {
-  font-weight: var(--font-medium);
-  color: var(--color-text);
-}
-
-.home-header__divider {
-  width: 1px;
-  height: 14px;
-  margin: 0 8px;
-  background-color: var(--color-border);
-}
-
-@media (hover: hover) {
-  .home-header__link:hover {
-    background-color: var(--color-box-default);
-    color: var(--color-text);
   }
 }
 
@@ -1091,19 +1015,6 @@
     --home-header-h: 56px;
   }
 
-  .home-header__inner {
-    height: 56px;
-  }
-
-  .home-header__logo img {
-    height: 33px;
-  }
-
-  .home-header__link--page,
-  .home-header__divider {
-    display: none;
-  }
-
   .home-hero {
     padding-top: 48px;
   }
@@ -1371,7 +1282,6 @@
   }
 
   .home-button,
-  .home-header__link,
   .home-footer__link {
     transition: none;
   }

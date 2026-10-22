@@ -1,5 +1,5 @@
 /* 문의하기 화면 (Figma 'Contact v3'). 767px 이하는 모바일 배치를 쓴다.
-   루트의 .home(HomePage.css)이 세로 스크롤·흰 배경·헤더 스타일을 맡는다. */
+   루트의 .home(HomePage.css)이 세로 스크롤·흰 배경을 맡고, 헤더는 공통 Header 다. */
 
 /* 아래에 떠 있는 공통 푸터(Footer)에 이메일 영역이 가리지 않도록 푸터 높이만큼 더 비운다. */
 .contact__body {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import './HomePage.css'
-import HomeHeader from '../component/HomeHeader'
+import Header from '../../../components/header/Header'
 import HomeOrbit from '../component/HomeOrbit'
 import HomeProblem from '../component/HomeProblem'
 import HomeSteps from '../component/HomeSteps'
@@ -64,7 +64,7 @@ export default function HomePage() {
 
   return (
     <div className='home'>
-      <HomeHeader hasSession={hasSession} onStart={handleStart} onHowClick={scrollToSection} />
+      <Header hasSession={hasSession} onStart={handleStart} onHowClick={scrollToSection} />
 
       <main>
         <section className='home-hero'>

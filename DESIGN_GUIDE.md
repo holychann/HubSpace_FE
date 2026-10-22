@@ -8,8 +8,8 @@
 |---|---|---|
 | 관리자 화면 | 대시보드, 이벤트 생성(CSV·폼), 이벤트 편집 | `AdminLayout` 안에서 회색 배경(`--color-background`) 위에 흰 카드 섹션을 쌓는다 |
 | 공개 화면 | 조회(`/search`), 결과(`/result`), 약관 | `GradientLayout`의 그라데이션 SVG 배경 위에 가운데 정렬된 좁은 카드(최대 411px) |
-| 홈 | 홈(`/`, 로그인 버튼 포함) | 흰 바탕의 소개 화면. 자체 헤더·푸터를 쓰고 공통 푸터는 붙이지 않는다. 첫 화면은 궤도 그림(`HomeOrbit`), 버튼은 알약 모양(`src/pages/homePage`) |
-| 문의하기 | 문의하기(`/contact`) | 홈과 같은 헤더(`HomeHeader`)와 흰 바탕에 FAQ·이메일 문의 영역. 아래에는 공통 푸터를 붙인다(`src/pages/contactPage`) |
+| 홈 | 홈(`/`, 로그인 버튼 포함) | 흰 바탕의 소개 화면. 공통 헤더(`src/components/header`)와 자체 푸터를 쓰고, 공통 푸터는 붙이지 않는다. 첫 화면은 궤도 그림(`HomeOrbit`), 버튼은 알약 모양(`src/pages/homePage`) |
+| 문의하기 | 문의하기(`/contact`) | 공통 헤더(`src/components/header`)와 흰 바탕에 FAQ·이메일 문의 영역. 아래에는 공통 푸터를 붙인다(`src/pages/contactPage`) |
 
 관리자 화면을 새로 만들 때는 `src/pages/csvCreatePage`와 `src/pages/csvDetailPage`(파일 변경)를 기준 화면으로 삼는다. 두 화면은 데이터 파일 업로드·컬럼 선택·미리보기를 공통 컴포넌트 `CsvFileUpload`, `CsvColumnSelect`, `CsvPreview`(`src/components`)로 함께 쓴다.
 
@@ -69,7 +69,7 @@
 
 ### 4.1 관리자 화면 골격
 
-- 헤더 높이는 `--admin-header-height` 변수로 관리한다: 모바일 64px, 768px 이상 80px, 1024px 이상 100px (`AdminLayout.css`).
+- 헤더는 홈·문의하기와 같은 공통 헤더(`src/components/header`)를 쓰고, 오른쪽 끝에는 닉네임만 보인다. 높이는 `--admin-header-height` 변수로 관리한다: 767px 이하 56px, 768px 이상 72px (`AdminLayout.css`).
 - 페이지 루트는 `height: calc(100svh - var(--admin-header-height, 100px))`로 잡고, 안쪽 컨테이너가 세로 스크롤한다.
 - 생성·편집 화면의 콘텐츠 폭은 960px이다: `padding: 50px max(80px, calc((100% - 960px) / 2)) calc(88px + env(safe-area-inset-bottom))`.
 - 대시보드의 콘텐츠 폭은 1112~1120px이다.

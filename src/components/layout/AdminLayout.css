@@ -1,17 +1,12 @@
+/* 페이지가 헤더 아래 높이를 계산할 때 쓴다. 공통 헤더(Header.css)의 높이와 같아야 한다. */
 .adminLayout {
-  --admin-header-height: 100px;
+  --admin-header-height: 56px;
 
   background-color: var(--color-background);
   height: 100svh;
 }
 
 @media (min-width: 768px) {
-  .adminLayout {
-    --admin-header-height: 52px;
-  }
-}
-
-@media (min-width: 1024px) {
   .adminLayout {
     --admin-header-height: 72px;
   }
