@@ -216,7 +216,7 @@ export default function FormCreatePage() {
           { label: '조회 항목', value: validFields.join(', ') },
         ]}
         notice={{
-          main: '조회 항목의 이름을 유지해주세요.\n이름을 바꾸면 조회되지 않을 수 있습니다.',
+          main: '조회 항목의 이름을 유지해주세요.\n이름을 바꾸면 정상적인 조회가 되지 않을 수 있습니다.',
           sub: '질문 타입, 직접 추가한 질문, 폼 제목과 설명은 변경할 수 있습니다.',
         }}
         isProcessing={isSubmitting}
