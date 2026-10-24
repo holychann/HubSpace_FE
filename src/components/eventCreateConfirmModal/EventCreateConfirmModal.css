@@ -1,6 +1,8 @@
 /* 공통 ConfirmModal 위에 이벤트 생성 최종 확인 화면의 크기와 배치를 덮어쓴다. */
 /* 내용이 길면 요약·안내 영역만 스크롤하고, 제목과 하단 버튼은 계속 보이게 한다. */
 .confirmModal-content.eventCreateConfirm {
+  /* 생성 화면 밖(body)에 붙는 모달이라 탭 하이라이트를 따로 끈다. */
+  -webkit-tap-highlight-color: transparent;
   display: flex;
   flex-direction: column;
   max-width: 560px;
