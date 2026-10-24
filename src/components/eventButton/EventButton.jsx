@@ -1,9 +1,9 @@
 import './EventButton.css'
 
-export default function EventButton({ text, onClick, disabled = false }) {
+export default function EventButton({ text, onClick, disabled = false, ...buttonProps }) {
   return (
     <div>
-      <button type='button' className='eventButton-button' onClick={onClick} disabled={disabled}>
+      <button {...buttonProps} type='button' className='eventButton-button' onClick={onClick} disabled={disabled}>
         {text}
       </button>
     </div>

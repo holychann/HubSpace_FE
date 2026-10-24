@@ -1,6 +1,6 @@
 import './DashBoardPage.css'
 import EventItem from '../component/EventItem'
-import { useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import EventCreateModal from '../component/EventCreateModal'
 import EventTitleEditModal from '../component/EventTitleEditModal'
 import EventButton from '../../../components/eventButton/EventButton'
@@ -12,6 +12,8 @@ const SKELETON_COUNT = 3
 
 export default function DashBoardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const createButtonRef = useRef(null)
+  const closeCreateModal = useCallback(() => setIsModalOpen(false), [])
   const [editingEvent, setEditingEvent] = useState(null)
   const { events, count, loading, error, updateEventTitleLocally, removeEventLocally } =
     useFetchEvents()
@@ -25,7 +27,14 @@ export default function DashBoardPage() {
             {loading ? <Skeleton width={240} height={16} /> : `총 ${count}개의 이벤트를 관리하고 있어요.`}
           </div>
         </div>
-        <EventButton text='+ 새 이벤트' onClick={() => setIsModalOpen(true)} />
+        <EventButton
+          ref={createButtonRef}
+          text='+ 새 이벤트'
+          onClick={() => setIsModalOpen((open) => !open)}
+          aria-haspopup='dialog'
+          aria-expanded={isModalOpen}
+          aria-controls={isModalOpen ? 'createEvent-dialog' : undefined}
+        />
       </div>
       <div className='dashBoard-eventList'>
         {loading && (
@@ -68,8 +77,11 @@ export default function DashBoardPage() {
           ))}
       </div>
 
-      {/* 모달 */}
-      <EventCreateModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <EventCreateModal
+        isOpen={isModalOpen}
+        onClose={closeCreateModal}
+        anchorRef={createButtonRef}
+      />
       <EventTitleEditModal
         event={editingEvent}
         onClose={() => setEditingEvent(null)}

@@ -15,6 +15,10 @@ import dashboardForm from '../../assets/dashboard/dashboard-form.svg?react'
 import dashboardImageForm from '../../assets/dashboard/dashboard-image-form.svg?react'
 import dashboardImageCsv from '../../assets/dashboard/dashboard-image-csv.svg?react'
 import dashboardView from '../../assets/dashboard/dashboard-view.svg?react'
+import createEventLink from '../../assets/dashboard/create-event-link.svg?react'
+import createEventUpload from '../../assets/dashboard/create-event-upload.svg?react'
+import createEventChevron from '../../assets/dashboard/create-event-chevron.svg?react'
+import createEventClose from '../../assets/dashboard/create-event-close.svg?react'
 
 /* detail 이벤트 상세 페이지 아이콘 */
 import detailCopy from '../../assets/detail/detail-copy.svg?react'
@@ -36,6 +40,10 @@ export const IconMap = {
   'dashboard-image-form': dashboardImageForm,
   'dashboard-image-csv': dashboardImageCsv,
   'dashboard-view': dashboardView,
+  'create-event-link': createEventLink,
+  'create-event-upload': createEventUpload,
+  'create-event-chevron': createEventChevron,
+  'create-event-close': createEventClose,
   'detail-copy': detailCopy,
   'detail-field': detailField,
   'detail-input': detailInput,

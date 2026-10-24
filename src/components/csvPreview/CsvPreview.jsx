@@ -11,7 +11,7 @@ export default function CsvPreview({
   return (
     <div className='csvPreview'>
       <div className='csvPreview__header'>
-        <div>
+        <div className='csvPreview__heading'>
           <div className='csvPreview__title'>첨부 파일 미리보기</div>
           {showDescription && (
             <div className='csvPreview__content'>
@@ -21,9 +21,11 @@ export default function CsvPreview({
         </div>
         {columns.length > 0 && (
           <div className='csvPreview__meta'>
-            <div className='csvPreview__badge'>{fileName}</div>
-            <div className='csvPreview__badge'>{`${rowCount}개 행`}</div>
-            <div className='csvPreview__badge'>{`${columns.length}개 컬럼`}</div>
+            <div className='csvPreview__fileName'>{fileName}</div>
+            <div className='csvPreview__stats'>
+              <span>{`${rowCount}개 행`}</span>
+              <span>{`${columns.length}개 컬럼`}</span>
+            </div>
           </div>
         )}
       </div>
@@ -57,12 +59,7 @@ export default function CsvPreview({
         </div>
       ) : (
         <div className='csvPreview__empty'>
-          <div className='csvPreview__emptyIcon' aria-hidden='true'>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div className='csvPreview__emptyTitle'>미리 볼 파일이 아직 없습니다</div>
+          <div className='csvPreview__emptyTitle'>파일을 먼저 업로드 해주세요</div>
           <div className='csvPreview__emptyDescription'>
             CSV 또는 TSV 파일을 첨부하면 이 영역에 데이터 미리보기가 표시됩니다.
           </div>
