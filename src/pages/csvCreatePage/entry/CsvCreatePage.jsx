@@ -15,7 +15,7 @@ const FileCreateGuide = lazy(() => import('../component/FileCreateGuide'))
 
 const FILE_NOTICES = [
   {
-    title: '쉼표가 포함된 값은 TSV로 업로드해주세요',
+    title: '값에 쉼표가 포함된 경우 TSV로 업로드해주세요',
     description: '데이터 값에 쉼표(,)가 있다면 탭으로 구분된 TSV 파일을 사용해주세요.',
   },
   {

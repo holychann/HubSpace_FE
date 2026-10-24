@@ -20,15 +20,15 @@ const FormCreateGuide = lazy(() => import('../component/FormCreateGuide'))
 
 const FORM_NOTICES = [
   {
-    title: '조회 항목의 이름을 유지해주세요',
+    title: '폼 생성 후에도 조회 항목의 이름을 유지해주세요',
     description: '자동 생성된 조회 항목의 이름을 폼에서 바꾸면 정상적으로 조회되지 않을 수 있습니다.',
   },
   {
-    title: '질문 타입은 변경할 수 있어요',
+    title: '조회 항목의 타입은 변경해도 괜찮아요',
     description: '자동 생성된 항목의 타입을 바꿔도 정상적으로 조회할 수 있습니다.',
   },
   {
-    title: '폼은 자유롭게 꾸밀 수 있어요',
+    title: '생성된 폼은 자유롭게 꾸밀 수 있어요',
     description: '폼 제목과 설명, 직접 추가한 질문은 자유롭게 수정할 수 있습니다.',
   },
 ]
