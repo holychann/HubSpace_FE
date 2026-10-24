@@ -1,8 +1,10 @@
 /* button 버튼 */
 import buttonCopyForm from '../../assets/button/button-copy-form.svg?react'
 import buttonCopySearch from '../../assets/button/button-copy-search.svg?react'
-import buttonFile from '../../assets/button/button-file.svg?react'
+import buttonAlert from '../../assets/button/button-alert.svg?react'
+import buttonFileSheet from '../../assets/button/button-file-sheet.svg?react'
 import buttonMore from '../../assets/button/button-more.svg?react'
+import buttonUpload from '../../assets/button/button-upload.svg?react'
 
 /* dashboard 대시보드 사용 아이콘 */
 import dashboardActive from '../../assets/dashboard/dashboard-active.svg?react'
@@ -22,8 +24,10 @@ import detailInput from '../../assets/detail/detail-input.svg?react'
 export const IconMap = {
   'button-copy-form': buttonCopyForm,
   'button-copy-search': buttonCopySearch,
-  'button-file': buttonFile,
+  'button-alert': buttonAlert,
+  'button-file-sheet': buttonFileSheet,
   'button-more': buttonMore,
+  'button-upload': buttonUpload,
   'dashboard-active': dashboardActive,
   'dashboard-csv': dashboardCsv,
   'dashboard-date': dashboardDate,

@@ -321,6 +321,7 @@ export default function CsvCreatePage() {
           fileName={uploadedFileName}
           isReading={isReading}
           disabled={isSubmitting}
+          allowDrop
           onFileSelect={parseHeaderFromFile}
         />
 

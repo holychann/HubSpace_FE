@@ -524,47 +524,64 @@
 /* 파일 업로드 */
 .guide-upload {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 15px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 12px 14px;
   border: 1px solid var(--guide-border-soft);
-  border-radius: 16px;
-  background-color: var(--color-button-csv-bg);
+  border-radius: 12px;
+  background-color: var(--color-white);
 }
 
 .guide-upload__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
-  color: var(--guide-accent-navy);
+  border-radius: 9px;
+  background-color: rgb(45 59 134 / 0.08);
 }
 
-.guide-upload__title {
-  font-size: 14px;
-  font-weight: var(--font-medium);
-  line-height: 1.4;
-  letter-spacing: -0.07px;
-  color: var(--color-text-strong);
-}
-
-.guide-upload__description {
-  font-size: 12px;
-  line-height: 1.5;
-  letter-spacing: -0.036px;
-  color: var(--color-text-additional);
+.guide-upload__copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .guide-upload__file {
-  width: 220px;
-  max-width: 100%;
-  padding: 8px;
-  border-radius: 999px;
-  box-sizing: border-box;
-  background-color: var(--color-white);
-  font-size: 12px;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: var(--font-medium);
   line-height: 1.5;
-  letter-spacing: -0.036px;
+  letter-spacing: -0.039px;
+  color: var(--color-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guide-upload__status {
+  font-size: 11px;
+  line-height: 1.5;
   color: var(--guide-link-muted);
-  text-align: center;
+}
+
+.guide-upload__action {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border: 1px solid var(--guide-border-soft);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  color: var(--guide-accent-navy);
+  white-space: nowrap;
+}
+
+.guide-upload__action--mobile {
+  display: none;
 }
 
 /* 조회 화면 → 조회 결과. 화살표는 두 화면 중 긴 쪽 높이의 가운데에 온다. */
@@ -715,6 +732,15 @@
 @media (max-width: 767px) {
   .guide__body {
     padding: 40px 20px calc(141px + env(safe-area-inset-bottom));
+  }
+
+  /* 실제 업로드 영역처럼 모바일에서는 버튼 글자를 줄인다. */
+  .guide-upload__action--desktop {
+    display: none;
+  }
+
+  .guide-upload__action--mobile {
+    display: inline;
   }
 
   .guide__panel {

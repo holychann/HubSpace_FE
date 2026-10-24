@@ -1,6 +1,6 @@
 import formIllustration from '../../../assets/dashboard/dashboard-image-form.svg'
 import fileIllustration from '../../../assets/dashboard/dashboard-image-csv.svg'
-import UploadIcon from '../../../assets/home/home-upload.svg?react'
+import FileSheetIcon from '../../../assets/button/button-file-sheet.svg?react'
 import copyViewIcon from '../../../assets/guide/guide-copy-view.svg'
 import copyApplyIcon from '../../../assets/guide/guide-copy-apply.svg'
 import arrowRightIcon from '../../../assets/guide/guide-arrow-right.svg'
@@ -193,11 +193,19 @@ export function FileUploadMockup() {
       <EventNameCard value='학생회비 납부 여부 조회' />
       <div className='guide-card'>
         <p className='guide-card__title'>데이터 파일</p>
+        {/* 실제 업로드 영역(CsvFileUpload)의 파일 선택됨 상태 */}
         <div className='guide-upload'>
-          <UploadIcon className='guide-upload__icon' />
-          <span className='guide-upload__title'>파일이 선택되었습니다</span>
-          <span className='guide-upload__description'>다른 파일은 이곳을 눌러주세요.</span>
-          <span className='guide-upload__file'>학생회비 납부자 명단.tsv</span>
+          <span className='guide-upload__icon'>
+            <FileSheetIcon width={18} height={18} />
+          </span>
+          <span className='guide-upload__copy'>
+            <span className='guide-upload__file'>학생회비 납부자 명단.tsv</span>
+            <span className='guide-upload__status'>파일을 읽었어요</span>
+          </span>
+          <span className='guide-upload__action'>
+            <span className='guide-upload__action--desktop'>파일 변경</span>
+            <span className='guide-upload__action--mobile'>변경</span>
+          </span>
         </div>
       </div>
     </>
