@@ -141,8 +141,23 @@
 
   /* 터치 대상 44px 를 확보한다. */
   .createNotice__toggle {
-    margin: -13px -8px;
-    padding: 13px 8px;
+    margin: -13.5px -8px;
+    padding: 13.5px 8px;
+    font-size: 12px;
+  }
+
+  /* 생성 화면의 안내 목록은 좁은 화면에서 글자를 1px 씩 줄인다. 모달의 '필수 확인'은 그대로 둔다. */
+  .createNotice--list .createNotice__title {
+    font-size: 14px;
+  }
+
+  .createNotice__itemTitle,
+  .createNotice__item::before {
+    font-size: 13px;
+  }
+
+  .createNotice__itemText {
+    font-size: 12px;
   }
 }
 

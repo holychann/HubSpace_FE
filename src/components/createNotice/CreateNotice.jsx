@@ -11,7 +11,9 @@ export default function CreateNotice({ title, items, children }) {
   const listId = useId()
 
   return (
-    <section className={`createNotice${isExpanded ? ' createNotice--expanded' : ''}`}>
+    <section
+      className={`createNotice${items ? ' createNotice--list' : ''}${isExpanded ? ' createNotice--expanded' : ''}`}
+    >
       <div className='createNotice__header'>
         <h2 className='createNotice__title'>
           <InfoIcon className='createNotice__icon' aria-hidden='true' />
