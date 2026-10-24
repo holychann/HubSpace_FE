@@ -2,6 +2,7 @@ import './CsvColumnSelect.css'
 import { useState } from 'react'
 import EventDropdown from '../eventDropdown/EventDropdown'
 import { Icon } from '../icon/Icon'
+import displayColumnRemove from '../../assets/detail/display-column-remove.svg'
 
 const EMPTY_SEARCH_VALUE = ['선택', '선택', '선택']
 
@@ -99,6 +100,8 @@ export default function CsvColumnSelect({
           <button
             type='button'
             className={`csvColumnSelect-display__toggle ${
+              shownDisplay.length ? 'csvColumnSelect-display__toggle--selected' : ''
+            } ${
               isDisabled ? 'csvColumnSelect-display__toggle--disabled' : ''
             }`}
             onClick={toggleDisplayDropdown}
@@ -166,18 +169,22 @@ export default function CsvColumnSelect({
           {shownDisplay.length > 0 && (
             <div className='csvColumnSelect-display__chips' aria-label='선택된 표시 컬럼'>
               {shownDisplay.map((column) => (
-                <div key={column} className='csvColumnSelect-display__chip'>
+                <button
+                  key={column}
+                  type='button'
+                  className='csvColumnSelect-display__chip'
+                  onClick={() => handleSelectDisplayColumn(column)}
+                  disabled={isDisabled}
+                  aria-label={`${column} 표시 컬럼 제거`}
+                >
                   <span>{column}</span>
-                  <button
-                    type='button'
+                  <img
+                    src={displayColumnRemove}
+                    alt=''
                     className='csvColumnSelect-display__chipRemove'
-                    onClick={() => handleSelectDisplayColumn(column)}
-                    disabled={isDisabled}
-                    aria-label={`${column} 표시 컬럼 제거`}
-                  >
-                    <span aria-hidden='true'>×</span>
-                  </button>
-                </div>
+                    aria-hidden='true'
+                  />
+                </button>
               ))}
             </div>
           )}

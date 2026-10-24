@@ -196,6 +196,7 @@
   position: relative;
 }
 
+.formCreate .eventInput-input-input,
 .formCreate-fieldInput__input {
   width: 100%;
   height: 40px;
@@ -203,8 +204,19 @@
   font-size: 13px;
   font-weight: var(--font-regular);
   padding: 12px 14px;
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border);
   border-radius: 5px;
+}
+
+.formCreate-name--filled .eventInput-input-input,
+.formCreate-fieldInput__input--filled {
+  border: 1.5px solid var(--color-select-selected-border);
+}
+
+.formCreate .eventInput-input-input:focus,
+.formCreate-fieldInput__input:focus {
+  border: 1.5px solid var(--color-select-open-border);
+  box-shadow: 0 0 0 2px rgba(119, 134, 168, 0.12);
 }
 
 .formCreate-fieldInput__input--filled {

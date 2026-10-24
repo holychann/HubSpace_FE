@@ -32,7 +32,9 @@ export default function EventDropdown({
 
           <button
             type='button'
-            className='eventDropdown__toggle'
+            className={`eventDropdown__toggle ${
+              val !== '선택' ? 'eventDropdown__toggle--selected' : ''
+            }`}
             onClick={() => toggleDropdown(index)}
             disabled={disabled}
             aria-expanded={openIndex === index}

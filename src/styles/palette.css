@@ -31,6 +31,8 @@
 
   /* 라인 */
   --color-border: rgb(129, 129, 129, 0.28);
+  --color-select-selected-border: #9faac5;
+  --color-select-open-border: #7786a8;
   /* 배경 */
   --color-background: #f1f5f9;
 

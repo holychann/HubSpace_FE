@@ -10,9 +10,6 @@
 }
 
 .dashBoard-header {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
   flex-shrink: 0;
   display: flex;
   justify-content: space-between;
@@ -21,40 +18,38 @@
   max-width: 1120px;
   margin: 0 auto;
   padding: 28px 32px;
-  border: 1px solid rgba(112, 126, 218, 0.24);
-  border-radius: 24px;
-  background:
-    radial-gradient(circle at 88% 18%, rgba(121, 140, 235, 0.18) 0%, rgba(121, 140, 235, 0) 30%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(235, 239, 255, 0.96) 100%);
-  box-shadow:
-    0 18px 36px rgba(5, 0, 100, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(189, 198, 231, 0.42);
+  border-radius: 16px;
+  background: var(--color-white);
+  box-shadow: 0 6px 20px rgba(57, 74, 138, 0.04);
   box-sizing: border-box;
 }
 
-.dashBoard-header::before,
-.dashBoard-header::after {
-  position: absolute;
-  z-index: -1;
-  content: '';
-  border-radius: 999px;
-  pointer-events: none;
+.dashBoard-header .eventButton-button {
+  min-height: 46px;
+  border: none;
+  background: var(--color-text);
+  color: var(--color-white);
 }
 
-.dashBoard-header::before {
-  width: 170px;
-  height: 170px;
-  top: -104px;
-  right: 164px;
-  background: rgba(255, 255, 255, 0.52);
+.dashBoard-header .eventButton-button:hover:not(:disabled),
+.dashBoard-header .eventButton-button:active:not(:disabled) {
+  background-color: var(--color-text);
+  box-shadow: none;
 }
 
-.dashBoard-header::after {
-  width: 74px;
-  height: 74px;
-  right: 36px;
-  bottom: -42px;
-  background: rgba(121, 140, 235, 0.16);
+@media (hover: hover) {
+  .dashBoard-header .eventButton-button:hover:not(:disabled) {
+    box-shadow: 0 3px 8px rgba(5, 0, 100, 0.16);
+  }
+}
+
+.dashBoard-header .eventButton-button:active:not(:disabled) {
+  opacity: 0.85;
+}
+
+.dashBoard-header .eventButton-button:focus-visible {
+  outline-color: var(--color-text);
 }
 
 .dashBoard-header__header {
@@ -114,15 +109,6 @@
     gap: 20px;
     width: calc(100% - 48px);
     padding: 24px;
-    border-radius: 22px;
-  }
-
-  .dashBoard-header::before {
-    right: -42px;
-  }
-
-  .dashBoard-header::after {
-    right: 28px;
   }
 
   .dashBoard-header__title {

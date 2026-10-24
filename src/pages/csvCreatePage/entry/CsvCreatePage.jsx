@@ -344,9 +344,11 @@ export default function CsvCreatePage() {
 
         <div className='csvCreate-action'>
           <EventButton
+            variant='navy'
             text={isSubmitting ? '생성 중...' : '이벤트 생성'}
             onClick={handleCreateCsv}
-            disabled={isReading}
+            disabled={isReading || isSubmitting}
+            aria-busy={isSubmitting}
           />
         </div>
       </div>

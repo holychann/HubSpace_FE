@@ -137,7 +137,7 @@ export default function FormCreatePage() {
 
         <h2 className='formCreate-inputDivider'>Form Info</h2>
 
-        <div className='formCreate-name'>
+        <div className={`formCreate-name ${trimmedTitle ? 'formCreate-name--filled' : ''}`}>
           <EventInput value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />
         </div>
 
@@ -180,7 +180,13 @@ export default function FormCreatePage() {
         </div>
 
         <div className='formCreate-button'>
-          <EventButton text={isSubmitting ? '생성 중...' : '이벤트 생성'} onClick={handleCreateForm} />
+          <EventButton
+            variant='navy'
+            text={isSubmitting ? '생성 중...' : '이벤트 생성'}
+            onClick={handleCreateForm}
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
+          />
         </div>
       </div>
 

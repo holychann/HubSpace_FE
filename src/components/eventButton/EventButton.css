@@ -34,3 +34,46 @@
   outline: 2px solid #3026b8;
   outline-offset: 2px;
 }
+
+.eventButton--navy .eventButton-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 132px;
+  height: 48px;
+  padding: 12px 24px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 12px;
+  background: var(--color-text);
+  color: var(--color-white);
+  line-height: 22px;
+  letter-spacing: -0.005em;
+}
+
+.eventButton--navy .eventButton-button:hover:not(:disabled),
+.eventButton--navy .eventButton-button:active:not(:disabled) {
+  background-color: var(--color-text);
+  box-shadow: none;
+}
+
+@media (hover: hover) {
+  .eventButton--navy .eventButton-button:hover:not(:disabled) {
+    box-shadow: 0 3px 8px rgba(5, 0, 100, 0.16);
+  }
+}
+
+.eventButton--navy .eventButton-button:focus-visible {
+  outline-color: var(--color-text);
+}
+
+.eventButton--navy .eventButton-button:disabled[aria-busy='true'] {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .eventButton--navy,
+  .eventButton--navy .eventButton-button {
+    width: 100%;
+  }
+}

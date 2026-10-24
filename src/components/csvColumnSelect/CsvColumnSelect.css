@@ -84,12 +84,21 @@
   width: 100%;
   padding: 14px 12px;
   height: 40px;
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border);
   border-radius: 5px;
   background-color: var(--color-white);
   font-family: inherit;
   text-align: left;
   cursor: pointer;
+}
+
+.csvColumnSelect-display__toggle--selected:not(:disabled) {
+  border: 1.5px solid var(--color-select-selected-border);
+}
+
+.csvColumnSelect-display__toggle[aria-expanded='true']:not(:disabled) {
+  border: 1.5px solid var(--color-select-open-border);
+  box-shadow: 0 0 0 2px rgba(119, 134, 168, 0.12);
 }
 
 .csvColumnSelect-display__toggle--disabled {
@@ -99,8 +108,8 @@
 
 .csvColumnSelect-display__toggle:focus-visible,
 .csvColumnSelect-display__action:focus-visible,
-.csvColumnSelect-display__chipRemove:focus-visible {
-  outline: 2px solid #2d3b86;
+.csvColumnSelect-display__chip:focus-visible {
+  outline: 2px solid var(--color-select-open-border);
   outline-offset: 2px;
 }
 
@@ -111,7 +120,7 @@
 }
 
 .csvColumnSelect-display__title--selected {
-  color: #2d3b86;
+  color: var(--color-text-additional);
   font-weight: var(--font-medium);
 }
 
@@ -221,11 +230,15 @@
   gap: 6px;
   max-width: 100%;
   padding: 6px 8px;
-  border-radius: 999px;
+  border: 0;
+  border-radius: 4px;
   background-color: #e9f3ff;
   color: #2d3b86;
   font-size: 12px;
   font-weight: var(--font-medium);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .csvColumnSelect-display__chip > span {
@@ -235,23 +248,19 @@
 }
 
 .csvColumnSelect-display__chipRemove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   width: 18px;
   height: 18px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: #2d3b86;
-  font-size: 16px;
-  line-height: 1;
-  cursor: pointer;
+  flex-shrink: 0;
 }
 
-.csvColumnSelect-display__chipRemove:hover {
-  background-color: rgba(45, 59, 134, 0.1);
+.csvColumnSelect-display__chip:hover:not(:disabled) {
+  background-color: #dce9ff;
+}
+
+.csvColumnSelect-display__chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .csvColumnSelect-display__condition {
@@ -374,9 +383,7 @@
     min-height: 44px;
   }
 
-  .csvColumnSelect-display__chipRemove {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
+  .csvColumnSelect-display__chip {
+    min-height: 44px;
   }
 }
