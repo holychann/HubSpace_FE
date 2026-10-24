@@ -84,6 +84,8 @@
   line-height: 1.5;
   letter-spacing: -0.08px;
   color: var(--color-text-strong);
+  /* 모바일 브라우저는 버튼을 누르는 순간 회색 사각형을 띄운다. 펼침 상태는 화살표가 보여주므로 끈다. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .home .contact-faq__question:focus-visible {
