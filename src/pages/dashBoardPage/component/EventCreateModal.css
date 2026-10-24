@@ -64,6 +64,10 @@
   .createModal-option:hover > svg {
     transform: translateX(3px);
   }
+
+  .createModal-option:hover .createModal-option__title {
+    color: #3026b8;
+  }
 }
 
 .createModal-close:hover {
@@ -74,6 +78,10 @@
 .createModal-close:focus-visible {
   outline: 2px solid #667196;
   outline-offset: -2px;
+}
+
+.createModal-option:focus-visible .createModal-option__title {
+  color: #3026b8;
 }
 
 .createModal-option__icon {
@@ -96,6 +104,7 @@
   font-size: 15px;
   font-weight: var(--font-medium);
   line-height: 1.4;
+  transition: color 0.16s ease;
 }
 
 .createModal-option__description {
@@ -167,6 +176,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .createModal-option__title {
+    transition: none;
+  }
+
   .createModal-content {
     animation: none;
   }
