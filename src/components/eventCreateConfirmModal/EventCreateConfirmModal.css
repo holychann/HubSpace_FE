@@ -1,0 +1,188 @@
+/* 공통 ConfirmModal 위에 이벤트 생성 최종 확인 화면의 크기와 배치를 덮어쓴다. */
+/* 내용이 길면 요약·안내 영역만 스크롤하고, 제목과 하단 버튼은 계속 보이게 한다. */
+.confirmModal-content.eventCreateConfirm {
+  display: flex;
+  flex-direction: column;
+  max-width: 560px;
+  overflow: hidden;
+  padding: 32px;
+  border-radius: 16px;
+}
+
+.eventCreateConfirm .confirmModal-close {
+  top: 26px;
+  right: 24px;
+  color: #667196;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.eventCreateConfirm .confirmModal-header {
+  flex: none;
+  gap: 8px;
+  padding-right: 36px;
+}
+
+.eventCreateConfirm .confirmModal-header__title {
+  font-size: 24px;
+  font-weight: var(--font-bold);
+  line-height: 1.4;
+}
+
+.eventCreateConfirm .confirmModal-header__info {
+  color: var(--color-text-additional);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.eventCreateConfirm .confirmModal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 0;
+  margin-top: 24px;
+  overflow-y: auto;
+}
+
+.eventCreateConfirm .confirmModal-actions {
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.eventCreateConfirm .confirmModal-button {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.eventCreateConfirm .confirmModal-button--cancel {
+  border-color: var(--color-text);
+  background: var(--color-white);
+  color: var(--color-text);
+}
+
+.eventCreateConfirm-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--color-box-default);
+}
+
+.eventCreateConfirm-summary__method {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(206, 213, 236, 0.72);
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+}
+
+.eventCreateConfirm-summary__icon {
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+
+.eventCreateConfirm-summary__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+}
+
+.eventCreateConfirm-summary__row {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+}
+
+.eventCreateConfirm-summary__row dt {
+  color: #667196;
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+}
+
+/* 긴 이벤트명·파일명도 줄바꿈되게 한다. */
+.eventCreateConfirm-summary__row dd {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.55;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* '필수 확인'은 반드시 지켜야 하는 내용이라 생성 화면의 필수 표시와 같은 빨강으로 보여준다. */
+.eventCreateConfirm .createNotice__title,
+.eventCreateConfirm .createNotice__icon {
+  color: #e04848;
+}
+
+.eventCreateConfirm-notice__main,
+.eventCreateConfirm-notice__sub {
+  margin: 0;
+  line-height: 1.55;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.eventCreateConfirm-notice__main {
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.eventCreateConfirm-notice__sub {
+  color: var(--color-text-additional);
+  font-size: 13px;
+}
+
+@media (max-width: 767px) {
+  .confirmModal-content.eventCreateConfirm {
+    padding: 20px;
+  }
+
+  .eventCreateConfirm .confirmModal-close {
+    top: 16px;
+    right: 14px;
+  }
+
+  .eventCreateConfirm .confirmModal-header {
+    padding-right: 32px;
+  }
+
+  .eventCreateConfirm .confirmModal-header__title {
+    font-size: 20px;
+    line-height: 1.45;
+  }
+
+  .eventCreateConfirm .confirmModal-body {
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .eventCreateConfirm .confirmModal-actions {
+    margin-top: 20px;
+  }
+
+  .eventCreateConfirm-summary {
+    padding: 16px;
+  }
+
+  .eventCreateConfirm-summary__row {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+  }
+}

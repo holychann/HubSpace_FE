@@ -13,6 +13,9 @@ export default function ConfirmModal({
   isProcessing = false,
   processingText,
   variant = 'default',
+  cancelText = '취소',
+  className,
+  children,
 }) {
   const titleId = useId()
   const descriptionId = useId()
@@ -85,7 +88,7 @@ export default function ConfirmModal({
     <div className='confirmModal-overlay' onClick={handleOverlayClick}>
       <div
         ref={contentRef}
-        className='confirmModal-content'
+        className={className ? `confirmModal-content ${className}` : 'confirmModal-content'}
         role='dialog'
         aria-modal='true'
         aria-labelledby={titleId}
@@ -112,6 +115,8 @@ export default function ConfirmModal({
           </div>
         </div>
 
+        {children && <div className='confirmModal-body'>{children}</div>}
+
         <div className='confirmModal-actions'>
           <button
             ref={cancelButtonRef}
@@ -120,7 +125,7 @@ export default function ConfirmModal({
             onClick={handleClose}
             disabled={isProcessing}
           >
-            취소
+            {cancelText}
           </button>
           <button
             type='button'

@@ -1,0 +1,76 @@
+.createNotice {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border-radius: 16px;
+  background: var(--color-box-conditional);
+}
+
+.createNotice__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--color-text);
+  font-size: 15px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+}
+
+.createNotice__icon {
+  flex: none;
+  color: #2d3b86;
+  width: 16px;
+  height: 16px;
+}
+
+.createNotice__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.createNotice__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 14px;
+}
+
+/* 항목마다 따로 지킬 주의사항이라 순서 번호 대신 대시를 붙인다. 설명은 제목 글자에 맞춰 들여 쓴다. */
+.createNotice__item::before {
+  content: '–';
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+}
+
+.createNotice__itemTitle {
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+}
+
+.createNotice__itemText {
+  margin: 0;
+  color: var(--color-text-additional);
+  font-size: 13px;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+@media (max-width: 767px) {
+  .createNotice {
+    padding: 16px;
+  }
+}
