@@ -8,29 +8,6 @@
   box-sizing: border-box;
 }
 
-.csvCreate-loadingOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  background: rgba(240, 244, 255, 0.68);
-  backdrop-filter: blur(4px);
-}
-
-.csvCreate-loadingSpinner {
-  margin: 0;
-}
-
-.csvCreate-loadingText {
-  font-size: 15px;
-  font-weight: var(--font-medium);
-  color: var(--color-text);
-}
-
 /* 화면 전체 드래그 안내. 드래그 이벤트를 가로채지 않도록 pointer-events 를 끈다. */
 .csvCreate-dropOverlay {
   position: fixed;
@@ -102,7 +79,7 @@
 .csvCreate-preview {
   display: block;
   padding: 0;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   border: 1px solid #d7dfed;
   border-radius: 16px;
   background-color: #e9eef6;
@@ -118,6 +95,10 @@
 
 .csvCreate-guide svg {
   display: block;
+}
+
+.csvCreate-notice {
+  margin-bottom: 40px;
 }
 
 .csvCreate-inputDivider {
@@ -176,8 +157,12 @@
   }
 
   .csvCreate-preview {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     border-radius: 12px;
+  }
+
+  .csvCreate-notice {
+    margin-bottom: 28px;
   }
 
   .csvCreate-guide {

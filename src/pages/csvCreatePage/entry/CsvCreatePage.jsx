@@ -8,9 +8,26 @@ import CsvPreview from '../../../components/csvPreview/CsvPreview'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { createFileEvent } from '../apis/createFileEvent'
-import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
+import CreateNotice from '../../../components/createNotice/CreateNotice'
+import EventCreateConfirmModal from '../../../components/eventCreateConfirmModal/EventCreateConfirmModal'
 
 const FileCreateGuide = lazy(() => import('../component/FileCreateGuide'))
+
+const FILE_NOTICES = [
+  {
+    title: '쉼표가 포함된 값은 TSV로 업로드해주세요',
+    description: '데이터 값에 쉼표(,)가 있다면 탭으로 구분된 TSV 파일을 사용해주세요.',
+  },
+  {
+    title: '선택한 항목만 서버에 저장돼요',
+    description:
+      '조회에 사용할 항목과 결과에 표시할 항목만 저장됩니다. 선택하지 않은 항목은 저장되지 않습니다.',
+  },
+  {
+    title: '생성 후에도 파일을 바꿀 수 있어요',
+    description: '이벤트를 만든 뒤 새로운 파일로 교체할 수 있습니다.',
+  },
+]
 
 const parseDelimitedText = (text, delimiter) => {
   const rows = []
@@ -88,6 +105,7 @@ export default function CsvCreatePage() {
   const [rowCount, setRowCount] = useState(0)
   const [uploadedFileName, setUploadedFileName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [isReading, setIsReading] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   // 연속으로 파일을 첨부하면 마지막 파일의 읽기 결과만 반영한다.
@@ -167,8 +185,9 @@ export default function CsvCreatePage() {
      화면 전체 드래그 업로드
   ========================= */
   // 드롭은 서버에 보내지 않고 첨부만 한다. 폴더와 여러 파일은 받지 않는다.
+  // 최종 확인 화면이 열려 있는 동안에도 받지 않는다. 확인 중인 파일이 뒤에서 바뀌지 않게 하기 위해서다.
   const handleWindowDrop = useEffectEvent((dataTransfer) => {
-    if (isSubmitting) return
+    if (isSubmitting || isConfirmOpen) return
 
     const { files, items } = dataTransfer
     if (files.length === 0) return
@@ -186,7 +205,7 @@ export default function CsvCreatePage() {
     parseHeaderFromFile(files[0])
   })
 
-  const isDropBlocked = useEffectEvent(() => isSubmitting)
+  const isDropBlocked = useEffectEvent(() => isSubmitting || isConfirmOpen)
 
   useEffect(() => {
     // 하위 요소 사이를 이동할 때마다 enter/leave 가 쌍으로 발생하므로 깊이를 세어 오버레이 깜빡임을 막는다.
@@ -237,7 +256,8 @@ export default function CsvCreatePage() {
     }
   }, [])
 
-  const handleCreateCsv = async () => {
+  // 입력값을 검사한 뒤 최종 확인 화면을 띄운다. 생성 요청은 확인 화면의 '이벤트 생성'에서 시작한다.
+  const handleOpenConfirm = () => {
     if (isSubmitting || isReading) return
 
     if (!trimmedTitle) {
@@ -255,6 +275,13 @@ export default function CsvCreatePage() {
       })
       return
     }
+
+    setIsConfirmOpen(true)
+  }
+
+  // 실패하면 확인 화면을 열어둔 채 입력값을 유지해 바로 다시 시도할 수 있게 한다.
+  const handleCreateCsv = async () => {
+    if (isSubmitting) return
 
     try {
       setIsSubmitting(true)
@@ -280,17 +307,6 @@ export default function CsvCreatePage() {
 
   return (
     <div className='csvCreate'>
-      {isSubmitting && (
-        <div className='csvCreate-loadingOverlay'>
-          <LoadingSpinner
-            className='csvCreate-loadingSpinner'
-            size={48}
-            cubeSize={16}
-            color='#2d3b86'
-          />
-          <div className='csvCreate-loadingText'>CSV 생성 중...</div>
-        </div>
-      )}
       {isDragging && (
         <div className='csvCreate-dropOverlay' aria-hidden='true'>
           <span className='csvCreate-dropOverlay__plus' />
@@ -307,6 +323,10 @@ export default function CsvCreatePage() {
             <FileCreateGuide />
           </Suspense>
         </section>
+
+        <div className='csvCreate-notice'>
+          <CreateNotice title='확인해주세요' items={FILE_NOTICES} />
+        </div>
 
         <h2 className='csvCreate-inputDivider'>File Info</h2>
 
@@ -345,13 +365,34 @@ export default function CsvCreatePage() {
         <div className='csvCreate-action'>
           <EventButton
             variant='navy'
-            text={isSubmitting ? '생성 중...' : '이벤트 생성'}
-            onClick={handleCreateCsv}
+            text='입력 완료'
+            onClick={handleOpenConfirm}
             disabled={isReading || isSubmitting}
-            aria-busy={isSubmitting}
           />
         </div>
       </div>
+
+      <EventCreateConfirmModal
+        isOpen={isConfirmOpen}
+        method='file'
+        rows={[
+          { label: '이벤트 관리명', value: trimmedTitle },
+          { label: '첨부 파일', value: uploadedFileName },
+          { label: '데이터 수', value: `${rowCount.toLocaleString('ko-KR')}개` },
+          { label: '조회 항목', value: validFields.join(', ') },
+          {
+            label: '결과 표시 항목',
+            value: selectedColumns.length ? selectedColumns.join(', ') : '선택 안 함',
+          },
+        ]}
+        notice={{
+          main: '선택한 항목만 서버에 저장됩니다.\n선택하지 않은 항목은 저장되지 않습니다.',
+          sub: '값에 쉼표가 있다면 TSV 파일을 사용해주세요.\n생성 후에도 새 파일로 교체할 수 있습니다.',
+        }}
+        isProcessing={isSubmitting}
+        onConfirm={handleCreateCsv}
+        onClose={() => setIsConfirmOpen(false)}
+      />
     </div>
   )
 }
