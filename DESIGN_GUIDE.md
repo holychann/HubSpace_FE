@@ -152,7 +152,7 @@
 
 되돌리기 어려운 작업은 실행 전에 공통 확인 모달 `ConfirmModal`(`src/components/confirmModal`)로 확인을 받는다. 취소 버튼에 처음 포커스를 두고 Tab 이동을 모달 안에 가두며, `variant='danger'`이면 확인 버튼이 `--color-exit` 배경이 된다. API 호출과 오류 처리는 호출 화면이 맡는다. `children`(제목과 버튼 사이 본문), `cancelText`, `className`(크기·배치 덮어쓰기)을 받는다.
 
-이벤트 생성(FORM·FILE)은 하단 '입력 완료' 버튼으로 입력값을 검사한 뒤 최종 확인 모달 `EventCreateConfirmModal`(`src/components/eventCreateConfirmModal`)을 띄우고, 모달의 '이벤트 생성'에서 요청을 보낸다. 모달은 최대 560px, 여백 32px(모바일 20px), 모서리 16px이고 생성 정보 요약(`--color-box-default`)과 주의사항 박스를 담는다. 내용이 길면 이 본문만 스크롤하고 제목과 버튼은 계속 보인다. 실패하면 모달을 연 채 입력값을 유지해 다시 시도할 수 있다. 작성 화면의 모션 그래픽 아래 안내('확인해주세요', 항목마다 앞에 대시)와 모달의 '필수 확인'은 같은 `CreateNotice`(`src/components/createNotice`, `--color-box-conditional` 배경, 모서리 16px, 여백 24px·모바일 16px)를 쓴다.
+이벤트 생성(FORM·FILE)은 하단 '입력 완료' 버튼으로 입력값을 검사한 뒤 최종 확인 모달 `EventCreateConfirmModal`(`src/components/eventCreateConfirmModal`)을 띄우고, 모달의 '이벤트 생성'에서 요청을 보낸다. 모달은 최대 560px, 여백 32px(모바일 20px), 모서리 16px이고 생성 정보 요약(`--color-box-default`)과 주의사항 박스를 담는다. 내용이 길면 이 본문만 스크롤하고 제목과 버튼은 계속 보인다. 실패하면 모달을 연 채 입력값을 유지해 다시 시도할 수 있다. 작성 화면의 모션 그래픽 아래 안내('확인해주세요', 항목마다 앞에 대시. 첫 화면에서 입력칸이 가려지지 않게 항목 제목만 보이고, 오른쪽 '자세히 보기'로 설명을 한꺼번에 펼친다)와 모달의 '필수 확인'은 같은 `CreateNotice`(`src/components/createNotice`, `--color-box-conditional` 배경, 모서리 16px, 여백 24px·모바일 16px)를 쓴다.
 
 ## 6. 접근성과 상호작용
 

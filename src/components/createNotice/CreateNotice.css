@@ -1,10 +1,20 @@
 .createNotice {
+  /* 문의하기 FAQ(.contact-faq__item)와 같은 시간·곡선. 설명 높이와 화살표 회전이 함께 움직인다. */
+  --notice-duration: 0.32s;
+  --notice-easing: cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 24px;
   border-radius: 16px;
   background: var(--color-box-conditional);
+}
+
+.createNotice__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .createNotice__title {
@@ -25,10 +35,46 @@
   height: 16px;
 }
 
+/* 누르기 쉽게 안쪽 여백을 두되, 음수 여백으로 제목 줄 높이는 늘리지 않는다. */
+.createNotice__toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 2px;
+  margin: -6px -8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  color: #667196;
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+}
+
+.createNotice__chevron {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--notice-duration) var(--notice-easing);
+}
+
+.createNotice--expanded .createNotice__chevron {
+  transform: rotate(180deg);
+}
+
+@media (hover: hover) {
+  .createNotice__toggle:hover {
+    color: var(--color-text);
+  }
+}
+
+.createNotice__toggle:focus-visible {
+  outline: 2px solid #2d3b86;
+  outline-offset: 2px;
+}
+
 .createNotice__list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -36,9 +82,6 @@
 
 .createNotice__item {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   padding-left: 14px;
 }
 
@@ -61,7 +104,25 @@
   line-height: 1.4;
 }
 
+/* 높이를 0fr ↔ 1fr 로 바꿔 설명 높이만큼 부드럽게 펼치고 접는다. */
+.createNotice__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--notice-duration) var(--notice-easing);
+}
+
+.createNotice--expanded .createNotice__panel {
+  grid-template-rows: 1fr;
+}
+
+.createNotice__panelInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* 제목과의 간격(4px)과 펼쳤을 때 늘어나는 항목 간격(8px → 12px)을 설명 안쪽 여백으로 둬서 함께 펼쳐지게 한다. */
 .createNotice__itemText {
+  padding: 4px 0;
   margin: 0;
   color: var(--color-text-additional);
   font-size: 13px;
@@ -69,8 +130,25 @@
   word-break: keep-all;
 }
 
+.createNotice__item:last-child .createNotice__itemText {
+  padding-bottom: 0;
+}
+
 @media (max-width: 767px) {
   .createNotice {
     padding: 16px;
+  }
+
+  /* 터치 대상 44px 를 확보한다. */
+  .createNotice__toggle {
+    margin: -13px -8px;
+    padding: 13px 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .createNotice__chevron,
+  .createNotice__panel {
+    transition: none;
   }
 }
