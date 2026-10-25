@@ -1,6 +1,7 @@
 import './ConfirmModal.css'
 import { useEffect, useId, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner'
 
 // API 호출과 오류 처리는 호출 화면이 맡고, 이 모달은 확인 여부와 진행 상태만 보여준다.
 export default function ConfirmModal({
@@ -92,7 +93,7 @@ export default function ConfirmModal({
         role='dialog'
         aria-modal='true'
         aria-labelledby={titleId}
-        aria-describedby={descriptionId}
+        aria-describedby={description ? descriptionId : undefined}
         aria-busy={isProcessing}
         tabIndex={-1}
       >
@@ -110,9 +111,11 @@ export default function ConfirmModal({
           <div id={titleId} className='confirmModal-header__title'>
             {title}
           </div>
-          <div id={descriptionId} className='confirmModal-header__info'>
-            {description}
-          </div>
+          {description && (
+            <div id={descriptionId} className='confirmModal-header__info'>
+              {description}
+            </div>
+          )}
         </div>
 
         {children && <div className='confirmModal-body'>{children}</div>}
@@ -133,7 +136,11 @@ export default function ConfirmModal({
             onClick={onConfirm}
             disabled={isProcessing}
           >
-            {isProcessing && <span className='confirmModal-button__spinner' aria-hidden='true' />}
+            {isProcessing && (
+              <span className='confirmModal-button__spinner' aria-hidden='true'>
+                <LoadingSpinner size={20} color='currentColor' />
+              </span>
+            )}
             <span aria-live='polite'>{isProcessing ? processingText : confirmText}</span>
           </button>
         </div>

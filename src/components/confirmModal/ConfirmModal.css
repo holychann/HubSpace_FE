@@ -20,12 +20,6 @@
   }
 }
 
-@keyframes confirmModalSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .confirmModal-overlay {
   position: fixed;
   inset: 0;
@@ -162,13 +156,14 @@
   opacity: 0.75;
 }
 
+/* 메인 로딩 스피너를 버튼 글자색(흰색)으로 작게 띄운다. 스피너 기본 바깥 여백은 지운다. */
 .confirmModal-button__spinner {
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-top-color: var(--color-white);
-  border-radius: 50%;
-  animation: confirmModalSpin 0.8s linear infinite;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.confirmModal-button__spinner .loadingSpinner {
+  margin: 0;
 }
 
 @media (max-width: 480px) {

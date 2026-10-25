@@ -26,7 +26,6 @@ export default function EventCreateConfirmModal({
     <ConfirmModal
       isOpen={isOpen}
       title='내용 확인'
-      description='입력한 정보와 주의사항을 확인해주세요.'
       cancelText='돌아가기'
       confirmText='이벤트 생성'
       processingText='생성 중...'

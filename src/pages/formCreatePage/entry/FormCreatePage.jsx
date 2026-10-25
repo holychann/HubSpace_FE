@@ -212,7 +212,7 @@ export default function FormCreatePage() {
         isOpen={isConfirmOpen}
         method='form'
         rows={[
-          { label: '이벤트 관리명', value: trimmedTitle },
+          { label: '이벤트 이름', value: trimmedTitle },
           { label: '조회 항목', value: validFields.join(', ') },
         ]}
         notice={{

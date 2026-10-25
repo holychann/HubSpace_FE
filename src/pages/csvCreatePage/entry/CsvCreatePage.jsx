@@ -376,7 +376,7 @@ export default function CsvCreatePage() {
         isOpen={isConfirmOpen}
         method='file'
         rows={[
-          { label: '이벤트 관리명', value: trimmedTitle },
+          { label: '이벤트 이름', value: trimmedTitle },
           { label: '첨부 파일', value: uploadedFileName },
           { label: '데이터 수', value: `${rowCount.toLocaleString('ko-KR')}개` },
           { label: '조회 항목', value: validFields.join(', ') },
