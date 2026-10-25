@@ -28,7 +28,14 @@ export default function UserDetailPage() {
               className='user-detail__loadingSpinner'
               size={48}
             />
-            <p className='user-detail__loadingText'>이벤트 정보를 불러오는 중...</p>
+            <p className='user-detail__loadingText'>
+              잠시만 기다려주세요
+              <span className='user-detail__loadingDots' aria-hidden='true'>
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+              </span>
+            </p>
           </div>
         </div>
       </GradientLayout>
