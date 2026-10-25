@@ -384,6 +384,6 @@
   }
 
   .csvColumnSelect-display__chip {
-    min-height: 44px;
+    min-height: 32px;
   }
 }
