@@ -3,6 +3,7 @@ import GradientButton from '../../../components/gradientButton/GradientButton'
 import GradientLayout from '../../../components/gradientLayout/GradientLayout'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useRef, useState } from 'react'
+import { toast } from 'sonner'
 import { useFetchEventDetail } from '../apis/fetchEventDetail'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
 import LookupLayout from '../../../components/lookupLayout/LookupLayout'
@@ -103,6 +104,15 @@ function UserDetailForm({ eventDetail, eventId, navigate, restoredUserSearchData
   const handleSearch = (e) => {
     e.preventDefault()
     if (isNavigatingRef.current) return
+
+    // 비어 있는 첫 항목을 토스트로 알리고 그 입력칸으로 이동
+    const emptyColumn = eventDetail.searchColumns.find((columnName) => !userFormData[columnName].trim())
+    if (emptyColumn) {
+      toast.error(`${emptyColumn}을(를) 입력해주세요.`)
+      e.currentTarget.elements.namedItem(emptyColumn)?.focus()
+      return
+    }
+
     isNavigatingRef.current = true
     document.activeElement?.blur()
 

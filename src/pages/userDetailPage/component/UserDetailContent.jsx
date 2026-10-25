@@ -28,6 +28,8 @@ export default function UserDetailContent({
           id={measurement ? undefined : 'user-detail-form'}
           className='user-detail__form'
           onSubmit={onSubmit}
+          // 브라우저 기본 검증 말풍선 대신 제출 시 토스트로 안내한다
+          noValidate
         >
           {eventDetail.searchColumns.map((columnName) => (
             <div className='user-detail__field' key={columnName}>
