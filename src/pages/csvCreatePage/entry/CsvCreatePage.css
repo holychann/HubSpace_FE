@@ -144,6 +144,19 @@
   box-shadow: 0 0 0 2px rgba(119, 134, 168, 0.12);
 }
 
+/* 입력 글자는 노트북·데스크톱 14px, 태블릿·모바일 15px. 기기마다 실제 크기가 비슷해 보이도록 맞춘 값이다. */
+.csvCreate .eventInput-input-input,
+.csvCreate .eventInput-input-input::placeholder {
+  font-size: 14px;
+}
+
+@media (max-width: 1023px) {
+  .csvCreate .eventInput-input-input,
+  .csvCreate .eventInput-input-input::placeholder {
+    font-size: 15px;
+  }
+}
+
 /* ================= Create Button ================= */
 .csvCreate-action {
   display: flex;
