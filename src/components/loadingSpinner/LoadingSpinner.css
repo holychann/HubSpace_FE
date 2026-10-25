@@ -5,38 +5,55 @@
   margin: 100px auto;
 }
 
-.loadingSpinner__cube {
-  background-color: var(--spinner-color, #333333);
-  width: var(--spinner-cube-size, 15px);
-  height: var(--spinner-cube-size, 15px);
-  position: absolute;
-  top: 0;
-  left: 0;
-  animation: loadingSpinnerCubeMove 1.8s infinite ease-in-out;
+.loadingSpinner__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.loadingSpinner__cube--second {
-  animation-delay: -0.9s;
+/* SVG 요소는 기본 회전 기준이 왼쪽 위라서 viewBox 가운데(24, 24)로 옮긴다. */
+.loadingSpinner__orbit {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: loadingSpinnerOrbit 2.4s linear infinite;
 }
 
-@keyframes loadingSpinnerCubeMove {
-  25% {
-    transform: translateX(42px) rotate(-90deg) scale(0.5);
+/* 중심에서 17 떨어진 점이 5까지 다가오며 작아진다(반지름 3.4 -> 2.6). */
+.loadingSpinner__dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: loadingSpinnerGather 1.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes loadingSpinnerOrbit {
+  to {
+    transform: rotate(360deg);
   }
+}
 
+@keyframes loadingSpinnerGather {
   50% {
-    transform: translateX(42px) translateY(42px) rotate(-179deg);
+    transform: translateX(-12px) scale(0.765);
+  }
+}
+
+/* 동작 줄이기 설정에서는 돌거나 움직이지 않고 점 진하기만 차례로 바꾼다. */
+@media (prefers-reduced-motion: reduce) {
+  .loadingSpinner__orbit {
+    animation: none;
   }
 
-  50.1% {
-    transform: translateX(42px) translateY(42px) rotate(-180deg);
+  .loadingSpinner__dot {
+    fill-opacity: 1;
+    opacity: 0.3;
+    transform: translateX(-5px);
+    animation: loadingSpinnerFade 1.6s ease-in-out infinite;
+    animation-delay: calc(var(--dot-index) * 0.4s);
   }
+}
 
-  75% {
-    transform: translateX(0) translateY(42px) rotate(-270deg) scale(0.5);
-  }
-
-  100% {
-    transform: rotate(-360deg);
+@keyframes loadingSpinnerFade {
+  50% {
+    opacity: 1;
   }
 }

@@ -47,8 +47,6 @@ export default function CookiePage() {
         <LoadingSpinner
           className='cookiePage-spinner'
           size={48}
-          cubeSize={16}
-          color='#2d3b86'
         />
         <p className='cookiePage-text'>로그인 중입니다...</p>
       </div>

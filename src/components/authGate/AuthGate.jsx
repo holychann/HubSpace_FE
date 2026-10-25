@@ -11,7 +11,7 @@ function AuthChecking() {
   return (
     <div className='authGate'>
       <div className='authGate-panel'>
-        <LoadingSpinner className='authGate-spinner' size={48} cubeSize={16} color='#2d3b86' />
+        <LoadingSpinner className='authGate-spinner' size={48} />
         <p className='authGate-text'>로그인 상태를 확인하고 있습니다...</p>
       </div>
     </div>

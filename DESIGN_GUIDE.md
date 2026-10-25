@@ -140,7 +140,8 @@
 
 ### 5.6 진행·알림
 
-- 화면 전체 작업: 고정 오버레이 `rgba(240, 244, 255, 0.68)` + `backdrop-filter: blur(4px)` + `LoadingSpinner`(`color='#2d3b86'`, size 48) + 15px medium 문구. 이벤트 생성은 최종 확인 모달로 옮겨 지금은 이 방식을 쓰는 화면이 없다.
+- `LoadingSpinner`(`src/components/loadingSpinner`): 점 4개가 가운데로 모였다 퍼지며(1.6초) 돈다(한 바퀴 2.4초). 로고 궤도 모티프(신청자 점이 가운데 조회창으로 모인다)에서 왔다. 색은 `color` 속성, 기본은 대표 남색 `--color-text`. 동작 줄이기 설정에서는 회전·이동 없이 점 진하기만 차례로 바뀐다. 로그인 확인·로그인 처리·조회 결과·이벤트 정보 로딩 화면이 size 48로 쓴다.
+- 화면 전체 작업: 고정 오버레이 `rgba(240, 244, 255, 0.68)` + `backdrop-filter: blur(4px)` + `LoadingSpinner`(size 48) + 15px medium 문구. 이벤트 생성은 최종 확인 모달로 옮겨 지금은 이 방식을 쓰는 화면이 없다.
 - 데이터 조회 대기: 내용이 들어올 자리에 `Skeleton`(`src/components/skeleton`)을 실제 요소와 같은 크기로 둔다. 감싸는 요소에 `role='status'`와 `aria-label`로 불러오는 중임을 알린다. 대시보드 카드 목록(`EventItemSkeleton`), 파일 변경 화면의 '현재 설정' 카드(`CurrentSettingsSkeleton`), 헤더 닉네임, 홈 시작 버튼이 이 방식이다. 버튼처럼 화면 폭마다 크기가 달라지는 요소는 크기 클래스를 그대로 두고 `skeleton-fill` 클래스로 칠한다.
 - 확인 모달에서 시작한 작업(이벤트 생성, 이벤트 삭제, 파일 변경): 별도 오버레이 없이 모달의 확인 버튼이 스피너와 "삭제 중..." 같은 문구로 진행 상태를 보여준다.
 - 결과 알림: `sonner` 토스트, 상단 가운데, 기본 2초, `richColors` (`src/App.jsx`).

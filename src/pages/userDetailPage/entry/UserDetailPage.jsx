@@ -27,8 +27,6 @@ export default function UserDetailPage() {
             <LoadingSpinner
               className='user-detail__loadingSpinner'
               size={48}
-              cubeSize={16}
-              color='#2d3b86'
             />
             <p className='user-detail__loadingText'>이벤트 정보를 불러오는 중...</p>
           </div>
