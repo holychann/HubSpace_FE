@@ -150,9 +150,22 @@
 }
 
 @media (max-width: 1023px) {
+  /*
+   * 조회 화면은 높이를 화면에 고정하지 않는다. 고정하면 입력칸이 많거나 화면이 낮을 때
+   * 조회하기 버튼이 안쪽 스크롤 영역 아래로 잘려, 아래 여백이 비어 있어도 버튼이 보이지 않는다.
+   * 내용이 짧으면 최소 높이 안에서 가운데에 놓이고, 길면 페이지가 늘어나 스크롤된다.
+   */
   .gradient-layout.lookup-layout--query {
-    grid-template-rows: minmax(0, 1fr);
+    grid-template-rows: 1fr;
     row-gap: 0;
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+
+  .lookup-layout--query .lookup-layout__query {
+    height: auto;
+    overflow: visible;
   }
 
   .lookup-layout__query {
