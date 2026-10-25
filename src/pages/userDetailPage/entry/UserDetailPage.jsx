@@ -2,7 +2,7 @@ import './UserDetailPage.css'
 import GradientButton from '../../../components/gradientButton/GradientButton'
 import GradientLayout from '../../../components/gradientLayout/GradientLayout'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { useFetchEventDetail } from '../apis/fetchEventDetail'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
@@ -18,28 +18,8 @@ export default function UserDetailPage() {
   // api로 이벤트 정보 조회
   const { eventDetail, loading, error } = useFetchEventDetail(eventId)
 
-  // 임시 로딩 화면
   if (loading) {
-    return (
-      <GradientLayout className='user-detail__loadingLayout'>
-        <div className='user-detail__container'>
-          <div className='user-detail__loading'>
-            <LoadingSpinner
-              className='user-detail__loadingSpinner'
-              size={48}
-            />
-            <p className='user-detail__loadingText'>
-              잠시만 기다려주세요
-              <span className='user-detail__loadingDots' aria-hidden='true'>
-                <span>.</span>
-                <span>.</span>
-                <span>.</span>
-              </span>
-            </p>
-          </div>
-        </div>
-      </GradientLayout>
-    )
+    return <UserDetailLoading />
   }
 
   if (error) {
@@ -76,6 +56,37 @@ export default function UserDetailPage() {
       navigate={navigate}
       restoredUserSearchData={location.state?.userSearchData}
     />
+  )
+}
+
+// 로딩 화면: 응답이 늦어져도 멈춘 것처럼 보이지 않게 3초마다 문구를 번갈아 보여준다
+function UserDetailLoading() {
+  const [showDetailText, setShowDetailText] = useState(false)
+
+  useEffect(() => {
+    const timer = setInterval(() => setShowDetailText((prev) => !prev), 3000)
+    return () => clearInterval(timer)
+  }, [])
+
+  return (
+    <GradientLayout className='user-detail__loadingLayout'>
+      <div className='user-detail__container'>
+        <div className='user-detail__loading'>
+          <LoadingSpinner
+            className='user-detail__loadingSpinner'
+            size={48}
+          />
+          <p className='user-detail__loadingText'>
+            {showDetailText ? '이벤트 정보를 불러오고 있어요' : '잠시만 기다려주세요'}
+            <span className='user-detail__loadingDots' aria-hidden='true'>
+              <span>.</span>
+              <span>.</span>
+              <span>.</span>
+            </span>
+          </p>
+        </div>
+      </div>
+    </GradientLayout>
   )
 }
 
