@@ -191,6 +191,11 @@
   border-radius: 5px;
 }
 
+/* 위 공통 padding이 EventInput의 아이콘 자리 여백을 덮어쓰므로 다시 비운다. */
+.formCreate .eventInput-input-input {
+  padding-right: 36px;
+}
+
 .formCreate-name--filled .eventInput-input-input,
 .formCreate-fieldInput__input--filled {
   border: 1.5px solid var(--color-select-selected-border);
