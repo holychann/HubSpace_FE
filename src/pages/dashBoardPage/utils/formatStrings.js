@@ -1,3 +1,5 @@
+import { isLocalPreviewMode } from '../../../mocks/localPreview.js'
+
 export function formatDate(createdAt) {
   if (!createdAt) return ''
 
@@ -13,5 +15,6 @@ export function formatDate(createdAt) {
 export function makeSearchUrl(id) {
   if (!id) return ''
 
-  return `https://hubspacekw.com/search?eventId=${encodeURIComponent(id)}`
+  const origin = isLocalPreviewMode ? window.location.origin : 'https://hubspacekw.com'
+  return `${origin}/search?eventId=${encodeURIComponent(id)}`
 }

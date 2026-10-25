@@ -2,11 +2,11 @@ import './UserDetailPage.css'
 import GradientButton from '../../../components/gradientButton/GradientButton'
 import GradientLayout from '../../../components/gradientLayout/GradientLayout'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
-import { getUserFieldPlaceholder } from '../../userResultPage/utils/UserFieldConfig'
+import { useRef, useState } from 'react'
 import { useFetchEventDetail } from '../apis/fetchEventDetail'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
-import authLogo from '../../../assets/auth/auth-logo.png'
+import LookupLayout from '../../../components/lookupLayout/LookupLayout'
+import UserDetailContent, { UserDetailLogo } from '../component/UserDetailContent'
 
 // 사용자 이벤트 신청 조회 페이지
 export default function UserDetailPage() {
@@ -22,9 +22,7 @@ export default function UserDetailPage() {
     return (
       <GradientLayout>
         <div className='user-detail__container'>
-          <a href='/' className='user-detail__logoLink' aria-label='홈으로 이동'>
-            <img src={authLogo} alt='HubSpace' className='user-detail__logo' />
-          </a>
+          <UserDetailLogo />
           <div className='user-detail__loading'>
             <LoadingSpinner
               className='user-detail__loadingSpinner'
@@ -77,6 +75,7 @@ export default function UserDetailPage() {
 }
 
 function UserDetailForm({ eventDetail, eventId, navigate, restoredUserSearchData }) {
+  const isNavigatingRef = useRef(false)
   const [userFormData, setUserFormData] = useState(() => {
     const initialFormData = {}
     eventDetail.searchColumns.forEach((columnName) => {
@@ -98,6 +97,8 @@ function UserDetailForm({ eventDetail, eventId, navigate, restoredUserSearchData
   // 조회 버튼 클릭 (form 제출)
   const handleSearch = (e) => {
     e.preventDefault()
+    if (isNavigatingRef.current) return
+    isNavigatingRef.current = true
     document.activeElement?.blur()
 
     // result 페이지로 이동
@@ -106,42 +107,19 @@ function UserDetailForm({ eventDetail, eventId, navigate, restoredUserSearchData
   }
 
   return (
-    <GradientLayout>
-      <div className='user-detail__container'>
-        {/* 로고 영역 */}
-        <a href='/' className='user-detail__logoLink' aria-label='홈으로 이동'>
-          <img src={authLogo} alt='HubSpace' className='user-detail__logo' />
-        </a>
-        <div className='user-detail__card'>
-          <h1 className='user-detail__title'>{eventDetail.eventTitle || '신청 조회'}</h1>
-          <p className='user-detail__description'>아래 정보를 입력해주세요.</p>
-
-          <form className='user-detail__form' onSubmit={handleSearch}>
-            {/* 관리자가 선택한 필드만 동적으로 랜더링 */}
-            {eventDetail.searchColumns.map((columnName) => (
-              <div className='user-detail__field' key={columnName}>
-                <label htmlFor={columnName} className='user-detail__label'>
-                  {columnName}
-                </label>
-                <input
-                  type='text'
-                  id={columnName}
-                  name={columnName}
-                  className='user-detail__input'
-                  placeholder={getUserFieldPlaceholder(columnName)}
-                  value={userFormData[columnName]}
-                  onChange={handlerUserInput}
-                  required
-                />
-              </div>
-            ))}
-
-            <GradientButton type='submit' className='user-detail__submitButton'>
-              조회하기
-            </GradientButton>
-          </form>
-        </div>
-      </div>
-    </GradientLayout>
+    <LookupLayout
+      action={
+        <button type='submit' form='user-detail-form' className='user-detail__submitButton'>
+          조회하기
+        </button>
+      }
+    >
+      <UserDetailContent
+        eventDetail={eventDetail}
+        values={userFormData}
+        onChange={handlerUserInput}
+        onSubmit={handleSearch}
+      />
+    </LookupLayout>
   )
 }

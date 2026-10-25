@@ -1,4 +1,4 @@
-export const isLocalPreviewMode = import.meta.env.DEV
+export const isLocalPreviewMode = import.meta.env?.DEV === true
 
 export const LOCAL_PREVIEW_READ_ONLY_MESSAGE =
   '로컬 미리보기 모드에서는 서버 데이터를 생성하거나 삭제할 수 없습니다.'
@@ -85,6 +85,18 @@ const previewFileDetails = {
   },
 }
 
+const previewFormAnswers = {
+  이름: '조성찬',
+  학번: '24',
+  '신청 상태': '신청 완료',
+}
+
+const previewFileAnswers = {
+  'preview-file-002': { 이름: '조성찬', 학번: '24', '합격 여부': '선발' },
+  'preview-file-004': { 이름: '조성찬', 연락처: '010-1234-5678', 소속: '컴퓨터정보공학부' },
+  'preview-file-006': { 이름: '조성찬', 수험번호: '2026001', 결과: '선발', '안내 사항': '신분증을 지참해주세요.' },
+}
+
 const getPreviewFileDetail = (eventId) => {
   const event = previewEvents.find((item) => item.id === eventId)
   const detail = previewFileDetails[eventId]
@@ -114,4 +126,26 @@ export const getLocalPreviewPrivateGet = (url) => {
   }
 
   return Promise.reject(new Error(`로컬 미리보기 응답이 없는 요청입니다: ${url}`))
+}
+
+export const getLocalPreviewPublicGet = (url) => {
+  const request = new URL(url, 'http://hubspace.local')
+  const match = request.pathname.match(/^\/v1\/events\/([^/]+)\/(summary|search)$/)
+  const event = match && previewEvents.find((item) => item.id === match[1])
+  if (!event) {
+    return Promise.reject(new Error(`로컬 미리보기 응답이 없는 요청입니다: ${url}`))
+  }
+
+  const searchColumns = [...(previewFileDetails[event.id]?.searchColumns ?? ['이름', '학번'])]
+  if (match[2] === 'summary') {
+    return Promise.resolve({ success: true, data: { ...event, searchColumns } })
+  }
+
+  const answers = event.eventType === 'FORM' ? previewFormAnswers : previewFileAnswers[event.id]
+  const found = searchColumns.every((column) => request.searchParams.get(column)?.trim() === answers[column])
+  return Promise.resolve(
+    found
+      ? { isSuccess: true, data: { answers: { ...answers } } }
+      : { isSuccess: false, message: '해당 정보로 조회된 기록이 없습니다.' },
+  )
 }

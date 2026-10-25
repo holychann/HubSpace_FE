@@ -6,7 +6,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateY(-55px);
 }
 
 .user-result__loading {
@@ -54,7 +53,7 @@ li[data-sonner-toast].user-result__syncToast [data-icon] {
   height: 28px;
   margin: 0;
   border-radius: 9px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--normal-bg);
   color: inherit;
   line-height: 0;
 }
@@ -81,7 +80,7 @@ li[data-sonner-toast].user-result__syncToast [data-title] {
 }
 
 li[data-sonner-toast].user-result__syncToast [data-description] {
-  color: rgba(255, 255, 255, 0.82);
+  color: inherit;
   font-family: var(--font-family);
   font-size: 13px;
   font-weight: var(--font-light);
@@ -111,48 +110,32 @@ li[data-sonner-toast].user-result__syncToast
 
 li[data-sonner-toast].user-result__syncToast
   button[data-close-button]:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline: 2px solid currentColor;
   outline-offset: 2px;
   box-shadow: none;
 }
 
-.user-result__logoLink {
-  display: block;
-  line-height: 0;
-  margin-bottom: 22px;
-}
-
-.user-result__logo {
-  display: block;
-  width: 196px;
-  height: 74px;
-  object-fit: contain;
-}
-
 .user-result__status-card {
   width: 100%;
-  border-radius: 32px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow:
-    0 24px 60px rgba(37, 45, 92, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(203, 215, 245, 0.85);
-  padding: 38px 22px 34px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.user-result__container--not-found .user-result__status-card {
+  margin-bottom: 0;
 }
 
 .result__status-icon {
-  width: 68px;
-  height: 68px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .result__status-icon svg {
@@ -218,8 +201,8 @@ li[data-sonner-toast].user-result__syncToast
   font-family: var(--font-family);
   font-size: 20px;
   font-weight: var(--font-medium);
-  line-height: 1.22;
-  letter-spacing: -0.02em;
+  line-height: 28px;
+  letter-spacing: 0;
   text-align: center;
   margin: 0;
 }
@@ -228,7 +211,7 @@ li[data-sonner-toast].user-result__syncToast
   color: #595d73;
   font-family: var(--font-family);
   font-size: 14px;
-  font-weight: var(--font-light);
+  font-weight: var(--font-regular);
   line-height: 1.55;
   text-align: center;
   white-space: pre-line;
@@ -236,7 +219,8 @@ li[data-sonner-toast].user-result__syncToast
 }
 
 .user-result__info-card {
-  width: 100%;
+  width: calc(100% + 2px);
+  max-width: calc(var(--lookup-action-max-width) + 2px);
   border-radius: 20px;
   background: rgba(238, 240, 255, 0.6);
   border: 1px solid rgba(177, 188, 228, 0.45);
@@ -245,7 +229,7 @@ li[data-sonner-toast].user-result__syncToast
   display: flex;
   flex-direction: column;
   gap: 14px;
-  margin-bottom: 40px;
+  margin-bottom: 0;
 }
 
 .user-result__info-row {
@@ -277,47 +261,49 @@ li[data-sonner-toast].user-result__syncToast
   word-break: break-word;
 }
 
-.user-result__button {
-  width: 100%;
-  margin-bottom: 12px;
-}
-
 .user-result__backButton {
-  background: transparent;
-  min-height: 54px;
-  font-size: 18px;
-  font-weight: var(--font-semibold);
-  transition:
-    color 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.35s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #2d3b86;
+  color: var(--color-white);
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: var(--font-medium);
+  line-height: 22px;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.user-result__backButton:hover,
-.user-result__backButton:focus-visible {
-  color: var(--color-text);
-  background: transparent;
-  box-shadow: 0 14px 28px rgba(70, 97, 216, 0.16);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .user-result__backButton:hover:not(:disabled) {
+    background: var(--color-text);
+  }
+}
+
+.user-result__backButton:active:not(:disabled) {
+  background: var(--color-text);
 }
 
 .user-result__backButton:focus-visible {
-  outline: none;
+  outline: 2px solid var(--color-main);
+  outline-offset: 2px;
+}
+
+.user-result__backButton:disabled {
+  opacity: 0.65;
+  cursor: default;
 }
 
 @media (min-width: 768px) {
   .user-result__container {
     max-width: 860px;
-    transform: none;
-  }
-
-  .user-result__logo {
-    width: 276px;
-    height: 104px;
-  }
-
-  .user-result__logoLink {
-    margin-bottom: 34px;
   }
 
   .user-result__loading {
@@ -337,37 +323,21 @@ li[data-sonner-toast].user-result__syncToast
   }
 
   .user-result__status-card {
-    padding: 48px 40px 42px;
-    margin-bottom: 26px;
-  }
-
-  .result__status-icon {
-    width: 88px;
-    height: 88px;
+    margin-bottom: 28px;
   }
 
   .user-result__status-title {
-    font-size: 32px;
-  }
-
-  .user-result__status-subtitle {
-    font-size: 19px;
+    font-size: 24px;
+    line-height: 34px;
   }
 
   .user-result__info-card {
     padding: 22px 28px;
-    margin-bottom: 58px;
   }
 
   .user-result__info-row {
     font-size: 15px;
   }
-
-  .user-result__backButton {
-    min-height: 68px;
-    font-size: 28px;
-  }
-
 }
 
 @media (min-width: 1024px) {
@@ -381,42 +351,16 @@ li[data-sonner-toast].user-result__syncToast
     max-width: 840px;
   }
 
-  .user-result__status-card,
-  .user-result__info-card,
-  .user-result__button {
-    max-width: 520px;
-  }
-
   .user-result__status-card {
-    padding: 38px 30px 34px;
-    margin-bottom: 20px;
-  }
-
-  .result__status-icon {
-    width: 74px;
-    height: 74px;
-  }
-
-  .user-result__status-title {
-    font-size: 26px;
-  }
-
-  .user-result__status-subtitle {
-    font-size: 16px;
+    max-width: 520px;
   }
 
   .user-result__info-card {
     padding: 22px 24px;
-    margin-bottom: 44px;
   }
 
   .user-result__info-row {
     font-size: 14px;
-  }
-
-  .user-result__backButton {
-    min-height: 54px;
-    font-size: 20px;
   }
 }
 
@@ -443,33 +387,11 @@ li[data-sonner-toast].user-result__syncToast
 }
 
 @media (max-width: 479px) {
-  .user-result__status-card {
-    padding: 24px 20px 20px;
-  }
-
-  .result__status-icon {
-    width: 72px;
-    height: 72px;
-  }
-
-  .user-result__status-title {
-    font-size: 20px;
-  }
-
-  .user-result__status-subtitle {
-    font-size: 13px;
-  }
-
   .user-result__info-label {
     font-size: 1em;
   }
 
   .user-result__info-value {
     font-size: 1em;
-  }
-
-  .user-result__backButton {
-    min-height: 52px;
-    font-size: 17px;
   }
 }

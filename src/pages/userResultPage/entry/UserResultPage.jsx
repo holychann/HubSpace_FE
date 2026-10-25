@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import GradientLayout from '../../../components/gradientLayout/GradientLayout'
-import GradientButton from '../../../components/gradientButton/GradientButton'
+import LookupLayout from '../../../components/lookupLayout/LookupLayout'
 import './UserResultPage.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { isGoogleFormsEvent, processUserResult } from '../utils/UserFieldConfig'
@@ -8,7 +7,7 @@ import { toast } from 'sonner'
 
 import { fetchUserSearch } from '../apis/fetchUserSearch'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
-import authLogo from '../../../assets/auth/auth-logo.png'
+import UserDetailContent, { UserDetailLogo } from '../../userDetailPage/component/UserDetailContent'
 import AnimatedCheck from '../../../components/animatedCheck/AnimatedCheck'
 import AlertIcon from '../../../assets/result/result-alert.svg?react'
 
@@ -21,6 +20,7 @@ export default function UserResultPage() {
   const [userSearchResult, setUserSearchResult] = useState(null)
   const [loading, setLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
+  const [canGoBack, setCanGoBack] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -42,6 +42,7 @@ export default function UserResultPage() {
 
     const fetchData = async () => {
       setLoading(true)
+      setCanGoBack(false)
       try {
         const userApiResponse = await fetchUserSearch(eventId, userSearchData)
         const processResult = processUserResult(userApiResponse, eventDetail)
@@ -58,6 +59,14 @@ export default function UserResultPage() {
 
     fetchData()
   }, [eventId, eventDetail, userSearchData])
+
+  useEffect(() => {
+    if (loading || !userSearchResult) return undefined
+
+    // 조회 버튼의 연속 클릭이 새 화면의 재조회 버튼으로 이어지지 않게 한다.
+    const timer = window.setTimeout(() => setCanGoBack(true), 500)
+    return () => window.clearTimeout(timer)
+  }, [loading, userSearchResult])
 
   useEffect(() => {
     if (
@@ -79,45 +88,10 @@ export default function UserResultPage() {
     return () => toast.dismiss(syncDelayToastId)
   }, [eventDetail, eventId, userSearchResult])
 
-  // 로딩 중
-  if (loading) {
-    return (
-      <GradientLayout>
-        <div className='user-result__container'>
-          <a href='/' className='user-result__logoLink' aria-label='홈으로 이동'>
-            <img src={authLogo} alt='HubSpace' className='user-result__logo' />
-          </a>
-          <div className='user-result__loading'>
-            <LoadingSpinner
-              className='user-result__loadingSpinner'
-              size={48}
-              cubeSize={16}
-              color='#2d3b86'
-            />
-            <p className='user-result__loadingText'>조회 중입니다...</p>
-          </div>
-        </div>
-      </GradientLayout>
-    )
-  }
-
-  // 결과 없음
-  if (!userSearchResult) {
-    return (
-      <GradientLayout>
-        <div className='user-result__container'>
-          <p>{errorMessage || '조회 결과를 불러올 수 없습니다'}</p>
-        </div>
-      </GradientLayout>
-    )
-  }
-  const detailEntries =
-    userSearchResult.userResultType === 'detail'
-      ? Object.entries(userSearchResult.userDetailInfo || {})
-      : []
-
   // 돌아가기 버튼 클릭 시 실행
   const handleGoBack = () => {
+    if (loading || !canGoBack) return
+
     if (
       userSearchResult.userResultType === 'notFound' &&
       isGoogleFormsEvent(eventDetail)
@@ -133,17 +107,62 @@ export default function UserResultPage() {
     navigate(-1) // 브라우저 히스토리 기준 이전 페이지
   }
 
-  return (
-    <GradientLayout>
-      <div className='user-result__container'>
-        {/* 로고 영역 */}
-        <a href='/' className='user-result__logoLink' aria-label='홈으로 이동'>
-          <img src={authLogo} alt='HubSpace' className='user-result__logo' />
-        </a>
+  const backAction = (
+    <button
+      type='button'
+      onClick={handleGoBack}
+      disabled={loading || !canGoBack}
+      className='user-result__backButton'
+    >
+      다시 조회하기
+    </button>
+  )
 
-        {userSearchResult.userResultType === 'detail' ? (
+  const layoutAlignment = eventDetail
+    ? { reference: <UserDetailContent eventDetail={eventDetail} measurement />, logo: <UserDetailLogo /> }
+    : {}
+
+  // 로딩 중
+  if (loading) {
+    return (
+      <LookupLayout action={backAction} {...layoutAlignment}>
+        <div className='user-result__container'>
+          <div className='user-result__loading'>
+            <LoadingSpinner
+              className='user-result__loadingSpinner'
+              size={48}
+              cubeSize={16}
+              color='#2d3b86'
+            />
+            <p className='user-result__loadingText'>조회 중입니다...</p>
+          </div>
+        </div>
+      </LookupLayout>
+    )
+  }
+
+  // 결과 없음
+  if (!userSearchResult) {
+    return (
+      <LookupLayout {...layoutAlignment}>
+        <div className='user-result__container'>
+          <p>{errorMessage || '조회 결과를 불러올 수 없습니다'}</p>
+        </div>
+      </LookupLayout>
+    )
+  }
+  const detailEntries =
+    userSearchResult.userResultType === 'detail'
+      ? Object.entries(userSearchResult.userDetailInfo || {})
+      : []
+  const hasDetail = userSearchResult.userResultType === 'detail'
+
+  return (
+    <LookupLayout action={backAction} centerContent={!hasDetail} {...layoutAlignment}>
+      <div className={`user-result__container${hasDetail ? '' : ' user-result__container--not-found'}`}>
+        {hasDetail ? (
           <>
-            {/* 상태 카드 */}
+            {/* 상태 안내 */}
             <div className='user-result__status-card'>
               <div className='result__status-icon result__status-icon--ok'>
                 <AnimatedCheck />
@@ -163,7 +182,7 @@ export default function UserResultPage() {
             </div>
           </>
         ) : (
-          /* 조회 실패 카드 */
+          /* 조회 실패 안내 */
           <div className='user-result__status-card'>
             <div className='result__status-icon result__status-icon--no'>
               <AlertIcon />
@@ -172,13 +191,7 @@ export default function UserResultPage() {
             <p className='user-result__status-subtitle'>{userSearchResult.userResultMessage}</p>
           </div>
         )}
-
-        <div className='user-result__button'>
-          <GradientButton type='button' onClick={handleGoBack} className='user-result__backButton'>
-            <span>다시 조회하기</span>
-          </GradientButton>
-        </div>
       </div>
-    </GradientLayout>
+    </LookupLayout>
   )
 }

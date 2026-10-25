@@ -7,6 +7,17 @@
   font-weight: var(--font-regular);
 }
 
+.app:has(:global(.lookup-layout--result)) {
+  position: relative;
+  min-height: 100svh;
+  height: auto;
+  overflow: visible;
+}
+
+.app:has(:global(.lookup-layout--result)) :global(.footer) {
+  position: absolute;
+}
+
 .app[data-font-status='loading'] {
   visibility: hidden;
 }
@@ -21,17 +32,17 @@
 }
 
 .toast[data-sonner-toast][data-styled='true'] {
-  --normal-bg: #253173;
-  --normal-border: rgb(255 255 255 / 0.2);
-  --normal-text: var(--color-white);
-  --gray2: #394994;
-  --gray4: rgb(255 255 255 / 0.2);
-  --gray5: rgb(255 255 255 / 0.3);
-  --gray12: var(--color-white);
+  --normal-bg: var(--color-white);
+  --normal-border: rgba(183, 193, 220, 0.85);
+  --normal-text: #59668c;
+  --gray2: var(--color-box-conditional);
+  --gray4: var(--normal-border);
+  --gray5: var(--normal-border);
+  --gray12: var(--normal-text);
 }
 
 .toast[data-sonner-toast][data-styled='true'] [data-description] {
-  color: rgb(255 255 255 / 0.82);
+  color: inherit;
 }
 
 @media (max-width: 600px) {
