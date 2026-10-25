@@ -4,6 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // iOS Safari는 글자가 16px보다 작은 입력칸을 누르면 화면을 자동 확대한다.
+      // iOS는 maximum-scale과 관계없이 손가락 확대를 허용하므로, iOS에서만 확대 배율을 1로 제한해 자동 확대만 막는다.
+      // 안드로이드는 maximum-scale을 지켜 손가락 확대까지 막히므로 적용하지 않는다.
+      if (
+        /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+        (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1)
+      ) {
+        document
+          .querySelector('meta[name="viewport"]')
+          .setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1')
+      }
+    </script>
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta
       name="description"
