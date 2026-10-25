@@ -44,6 +44,18 @@
   margin: 0;
 }
 
+/* 데스크톱보다 좁은 화면은 가운데에 두면 아래쪽 푸터와 브라우저 주소창 때문에 아래로 치우쳐 보여,
+   조회 결과 화면 로딩과 같은 40% 지점에 둔다. */
+@media (max-width: 1023px) {
+  .user-detail__loading {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 32px);
+  }
+}
+
 .user-detail__loadingText {
   color: #2b2f5f;
   font-family: var(--font-family);

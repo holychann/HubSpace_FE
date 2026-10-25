@@ -1,6 +1,6 @@
 .gradient-layout.lookup-layout {
   --lookup-top-padding: 20px;
-  --lookup-bottom-padding: clamp(88px, 30svh, 280px);
+  --lookup-bottom-padding: clamp(88px, 20svh, 280px);
   --lookup-row-gap: 32px;
   --lookup-action-max-width: 379px;
   --lookup-reference-height: max(0px, calc(100svh - var(--lookup-top-padding) - var(--lookup-bottom-padding) - var(--lookup-row-gap) - 52px));
@@ -124,7 +124,7 @@
 @media (min-width: 768px) {
   .gradient-layout.lookup-layout {
     --lookup-top-padding: 40px;
-    --lookup-bottom-padding: clamp(88px, 24svh, 280px);
+    --lookup-bottom-padding: clamp(88px, 14svh, 280px);
     --lookup-action-max-width: 411px;
     padding-inline: 40px;
   }
