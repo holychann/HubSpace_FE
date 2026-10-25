@@ -126,6 +126,13 @@ function UserDetailForm({ eventDetail, eventId, navigate, restoredUserSearchData
     isNavigatingRef.current = true
     document.activeElement?.blur()
 
+    // 결과 화면에서 '다시 조회하기'나 뒤로 가기로 돌아왔을 때 입력값이 남아 있도록 현재 기록에 저장한다
+    const searchParams = new URLSearchParams({ eventId: String(eventId) })
+    navigate(`/search?${searchParams.toString()}`, {
+      replace: true,
+      state: { userSearchData: userFormData },
+    })
+
     // result 페이지로 이동
     // userSearchData -> 사용자가 입력한 값
     navigate('/result', { state: { eventId, eventDetail, userSearchData: userFormData } })
