@@ -130,6 +130,20 @@
   border-radius: 10px;
 }
 
+/* FORM 생성 화면과 같은 테두리: 기본은 옅게, 입력하면 진하게, 포커스하면 강조색으로 바꾼다. */
+.csvCreate .eventInput-input-input {
+  border: 1px solid var(--color-border);
+}
+
+.csvCreate-name--filled .eventInput-input-input {
+  border: 1.5px solid var(--color-select-selected-border);
+}
+
+.csvCreate .eventInput-input-input:focus {
+  border: 1.5px solid var(--color-select-open-border);
+  box-shadow: 0 0 0 2px rgba(119, 134, 168, 0.12);
+}
+
 /* ================= Create Button ================= */
 .csvCreate-action {
   display: flex;

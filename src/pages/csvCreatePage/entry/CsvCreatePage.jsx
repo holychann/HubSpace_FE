@@ -331,7 +331,7 @@ export default function CsvCreatePage() {
         <h2 className='csvCreate-inputDivider'>File Info</h2>
 
         {/* ================= Event Name ================= */}
-        <div className='csvCreate-name'>
+        <div className={`csvCreate-name ${trimmedTitle ? 'csvCreate-name--filled' : ''}`}>
           <EventInput value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />
         </div>
 
