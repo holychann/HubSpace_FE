@@ -228,6 +228,11 @@
 
 /* 데스크탑 */
 @media (min-width: 1024px) {
+  .gradient-layout.user-detail__loadingLayout {
+    justify-content: center;
+    padding-top: 40px;
+  }
+
   .user-detail__card {
     max-width: 620px;
   }

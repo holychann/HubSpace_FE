@@ -20,7 +20,7 @@ export default function UserDetailPage() {
   // 임시 로딩 화면
   if (loading) {
     return (
-      <GradientLayout>
+      <GradientLayout className='user-detail__loadingLayout'>
         <div className='user-detail__container'>
           <UserDetailLogo />
           <div className='user-detail__loading'>

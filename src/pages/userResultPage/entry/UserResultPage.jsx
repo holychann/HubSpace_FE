@@ -125,7 +125,7 @@ export default function UserResultPage() {
   // 로딩 중
   if (loading) {
     return (
-      <LookupLayout action={backAction} {...layoutAlignment}>
+      <LookupLayout {...layoutAlignment}>
         <div className='user-result__container'>
           <div className='user-result__loading'>
             <LoadingSpinner
