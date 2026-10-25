@@ -234,25 +234,54 @@
   gap: 10px;
 }
 
-/* EventButton 과 같은 크기의 보조 버튼 */
+/* 남색 EventButton 과 같은 크기의 보조 버튼. 최종 확인 모달의 '돌아가기'와 같은 모양이다. */
 .csvDetail-secondaryButton {
-  padding: 14px 22px;
-  border: 1.5px solid var(--color-border);
-  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 132px;
+  height: 48px;
+  padding: 12px 24px;
+  box-sizing: border-box;
+  border: 1px solid var(--color-text);
+  border-radius: 12px;
   background-color: var(--color-white);
-  color: var(--color-text-additional);
+  color: var(--color-text);
   font-size: 15px;
   font-weight: var(--font-medium);
+  line-height: 22px;
+  letter-spacing: -0.005em;
   transition: background-color 0.18s ease;
 }
 
-.csvDetail-secondaryButton:hover:not(:disabled) {
-  background-color: var(--color-box-conditional);
+@media (hover: hover) {
+  .csvDetail-secondaryButton:hover:not(:disabled) {
+    background-color: var(--color-box-conditional);
+  }
 }
 
 .csvDetail-secondaryButton:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+}
+
+/* 터치 기기에서만 누르는 동안 살짝 작아졌다가 손을 떼면 돌아온다. 마우스 환경에는 적용하지 않는다. */
+@media (hover: none) and (pointer: coarse) {
+  .csvDetail-secondaryButton {
+    transition:
+      background-color 0.18s ease,
+      transform 0.12s ease-out;
+  }
+
+  .csvDetail-secondaryButton:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  .csvDetail-secondaryButton {
+    transition: background-color 0.18s ease;
+  }
 }
 
 .csvDetail-summary__copy:focus-visible,
@@ -340,7 +369,8 @@
   }
 
   .csvDetail-actions__buttons .eventButton-button,
-  .csvDetail-status__actions .eventButton-button {
+  .csvDetail-status__actions .eventButton-button,
+  .csvDetail-actions__buttons .csvDetail-secondaryButton {
     width: 100%;
   }
 }

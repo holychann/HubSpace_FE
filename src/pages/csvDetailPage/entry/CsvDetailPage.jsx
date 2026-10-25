@@ -378,6 +378,7 @@ function CsvDatasetEditor({ eventId }) {
                 취소
               </button>
               <EventButton
+                variant='navy'
                 text={isSubmitting ? '변경 중...' : '파일 변경'}
                 onClick={handleSubmitClick}
                 disabled={!canSubmit}
