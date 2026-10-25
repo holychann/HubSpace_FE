@@ -8,8 +8,14 @@
   align-items: center;
 }
 
+/* 로고는 조회 폼 화면과 같은 높이(위쪽)에 고정되므로, 로딩은 로고 아래가 아니라 화면 높이 비율로 둔다.
+   데스크톱보다 좁은 화면은 가운데에 두면 로고와 너무 떨어져 보여 40% 지점에 둔다. */
 .user-result__loading {
-  width: 100%;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 32px);
   max-width: 360px;
   display: flex;
   flex-direction: column;
@@ -349,6 +355,10 @@ li[data-sonner-toast].user-result__syncToast
 
   .user-result__container {
     max-width: 840px;
+  }
+
+  .user-result__loading {
+    top: 50%;
   }
 
   .user-result__status-card {
