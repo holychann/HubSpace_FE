@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 import { useFetchEventDetail } from '../apis/fetchEventDetail'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
 import LookupLayout from '../../../components/lookupLayout/LookupLayout'
-import UserDetailContent, { UserDetailLogo } from '../component/UserDetailContent'
+import UserDetailContent from '../component/UserDetailContent'
 
 // 사용자 이벤트 신청 조회 페이지
 export default function UserDetailPage() {
@@ -23,7 +23,6 @@ export default function UserDetailPage() {
     return (
       <GradientLayout className='user-detail__loadingLayout'>
         <div className='user-detail__container'>
-          <UserDetailLogo />
           <div className='user-detail__loading'>
             <LoadingSpinner
               className='user-detail__loadingSpinner'
