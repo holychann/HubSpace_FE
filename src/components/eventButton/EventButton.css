@@ -30,6 +30,30 @@
   opacity: 0.45;
 }
 
+/* 터치 기기에서만 누르는 동안 살짝 작아졌다가 손을 떼면 돌아온다. 마우스 환경에는 적용하지 않는다. */
+@media (hover: none) and (pointer: coarse) {
+  .eventButton-button {
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.12s ease-out;
+  }
+
+  .eventButton-button:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  .eventButton-button {
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+}
+
 .eventButton-button:focus-visible {
   outline: 2px solid #3026b8;
   outline-offset: 2px;

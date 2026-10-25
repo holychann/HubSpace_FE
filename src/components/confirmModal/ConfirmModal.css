@@ -115,6 +115,23 @@
   color: var(--color-text-additional);
 }
 
+/* 터치 기기에서만 누르는 동안 살짝 작아졌다가 손을 떼면 돌아온다. 마우스 환경에는 적용하지 않는다. */
+@media (hover: none) and (pointer: coarse) {
+  .confirmModal-button {
+    transition: transform 0.12s ease-out;
+  }
+
+  .confirmModal-button:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  .confirmModal-button {
+    transition: none;
+  }
+}
+
 .confirmModal-button--confirm {
   background: var(--color-text);
   color: var(--color-white);

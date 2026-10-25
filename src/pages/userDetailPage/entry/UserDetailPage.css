@@ -204,6 +204,25 @@
   background: var(--color-text);
 }
 
+/* 터치 기기에서만 누르는 동안 살짝 작아졌다가 손을 떼면 돌아온다. 마우스 환경에는 적용하지 않는다. */
+@media (hover: none) and (pointer: coarse) {
+  .user-detail__submitButton {
+    transition:
+      background-color 0.2s ease,
+      transform 0.12s ease-out;
+  }
+
+  .user-detail__submitButton:active {
+    transform: scale(0.96);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  .user-detail__submitButton {
+    transition: background-color 0.2s ease;
+  }
+}
+
 .user-detail__submitButton:focus-visible {
   outline: 2px solid var(--color-main);
   outline-offset: 2px;
