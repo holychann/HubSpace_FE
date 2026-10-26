@@ -1,9 +1,10 @@
-import { useId, useRef, useState } from 'react'
+import { useId, useRef } from 'react'
 import { toast } from 'sonner'
 import '../../homePage/entry/HomePage.css'
 import './ContactPage.css'
 import Header from '../../../components/header/Header'
 import { usePublicSession } from '../../homePage/utils/publicSession'
+import useExpandMotion from '../../../utils/useExpandMotion'
 import ChevronIcon from '../../../assets/contact/contact-chevron.svg?react'
 
 const CONTACT_EMAIL = 'holy_chan@naver.com'
@@ -34,19 +35,22 @@ const FAQS = [
 ]
 
 // <details> 는 열고 닫을 때 높이를 애니메이션할 수 없어서 버튼과 펼침 영역으로 만든다.
-// 닫힌 답은 inert 로 화면 낭독기와 탭 이동에서 뺀다.
+// 펼침 애니메이션은 useExpandMotion 이 그린다. 닫힌 답은 inert 로 화면 낭독기와 탭 이동에서 뺀다.
 function FaqItem({ question, answer }) {
-  const [open, setOpen] = useState(false)
+  const { rootRef, isOpen: open, isShown, toggle } = useExpandMotion()
   const answerId = useId()
 
   return (
-    <div className={`contact-faq__item${open ? ' contact-faq__item--open' : ''}`}>
+    <div
+      ref={rootRef}
+      className={`contact-faq__item${open ? ' contact-faq__item--open' : ''}${isShown ? ' contact-faq__item--shown' : ''}`}
+    >
       <button
         type='button'
         className='contact-faq__question'
         aria-expanded={open}
         aria-controls={answerId}
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={toggle}
       >
         <span className='contact-faq__question-text'>
           {question.map((line, index) => (
@@ -58,11 +62,13 @@ function FaqItem({ question, answer }) {
         </span>
         <ChevronIcon className='contact-faq__icon' aria-hidden='true' />
       </button>
-      <div id={answerId} className='contact-faq__panel' inert={!open}>
+      <div id={answerId} className='contact-faq__panel' inert={!open} data-expand-panel>
         <div className='contact-faq__panel-inner'>
           <p className='contact-faq__answer'>{answer}</p>
         </div>
       </div>
+      {/* 구분선은 펼칠 때 아래 내용과 함께 내려오도록 항목 테두리 대신 별도 요소로 둔다. */}
+      <span className='contact-faq__divider' aria-hidden='true' />
     </div>
   )
 }
