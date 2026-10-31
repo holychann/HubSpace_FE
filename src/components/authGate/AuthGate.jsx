@@ -1,17 +1,22 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner'
 import { authRefresher, handleAuthFailure, recoverAuthSession } from '../../apis/ApiClient'
 import { getAuthEventName, hasValidSession } from '../../utils/authStorage'
 import { AuthUnavailableError } from '../../utils/authRefresh'
 import { isLocalPreviewMode } from '../../mocks/localPreview'
+import { ADMIN_DARK_PATHS, useHomeTheme } from '../../pages/homePage/utils/homeTheme'
 import './AuthGate.css'
 
-function AuthChecking() {
+function AuthChecking({ theme }) {
   return (
-    <div className='authGate'>
+    <div className='authGate' data-theme={theme}>
       <div className='authGate-panel'>
-        <LoadingSpinner className='authGate-spinner' size={48} />
+        <LoadingSpinner
+          className='authGate-spinner'
+          size={48}
+          color='var(--auth-gate-spinner-color, var(--color-text))'
+        />
         <p className='authGate-text'>로그인 상태를 확인하고 있습니다...</p>
       </div>
     </div>
@@ -25,6 +30,10 @@ export default function AuthGate({ children }) {
     isLocalPreviewMode || hasValidSession() ? 'ready' : 'checking',
   )
   const recoveryStatus = useSyncExternalStore(authRefresher.subscribe, authRefresher.getStatus)
+  // 확인 화면도 들어가려는 관리 화면과 같은 테마로 보여, 다크 화면 사이에 흰 화면이 끼지 않게 한다.
+  const { pathname } = useLocation()
+  const { theme } = useHomeTheme()
+  const gateTheme = ADMIN_DARK_PATHS.includes(pathname) ? theme : 'light'
 
   useEffect(() => {
     if (phase !== 'checking') return undefined
@@ -62,11 +71,11 @@ export default function AuthGate({ children }) {
     }
   }, [awaitingRecovery])
 
-  if (phase === 'checking') return <AuthChecking />
+  if (phase === 'checking') return <AuthChecking theme={gateTheme} />
   if (phase === 'unauthorized') return <Navigate to='/login' replace />
   if (phase === 'unavailable') {
     return (
-      <div className='authGate'>
+      <div className='authGate' data-theme={gateTheme}>
         <div className='authGate-panel' role='alert'>
           <p className='authGate-text'>로그인 상태를 확인하지 못했습니다.</p>
           <p className='authGate-subtext'>네트워크 연결을 확인한 뒤 다시 시도해주세요.</p>

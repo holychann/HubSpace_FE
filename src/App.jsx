@@ -9,6 +9,12 @@ import { authRefresher, handleAuthFailure } from './apis/ApiClient'
 function App() {
   const [fontStatus, setFontStatus] = useState(() => (document.fonts ? 'loading' : 'ready'))
 
+  // index.html 이 앱을 그리기 전에 칠한 다크 바탕을 걷는다. 이후에는 global.css 가 떠 있는 화면의 테마를 따라 정한다.
+  useEffect(() => {
+    document.documentElement.style.removeProperty('background-color')
+    document.documentElement.style.removeProperty('color-scheme')
+  }, [])
+
   useEffect(() => {
     if (!document.fonts) return undefined
 

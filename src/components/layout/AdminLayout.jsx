@@ -1,16 +1,14 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import Header from '../header/Header'
-import { useHomeTheme } from '../../pages/homePage/utils/homeTheme'
+import { ADMIN_DARK_PATHS, useHomeTheme } from '../../pages/homePage/utils/homeTheme'
 import './AdminLayout.css'
-
-const THEMED_CREATE_PATHS = ['/newcsv', '/newform']
 
 export default function AdminLayout() {
   const { pathname } = useLocation()
   // 다크 시안은 대시보드와 이벤트 생성 화면에만 있어, 이벤트 수정 화면은 라이트로 둔다. 테마는 홈과 같은 설정을 따른다.
   const { theme, preference, changePreference } = useHomeTheme()
   const isDashboard = pathname === '/dashboard'
-  const hasDarkDesign = isDashboard || THEMED_CREATE_PATHS.includes(pathname)
+  const hasDarkDesign = ADMIN_DARK_PATHS.includes(pathname)
 
   return (
     <div className='adminLayout' data-theme={hasDarkDesign ? theme : 'light'}>

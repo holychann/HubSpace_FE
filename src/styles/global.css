@@ -3,3 +3,10 @@
 @import './reset.css';
 @import './palette.css';
 @import './screen.css';
+
+/* 다크 테마 화면이 떠 있으면 문서 바탕도 어둡게 둔다. 폰트를 받는 동안 앱을 숨길 때(App.module.css)나
+   화면 끝을 넘겨 당길 때 흰 바탕이 비치지 않게 한다. 앱이 그려지기 전에는 index.html 의 스크립트가 같은 색을 칠한다. */
+html:has([data-theme='dark']) {
+  background-color: var(--home-dark-page);
+  color-scheme: dark;
+}

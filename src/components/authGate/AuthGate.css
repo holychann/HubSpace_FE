@@ -89,3 +89,23 @@
     font-size: 16px;
   }
 }
+
+/* 다크 테마(대시보드·이벤트 생성으로 들어갈 때). 색은 palette.css 의 --home-dark-* 다. */
+.authGate[data-theme='dark'] {
+  --auth-gate-spinner-color: var(--home-dark-icon);
+  background: var(--home-dark-page);
+  color-scheme: dark;
+}
+
+.authGate[data-theme='dark'] .authGate-text {
+  color: var(--home-dark-text-secondary);
+}
+
+.authGate[data-theme='dark'] .authGate-subtext {
+  color: var(--home-dark-text-muted);
+}
+
+.authGate[data-theme='dark'] .authGate-retry {
+  background: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 // 홈·이용 방법·문의하기 화면의 라이트·다크 테마. 다크 시안은 이 화면들에만 있어 다른 화면은 라이트로 둔다.
 // 기본은 '자동'(기기 설정 prefers-color-scheme)이고, 홈 푸터나 헤더 계정 메뉴의 스위치로 라이트·다크를 고르면 저장해 다음 방문에도 쓴다.
+// 저장 키와 판단 방법을 바꾸면 index.html 의 첫 화면 바탕 스크립트도 함께 바꾼다.
 const STORAGE_KEY = 'hubspace-home-theme'
 const DARK_QUERY = '(prefers-color-scheme: dark)'
 
@@ -40,3 +41,7 @@ export function useHomeTheme() {
   const theme = preference === 'system' ? (systemDark ? 'dark' : 'light') : preference
   return { theme, preference, changePreference }
 }
+
+// 관리 화면 중 다크 시안이 있는 주소(대시보드·이벤트 생성). 이벤트 수정 화면은 라이트로 둔다.
+// AdminLayout 과 로그인 확인 화면(AuthGate)이 함께 쓴다.
+export const ADMIN_DARK_PATHS = ['/dashboard', '/newcsv', '/newform']
