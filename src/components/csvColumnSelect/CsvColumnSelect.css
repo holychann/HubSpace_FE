@@ -387,3 +387,104 @@
     min-height: 32px;
   }
 }
+
+/* 다크 테마(이벤트 생성 화면). 색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .csvColumnSelect {
+  background-color: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvColumnSelect__title--title,
+[data-theme='dark'] .csvColumnSelect-display__item {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .csvColumnSelect__title--notice,
+[data-theme='dark'] .csvColumnSelect__info--notice {
+  color: var(--home-dark-danger);
+}
+
+[data-theme='dark'] .csvColumnSelect__title--optional,
+[data-theme='dark'] .csvColumnSelect__infoExample,
+[data-theme='dark'] .csvColumnSelect-display__title,
+[data-theme='dark'] .csvColumnSelect-display__empty {
+  color: var(--home-dark-placeholder);
+}
+
+[data-theme='dark'] .csvColumnSelect__infoBox,
+[data-theme='dark'] .csvColumnSelect-display__condition {
+  background: var(--home-dark-control);
+}
+
+[data-theme='dark'] .csvColumnSelect__info,
+[data-theme='dark'] .csvColumnSelect-display__title--selected,
+[data-theme='dark'] .csvColumnSelect-display__condition,
+[data-theme='dark'] .csvColumnSelect-display__action--clear {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__toggle {
+  border-color: var(--home-dark-border);
+  background-color: transparent;
+}
+
+[data-theme='dark'] .csvColumnSelect-display__toggle--selected:not(:disabled) {
+  border-color: var(--home-dark-border-strong);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__toggle[aria-expanded='true']:not(:disabled) {
+  border-color: var(--home-dark-border-open);
+  box-shadow: 0 0 0 2px rgb(173 185 244 / 0.16);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__toggle:focus-visible,
+[data-theme='dark'] .csvColumnSelect-display__action:focus-visible,
+[data-theme='dark'] .csvColumnSelect-display__chip:focus-visible {
+  outline-color: var(--home-dark-border-open);
+}
+
+/* 표시 정보 여러 개 고르는 목록 */
+[data-theme='dark'] .csvColumnSelect-display__content {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-raised);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.4);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__item:hover {
+  background-color: rgb(173 185 244 / 0.1);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__item--selected {
+  background-color: rgb(173 185 244 / 0.14);
+  color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__checkbox {
+  accent-color: var(--home-dark-accent);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__actions {
+  border-top-color: var(--home-dark-border);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__action--clear {
+  background-color: transparent;
+}
+
+[data-theme='dark'] .csvColumnSelect-display__action--done {
+  background-color: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}
+
+/* 고른 표시 정보 칩: 파일(파랑) 면에 연보라 글자. 지우기 아이콘 선도 글자색을 따른다. */
+[data-theme='dark'] .csvColumnSelect-display__chip {
+  background-color: var(--home-dark-file-bg);
+  color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .csvColumnSelect-display__chip:hover:not(:disabled) {
+  background-color: #1d2c4a;
+}
+
+[data-theme='dark'] .csvColumnSelect-display__chipRemove path {
+  stroke: currentColor;
+}

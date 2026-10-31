@@ -12,7 +12,7 @@
   }
 }
 
-/* 대시보드 다크 테마. 바탕과 기본 글자색만 바꾸고, 화면별 요소는 각 화면 CSS 가 칠한다. */
+/* 대시보드·이벤트 생성 화면 다크 테마. 바탕과 기본 글자색만 바꾸고, 화면별 요소는 각 화면 CSS 가 칠한다. */
 .adminLayout[data-theme='dark'] {
   background-color: var(--home-dark-page);
   color: var(--home-dark-text);

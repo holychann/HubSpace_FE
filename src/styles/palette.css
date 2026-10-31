@@ -93,6 +93,13 @@
   --home-dark-apply: #c2afd4;
   --home-dark-apply-bg: #2a1f3d;
   --home-dark-danger: #ff8f8f;
+  /* 이벤트 생성 화면: 선택·열림 입력칸 테두리, 표 머리·짝수 행·줄, '확인해주세요' 상자(바탕과 거의 같게) */
+  --home-dark-border-strong: #56658a;
+  --home-dark-border-open: #7f8db3;
+  --home-dark-table-header-bg: #1a2436;
+  --home-dark-table-row-alt: #202b40;
+  --home-dark-table-line: #2c3850;
+  --home-dark-surface-notice: #131926;
   /* 대시보드 '새 이벤트' 버튼(연보라 면 + 어두운 글자) */
   --home-dark-accent: #adb9f4;
   --home-dark-on-accent: #101522;

@@ -232,3 +232,51 @@
     height: 48px;
   }
 }
+
+/* 다크 테마 (Figma '생성 페이지 · Light / Dark'). .adminLayout 의 data-theme 은 AdminLayout 이 대시보드·생성 화면에서만 정한다.
+   색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .csvCreate-title {
+  color: var(--home-dark-text);
+}
+
+/* 만드는 과정 안내 영상(lottie)은 라이트 그림 그대로 두고 틀만 어둡게 한다. */
+[data-theme='dark'] .csvCreate-preview {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-section);
+}
+
+[data-theme='dark'] .csvCreate-inputDivider {
+  color: var(--home-dark-text-muted);
+}
+
+[data-theme='dark'] .csvCreate-inputDivider::before,
+[data-theme='dark'] .csvCreate-inputDivider::after {
+  background-color: var(--home-dark-border-soft);
+}
+
+[data-theme='dark'] .csvCreate-name {
+  background-color: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvCreate .eventInput-input-input {
+  border-color: var(--home-dark-border);
+}
+
+[data-theme='dark'] .csvCreate-name--filled .eventInput-input-input {
+  border-color: var(--home-dark-border-strong);
+}
+
+[data-theme='dark'] .csvCreate .eventInput-input-input:focus {
+  border-color: var(--home-dark-border-open);
+  box-shadow: 0 0 0 2px rgb(173 185 244 / 0.16);
+}
+
+/* 파일을 끌어다 놓을 때 화면을 덮는 층 */
+[data-theme='dark'] .csvCreate-dropOverlay {
+  background: rgb(16 21 34 / 0.72);
+}
+
+[data-theme='dark'] .csvCreate-dropOverlay__plus::before,
+[data-theme='dark'] .csvCreate-dropOverlay__plus::after {
+  background-color: var(--home-dark-icon);
+}

@@ -188,3 +188,51 @@
     gap: 12px;
   }
 }
+
+/* 다크 테마. 이 모달은 body 에 그려져, 생성 화면(.adminLayout)이 다크일 때만 함께 어둡게 한다.
+   바탕·제목·확인 버튼은 ConfirmModal.css 의 다크 규칙을 쓴다. 색은 palette.css 의 --home-dark-* 다. */
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm .confirmModal-close,
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm-summary__row dt {
+  color: var(--home-dark-text-muted);
+}
+
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm .confirmModal-header__info,
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm-notice__sub {
+  color: var(--home-dark-text-secondary);
+}
+
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm .confirmModal-button--cancel {
+  border-color: var(--home-dark-border-strong);
+  background: transparent;
+  color: var(--home-dark-text);
+}
+
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm-summary {
+  background: var(--home-dark-control);
+}
+
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm-summary__method {
+  border-bottom-color: var(--home-dark-border-soft);
+  color: var(--home-dark-text);
+}
+
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm-summary__row dd,
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm-notice__main {
+  color: var(--home-dark-text);
+}
+
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm .createNotice__title,
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm .createNotice__icon {
+  color: var(--home-dark-danger);
+}
+
+/* 모달 안의 '필수 확인' 상자. 모달은 생성 화면 바깥(body)에 그려져 CreateNotice.css 의 다크 규칙이 닿지 않는다.
+   모달 면 위에서 상자가 보이도록 입력칸과 같은 한 단계 어두운 면을 쓴다. */
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm .createNotice__bgFill {
+  background: var(--home-dark-control);
+}
+
+/* 방식 아이콘은 남색으로 그려진 SVG 라 선 색을 덮어쓴다. */
+body:has(.adminLayout[data-theme='dark']) .eventCreateConfirm-summary__icon path {
+  stroke: var(--home-dark-icon);
+}

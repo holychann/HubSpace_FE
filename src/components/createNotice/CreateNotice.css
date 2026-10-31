@@ -177,3 +177,37 @@
     transition: none;
   }
 }
+
+/* 다크 테마(이벤트 생성 화면). 바탕은 페이지와 거의 같게 두어 상자가 있는 듯 없는 듯 보이게 한다.
+   색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .createNotice__bgFill {
+  background: var(--home-dark-surface-notice);
+}
+
+[data-theme='dark'] .createNotice__title,
+[data-theme='dark'] .createNotice__item::before,
+[data-theme='dark'] .createNotice__itemTitle {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .createNotice__icon {
+  color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .createNotice__toggle {
+  color: var(--home-dark-text-muted);
+}
+
+[data-theme='dark'] .createNotice__toggle:focus-visible {
+  outline-color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .createNotice__itemText {
+  color: var(--home-dark-text-secondary);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .createNotice__toggle:hover {
+    color: var(--home-dark-text);
+  }
+}

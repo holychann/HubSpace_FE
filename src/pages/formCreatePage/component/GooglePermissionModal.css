@@ -137,3 +137,42 @@
     width: 100%;
   }
 }
+
+/* 다크 테마(폼 생성 화면). 확인 버튼은 '입력 완료'와 같은 연보라 면. 색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .googlePermissionModal-overlay {
+  background: rgb(0 0 0 / 0.5);
+}
+
+[data-theme='dark'] .googlePermissionModal-content {
+  background: var(--home-dark-surface);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+}
+
+[data-theme='dark'] .googlePermissionModal-title,
+[data-theme='dark'] .googlePermissionModal-permissions {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .googlePermissionModal-close,
+[data-theme='dark'] .googlePermissionModal-description,
+[data-theme='dark'] .googlePermissionModal-button--cancel {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .googlePermissionModal-permissions {
+  background: var(--home-dark-control);
+}
+
+[data-theme='dark'] .googlePermissionModal-button--cancel {
+  border-color: var(--home-dark-border);
+}
+
+[data-theme='dark'] .googlePermissionModal-button--cancel:hover {
+  background: rgb(255 255 255 / 0.06);
+}
+
+[data-theme='dark'] .googlePermissionModal-button--confirm,
+[data-theme='dark'] .googlePermissionModal-button--confirm:hover {
+  background: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}

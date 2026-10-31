@@ -305,3 +305,85 @@
     font-size: 12px;
   }
 }
+
+/* 다크 테마(이벤트 생성 화면). 아이콘은 남색으로 그려진 SVG 라 선 색을 덮어쓴다. 색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .csvFileUpload {
+  background-color: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvFileUpload__title--title,
+[data-theme='dark'] .csvFileUpload__uploadTitle,
+[data-theme='dark'] .csvFileUpload__fileName {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .csvFileUpload__title--step,
+[data-theme='dark'] .csvFileUpload__fileIcon {
+  background-color: rgb(173 185 244 / 0.1);
+  color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .csvFileUpload__title--notice,
+[data-theme='dark'] .csvFileUpload__error {
+  color: var(--home-dark-danger);
+}
+
+[data-theme='dark'] .csvFileUpload__info {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .csvFileUpload__uploadCaption,
+[data-theme='dark'] .csvFileUpload__fileStatus {
+  color: var(--home-dark-text-muted);
+}
+
+[data-theme='dark'] .csvFileUpload__upload {
+  border-color: var(--home-dark-border-strong);
+  background-color: var(--home-dark-control);
+}
+
+[data-theme='dark'] .csvFileUpload__upload:focus-within {
+  border-color: var(--home-dark-icon);
+  box-shadow: 0 0 0 3px rgb(173 185 244 / 0.16);
+}
+
+[data-theme='dark'] .csvFileUpload__upload--error {
+  border-color: rgb(255 143 143 / 0.5);
+}
+
+[data-theme='dark'] .csvFileUpload__uploadIcon,
+[data-theme='dark'] .csvFileUpload__fileAction {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvFileUpload__upload--selected {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvFileUpload__fileAction {
+  color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .csvFileUpload__uploadIcon svg path,
+[data-theme='dark'] .csvFileUpload__fileIcon svg path {
+  stroke: var(--home-dark-icon);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .csvFileUpload__upload:hover {
+    border-color: var(--home-dark-icon);
+    background-color: var(--home-dark-control);
+  }
+
+  [data-theme='dark'] .csvFileUpload__upload--selected:hover {
+    border-color: rgb(173 185 244 / 0.4);
+    background-color: var(--home-dark-surface);
+  }
+
+  [data-theme='dark'] .csvFileUpload__upload--selected:hover .csvFileUpload__fileAction {
+    border-color: rgb(173 185 244 / 0.36);
+    background-color: rgb(173 185 244 / 0.06);
+  }
+}

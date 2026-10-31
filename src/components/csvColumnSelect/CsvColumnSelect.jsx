@@ -2,7 +2,8 @@ import './CsvColumnSelect.css'
 import { useState } from 'react'
 import EventDropdown from '../eventDropdown/EventDropdown'
 import { Icon } from '../icon/Icon'
-import displayColumnRemove from '../../assets/detail/display-column-remove.svg'
+// 다크 테마에서 선 색을 바꿀 수 있게 SVG 를 직접 그린다.
+import DisplayColumnRemoveIcon from '../../assets/detail/display-column-remove.svg?react'
 
 const EMPTY_SEARCH_VALUE = ['선택', '선택', '선택']
 
@@ -178,12 +179,7 @@ export default function CsvColumnSelect({
                   aria-label={`${column} 표시 컬럼 제거`}
                 >
                   <span>{column}</span>
-                  <img
-                    src={displayColumnRemove}
-                    alt=''
-                    className='csvColumnSelect-display__chipRemove'
-                    aria-hidden='true'
-                  />
+                  <DisplayColumnRemoveIcon className='csvColumnSelect-display__chipRemove' aria-hidden='true' />
                 </button>
               ))}
             </div>

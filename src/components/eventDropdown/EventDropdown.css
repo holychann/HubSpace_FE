@@ -98,3 +98,45 @@
 .eventDropdown__item:hover {
   background-color: #e9f3ff;
 }
+
+/* 다크 테마(이벤트 생성 화면). 펼친 목록은 카드보다 한 단계 밝은 면. 색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .eventDropdown__label,
+[data-theme='dark'] .eventDropdown__item {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .eventDropdown__toggle {
+  border-color: var(--home-dark-border);
+  background-color: transparent;
+}
+
+[data-theme='dark'] .eventDropdown__toggle--selected:not(:disabled) {
+  border-color: var(--home-dark-border-strong);
+}
+
+[data-theme='dark'] .eventDropdown__toggle[aria-expanded='true']:not(:disabled) {
+  border-color: var(--home-dark-border-open);
+  box-shadow: 0 0 0 2px rgb(173 185 244 / 0.16);
+}
+
+[data-theme='dark'] .eventDropdown__toggle:focus-visible,
+[data-theme='dark'] .eventDropdown__item:focus-visible {
+  outline-color: var(--home-dark-border-open);
+}
+
+[data-theme='dark'] .eventDropdown__title {
+  color: var(--home-dark-placeholder);
+}
+
+[data-theme='dark'] .eventDropdown__title--selected {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .eventDropdown__list {
+  background-color: var(--home-dark-raised);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.4);
+}
+
+[data-theme='dark'] .eventDropdown__item:hover {
+  background-color: rgb(173 185 244 / 0.1);
+}

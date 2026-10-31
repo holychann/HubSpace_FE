@@ -101,3 +101,21 @@
     width: 100%;
   }
 }
+
+/* 다크 테마(이벤트 생성 화면의 '입력 완료'). 대시보드 '새 이벤트'와 같은 연보라 면에 어두운 글자. */
+[data-theme='dark'] .eventButton--navy .eventButton-button,
+[data-theme='dark'] .eventButton--navy .eventButton-button:hover:not(:disabled),
+[data-theme='dark'] .eventButton--navy .eventButton-button:active:not(:disabled) {
+  background: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .eventButton--navy .eventButton-button:hover:not(:disabled) {
+    box-shadow: 0 3px 10px rgb(173 185 244 / 0.24);
+  }
+}
+
+[data-theme='dark'] .eventButton--navy .eventButton-button:focus-visible {
+  outline-color: var(--home-dark-accent);
+}

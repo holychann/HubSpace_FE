@@ -344,3 +344,88 @@
     height: 48px;
   }
 }
+
+/* 다크 테마 (Figma '생성 페이지 · Light / Dark'). .adminLayout 의 data-theme 은 AdminLayout 이 대시보드·생성 화면에서만 정한다.
+   색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .formCreate-title {
+  color: var(--home-dark-text);
+}
+
+/* 만드는 과정 안내 영상(lottie)은 라이트 그림 그대로 두고 틀만 어둡게 한다. */
+[data-theme='dark'] .formCreate-preview {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-section);
+}
+
+[data-theme='dark'] .formCreate-inputDivider {
+  color: var(--home-dark-text-muted);
+}
+
+[data-theme='dark'] .formCreate-inputDivider::before,
+[data-theme='dark'] .formCreate-inputDivider::after {
+  background-color: var(--home-dark-border-soft);
+}
+
+[data-theme='dark'] .formCreate-name {
+  background-color: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .formCreate .eventInput-input-input {
+  border-color: var(--home-dark-border);
+  background-color: transparent;
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .formCreate-name--filled .eventInput-input-input {
+  border-color: var(--home-dark-border-strong);
+}
+
+[data-theme='dark'] .formCreate .eventInput-input-input:focus {
+  border-color: var(--home-dark-border-open);
+  box-shadow: 0 0 0 2px rgb(173 185 244 / 0.16);
+}
+
+[data-theme='dark'] .formCreate-preview__title,
+[data-theme='dark'] .formCreate-field__title--title,
+[data-theme='dark'] .formCreate-fieldInput__label {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .formCreate-field {
+  background-color: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .formCreate-field__title--notice,
+[data-theme='dark'] .formCreate-field__info--notice {
+  color: var(--home-dark-danger);
+}
+
+[data-theme='dark'] .formCreate-field__infoBox {
+  background: var(--home-dark-control);
+}
+
+[data-theme='dark'] .formCreate-field__info {
+  color: var(--home-dark-text-secondary);
+}
+
+/* 다크에서는 브라우저 기본 입력칸 바탕(어두운 회색)이 비치지 않게 투명으로 둔다. */
+[data-theme='dark'] .formCreate-fieldInput__input {
+  border-color: var(--home-dark-border);
+  background-color: transparent;
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .formCreate-fieldInput__input--filled {
+  border-color: var(--home-dark-border-strong);
+  color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .formCreate-fieldInput__input:focus {
+  border-color: var(--home-dark-border-open);
+  box-shadow: 0 0 0 2px rgb(173 185 244 / 0.16);
+}
+
+[data-theme='dark'] .formCreate .eventInput-input-input::placeholder,
+[data-theme='dark'] .formCreate-fieldInput__input::placeholder {
+  color: var(--home-dark-placeholder);
+}

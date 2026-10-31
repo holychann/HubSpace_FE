@@ -257,3 +257,60 @@
     line-height: 1.55;
   }
 }
+
+/* 다크 테마(이벤트 생성 화면). 색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .csvPreview,
+[data-theme='dark'] .csvPreview__empty {
+  border-color: var(--home-dark-border-soft);
+  background: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvPreview__title,
+[data-theme='dark'] .csvPreview__tableLabel,
+[data-theme='dark'] .csvPreview__table td,
+[data-theme='dark'] .csvPreview__emptyTitle {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .csvPreview__content,
+[data-theme='dark'] .csvPreview__meta,
+[data-theme='dark'] .csvPreview__tableHint,
+[data-theme='dark'] .csvPreview__table th,
+[data-theme='dark'] .csvPreview__emptyDescription {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .csvPreview__stats span + span {
+  border-left-color: var(--home-dark-border-soft);
+}
+
+[data-theme='dark'] .csvPreview__tableWrap {
+  border-color: var(--home-dark-border-soft);
+  background: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvPreview__tableTop {
+  border-bottom-color: var(--home-dark-border-soft);
+  background: var(--home-dark-table-header-bg);
+}
+
+[data-theme='dark'] .csvPreview__table th,
+[data-theme='dark'] .csvPreview__table td {
+  border-bottom-color: var(--home-dark-table-line);
+}
+
+[data-theme='dark'] .csvPreview__table th {
+  background: var(--home-dark-table-header-bg);
+}
+
+[data-theme='dark'] .csvPreview__table td {
+  background: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvPreview__table tbody tr:nth-child(even) td {
+  background: var(--home-dark-table-row-alt);
+}
+
+[data-theme='dark'] .csvPreview__table tbody tr:hover td {
+  background: rgb(173 185 244 / 0.08);
+}
