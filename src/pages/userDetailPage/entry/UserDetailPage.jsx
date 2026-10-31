@@ -75,6 +75,8 @@ function UserDetailLoading() {
           <LoadingSpinner
             className='user-detail__loadingSpinner'
             size={48}
+            // 다크 테마에서는 GradientLayout 이 색을 바꾼다.
+            color='var(--lookup-spinner-color, var(--color-text))'
           />
           <p className='user-detail__loadingText'>
             {showDetailText ? '이벤트 정보를 불러오고 있어요' : '잠시만 기다려주세요'}

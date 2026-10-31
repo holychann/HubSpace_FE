@@ -405,3 +405,58 @@ li[data-sonner-toast].user-result__syncToast
     font-size: 1em;
   }
 }
+
+/* 다크 테마 (Figma '결과 조회 · Dark'). .gradient-layout 의 data-theme 은 GradientLayout 이 정한다.
+   색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .user-result__status-title,
+[data-theme='dark'] .user-result__info-value {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .user-result__status-subtitle,
+[data-theme='dark'] .user-result__loadingText {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .user-result__info-card {
+  border-color: rgb(58 72 97 / 0.7);
+  background: rgb(28 38 56 / 0.6);
+}
+
+[data-theme='dark'] .user-result__info-label {
+  color: var(--home-dark-text-muted);
+}
+
+/* 확인 아이콘: 활성 배지와 같은 차분한 초록. 경고 아이콘: 차분한 빨강 */
+[data-theme='dark'] .result__status-icon--ok .result-check__background {
+  fill: var(--home-dark-positive-bg);
+}
+
+[data-theme='dark'] .result__status-icon--ok :is(.result-check__ring, .result-check__mark) {
+  stroke: var(--home-dark-positive);
+}
+
+[data-theme='dark'] .result__status-icon--no .result-alert__background {
+  fill: #3a1f27;
+}
+
+[data-theme='dark'] .result__status-icon--no :is(.result-alert__line, .result-alert__dot) {
+  stroke: var(--home-dark-danger);
+}
+
+/* 다시 조회하기: 조회 버튼과 같은 연보라 면 */
+[data-theme='dark'] .user-result__backButton,
+[data-theme='dark'] .user-result__backButton:active:not(:disabled) {
+  background: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .user-result__backButton:hover:not(:disabled) {
+    background: #bcc6f6;
+  }
+}
+
+[data-theme='dark'] .user-result__backButton:focus-visible {
+  outline-color: var(--home-dark-accent);
+}

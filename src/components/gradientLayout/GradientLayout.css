@@ -43,3 +43,11 @@
     justify-content: flex-start;
   }
 }
+
+/* 다크 테마 (Figma '조회 페이지 · Dark', '결과 조회 · Dark'). 같은 자리에 빛이 들어가는 어두운 그라데이션을 쓴다.
+   조회 화면의 로딩 스피너 색도 여기서 정한다(색은 palette.css 의 --home-dark-* 다). */
+.gradient-layout[data-theme='dark'] {
+  --lookup-spinner-color: var(--home-dark-icon);
+  background-image: url('../../assets/auth/auth-gradient-background-dark.svg');
+  color-scheme: dark;
+}

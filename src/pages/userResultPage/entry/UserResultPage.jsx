@@ -131,6 +131,8 @@ export default function UserResultPage() {
             <LoadingSpinner
               className='user-result__loadingSpinner'
               size={48}
+              // 다크 테마에서는 GradientLayout 이 색을 바꾼다.
+              color='var(--lookup-spinner-color, var(--color-text))'
             />
             <p className='user-result__loadingText'>조회 중입니다...</p>
           </div>

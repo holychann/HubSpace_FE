@@ -300,6 +300,14 @@
     max-width: 620px;
   }
 
+  /* 조회 화면에서 이벤트 이름부터 입력칸까지를 로고 쪽으로 16px 올린다. 내용 묶음이 세로 가운데 정렬이라
+     간격을 줄이면 로고도 함께 움직이므로, 자리는 그대로 두고 보이는 위치만 옮긴다.
+     결과 화면이 로고 위치를 맞추려고 숨겨 그리는 조회 내용(.lookup-layout__reference)에는 걸지 않는다. */
+  .lookup-layout--query .user-detail__card {
+    position: relative;
+    top: -16px;
+  }
+
   .user-detail__logo {
     width: 306px;
     height: 116px;
@@ -341,4 +349,52 @@
   .user-detail__input::placeholder {
     font-size: 16px;
   }
+}
+
+/* 다크 테마 (Figma '조회 페이지 · Dark'). .gradient-layout 의 data-theme 은 GradientLayout 이 정한다.
+   결과 화면도 이 로고·버튼 모양을 같이 쓴다. 색은 palette.css 의 --home-dark-* 다. */
+/* 로고 그림은 남색 한 가지라 흰색으로 바꿔 쓴다. */
+[data-theme='dark'] .user-detail__logo {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme='dark'] .user-detail__title,
+[data-theme='dark'] .user-detail__label,
+[data-theme='dark'] .user-detail__input,
+[data-theme='dark'] .user-detail__input:focus {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .user-detail__description,
+[data-theme='dark'] .user-detail__loadingText {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .user-detail__input {
+  border-color: var(--home-dark-border-soft);
+}
+
+[data-theme='dark'] .user-detail__input:focus {
+  border-color: var(--home-dark-border-open);
+}
+
+[data-theme='dark'] .user-detail__input::placeholder {
+  color: var(--home-dark-text-muted);
+}
+
+/* 조회 버튼: 남색 대신 연보라 면에 어두운 글자 (대시보드 '새 이벤트'와 같음) */
+[data-theme='dark'] .user-detail__submitButton,
+[data-theme='dark'] .user-detail__submitButton:active {
+  background: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .user-detail__submitButton:hover {
+    background: #bcc6f6;
+  }
+}
+
+[data-theme='dark'] .user-detail__submitButton:focus-visible {
+  outline-color: var(--home-dark-accent);
 }
