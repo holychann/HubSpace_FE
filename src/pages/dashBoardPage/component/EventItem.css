@@ -109,11 +109,6 @@
   white-space: nowrap;
 }
 
-a.eventItem-link__link {
-  color: inherit;
-  text-decoration: underline;
-}
-
 .eventItem-link__copy {
   flex-shrink: 0;
 }

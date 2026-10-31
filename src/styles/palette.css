@@ -81,16 +81,16 @@
   --home-dark-success: #7cdcc7;
   --home-dark-success-bg: #173b36;
   /* 조회용 링크 글자·아이콘. 성공 초록보다 채도를 낮춰 형광처럼 보이지 않게 한다(대시보드와 같음). */
-  --home-dark-view-link: #94c5ba;
+  --home-dark-view-link: #a1ccc3;
   --home-dark-shadow: rgb(0 0 0 / 0.3);
   /* 폼(보라)·파일(파랑)·활성(초록)·폼 링크(보라)·위험(빨강) */
   --home-dark-form: #baa3ff;
   --home-dark-form-bg: #241f3a;
   --home-dark-file: #8fb0ff;
   --home-dark-file-bg: #17233b;
-  --home-dark-positive: #8fc9a3;
+  --home-dark-positive: #9dd0ae;
   --home-dark-positive-bg: #1a3127;
-  --home-dark-apply: #d6a8ff;
+  --home-dark-apply: #c2afd4;
   --home-dark-apply-bg: #2a1f3d;
   --home-dark-danger: #ff8f8f;
   /* 대시보드 '새 이벤트' 버튼(연보라 면 + 어두운 글자) */

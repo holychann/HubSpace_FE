@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom'
 import { apiDeletePrivate } from '../../../utils/ApiUtil'
 import ConfirmModal from '../../../components/confirmModal/ConfirmModal'
 import { toFileNameLabel, UNKNOWN_FILE_NAME } from '../../../utils/fileNameLabel'
-import { isLocalPreviewMode } from '../../../mocks/localPreview'
 
 export default function EventItem({ event, onEditTitle, onDeleted }) {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
@@ -176,13 +175,7 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
         <div className='eventItem-search'>
           <div className='eventItem-link__info'>
             <div className='eventItem-link__title'>조회용 링크</div>
-            {isLocalPreviewMode ? (
-              <a className='eventItem-link__link' href={makeSearchUrl(event.id)}>
-                {makeSearchUrl(event.id)}
-              </a>
-            ) : (
-              <div className='eventItem-link__link'>{makeSearchUrl(event.id)}</div>
-            )}
+            <div className='eventItem-link__link'>{makeSearchUrl(event.id)}</div>
           </div>
           <Icon
             name='button-copy-search'
