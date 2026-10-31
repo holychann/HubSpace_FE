@@ -460,6 +460,13 @@
   height: 20px;
 }
 
+/* 복사 아이콘 선은 칸의 글자색(조회 초록·신청 보라)을 따른다. */
+.guide-link__icon path,
+.guide-upload__icon path,
+.guide-compare__arrow path {
+  stroke: currentColor;
+}
+
 /* 명단 파일 표 */
 .guide-roster__name {
   font-size: 13px;
@@ -541,6 +548,7 @@
   flex-shrink: 0;
   border-radius: 9px;
   background-color: rgb(45 59 134 / 0.08);
+  color: var(--guide-accent-navy);
 }
 
 .guide-upload__copy {
@@ -596,6 +604,7 @@
   display: flex;
   align-self: center;
   justify-content: center;
+  color: var(--guide-accent-navy);
 }
 
 .guide-compare__arrow-down {
@@ -859,5 +868,156 @@
 @media (prefers-reduced-motion: reduce) {
   .guide-start__link {
     transition: none;
+  }
+}
+
+/* 다크 테마 (Figma '이용 방법 · Dark'). 바탕·헤더·탭·시작 버튼은 HomePage.css 의 홈 다크 규칙을 그대로 쓰고,
+   여기서는 이용 방법에만 있는 요소를 칠한다. 색 값은 HomePage.css 의 --home-dark-* 와 같다.
+   조회 화면 예시 사진은 실제 조회 화면(라이트)을 찍은 것이라 그대로 둔다. */
+.home.guide[data-theme='dark'] {
+  --guide-border-soft: var(--home-dark-border-soft);
+  --guide-link-muted: var(--home-dark-text-muted);
+  --guide-accent-navy: var(--home-dark-icon);
+  --guide-danger: #ff8f8f;
+  --guide-form: #baa3ff;
+  --guide-form-bg: #241f3a;
+  --guide-file: #8fb0ff;
+  --guide-file-bg: #17233b;
+  --guide-positive: #6fe39a;
+  --guide-positive-bg: #163323;
+  --guide-apply: #d6a8ff;
+  --guide-apply-bg: #2a1f3d;
+}
+
+/* 탭 아이콘 색. 홈은 구간이 --method-accent 를 정하지만 이용 방법에는 그 구간이 없다. */
+.home.guide--form[data-theme='dark'] {
+  --method-accent: var(--guide-form);
+}
+
+.home.guide--file[data-theme='dark'] {
+  --method-accent: var(--guide-file);
+}
+
+.guide[data-theme='dark'] .guide__title,
+.guide[data-theme='dark'] .guide-step__number,
+.guide[data-theme='dark'] .guide-step__title,
+.guide[data-theme='dark'] .guide-field__label,
+.guide[data-theme='dark'] .guide-modal__title,
+.guide[data-theme='dark'] .guide-choice__name,
+.guide[data-theme='dark'] .guide-mock-button,
+.guide[data-theme='dark'] .guide-roster__table th,
+.guide[data-theme='dark'] .guide-upload__file,
+.guide[data-theme='dark'] .guide-start__solution {
+  color: var(--home-dark-text);
+}
+
+.guide[data-theme='dark'] .guide-card__title,
+.guide[data-theme='dark'] .guide-event__title,
+.guide[data-theme='dark'] .guide-roster__name,
+.guide[data-theme='dark'] .guide-roster__table td,
+.guide[data-theme='dark'] .guide-start__title {
+  color: var(--home-dark-text-strong);
+}
+
+.guide[data-theme='dark'] .guide__lead,
+.guide[data-theme='dark'] .guide__method-description,
+.guide[data-theme='dark'] .guide-step__body,
+.guide[data-theme='dark'] .guide-step__note,
+.guide[data-theme='dark'] .guide-card__caption,
+.guide[data-theme='dark'] .guide-notice,
+.guide[data-theme='dark'] .guide-modal__description,
+.guide[data-theme='dark'] .guide-choice__description,
+.guide[data-theme='dark'] .guide-event__meta,
+.guide[data-theme='dark'] .guide-start__problem,
+.guide[data-theme='dark'] .guide-start__lead,
+.guide[data-theme='dark'] .guide-start__link {
+  color: var(--home-dark-text-secondary);
+}
+
+.guide[data-theme='dark'] .guide-card__required,
+.guide[data-theme='dark'] .guide-notice__warning {
+  color: var(--guide-danger);
+}
+
+/* 면: 페이지보다 한 단계 밝은 틀, 그 안에 카드, 입력칸은 카드보다 어둡게 */
+.guide[data-theme='dark'] .guide-step__note,
+.guide[data-theme='dark'] .guide-mockup {
+  background-color: var(--home-dark-section);
+}
+
+.guide[data-theme='dark'] .guide-card,
+.guide[data-theme='dark'] .guide-mock-button {
+  background-color: var(--home-dark-surface);
+}
+
+.guide[data-theme='dark'] .guide-field__input,
+.guide[data-theme='dark'] .guide-notice,
+.guide[data-theme='dark'] .guide-roster__table th,
+.guide[data-theme='dark'] .guide-upload {
+  background-color: var(--home-dark-control);
+}
+
+.guide[data-theme='dark'] .guide-field__input {
+  border-color: var(--home-dark-border);
+}
+
+.guide[data-theme='dark'] .guide-field__input--placeholder {
+  color: var(--home-dark-placeholder);
+}
+
+/* 새 이벤트 생성 모달의 두 선택지. 그림은 흰 바탕을 지우던 곱하기를 끈다(바탕이 투명한 그림). */
+.guide[data-theme='dark'] .guide-choice--form {
+  background-color: var(--guide-form-bg);
+}
+
+.guide[data-theme='dark'] .guide-choice--file {
+  background-color: var(--guide-file-bg);
+}
+
+.guide[data-theme='dark'] .guide-choice__image {
+  mix-blend-mode: normal;
+}
+
+/* 이벤트 카드 배지·링크 */
+.guide[data-theme='dark'] .guide-badge--active {
+  background-color: var(--guide-positive-bg);
+  color: var(--guide-positive);
+}
+
+.guide[data-theme='dark'] .guide-badge--form {
+  background-color: var(--guide-form-bg);
+  color: var(--guide-form);
+}
+
+.guide[data-theme='dark'] .guide-badge--file {
+  background-color: var(--guide-file-bg);
+  color: var(--guide-file);
+}
+
+.guide[data-theme='dark'] .guide-badge--chip {
+  background-color: var(--guide-file-bg);
+}
+
+.guide[data-theme='dark'] .guide-link--view {
+  background-color: var(--home-dark-success-bg);
+  color: var(--home-dark-success);
+}
+
+.guide[data-theme='dark'] .guide-link--apply {
+  background-color: var(--guide-apply-bg);
+  color: var(--guide-apply);
+}
+
+.guide[data-theme='dark'] .guide-upload__icon {
+  background-color: rgb(173 185 244 / 0.12);
+}
+
+.guide[data-theme='dark'] .guide-start__link {
+  text-decoration-color: rgb(181 191 211 / 0.4);
+}
+
+@media (hover: hover) {
+  .guide[data-theme='dark'] .guide-start__link:hover {
+    color: var(--home-dark-text-strong);
   }
 }

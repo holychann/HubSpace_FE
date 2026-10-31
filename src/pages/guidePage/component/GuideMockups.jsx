@@ -1,10 +1,12 @@
-import formIllustration from '../../../assets/dashboard/dashboard-image-form.svg'
+// 대시보드 그림은 흰 바탕이 있어 다크 테마에서 흰 네모가 보인다. 바깥 흰 부분만 투명하게 만든 그림을 쓴다.
+import formIllustration from '../../../assets/guide/guide-image-form.png'
 import fileIllustration from '../../../assets/dashboard/dashboard-image-csv.svg'
 import FileSheetIcon from '../../../assets/button/button-file-sheet.svg?react'
-import copyViewIcon from '../../../assets/guide/guide-copy-view.svg'
-import copyApplyIcon from '../../../assets/guide/guide-copy-apply.svg'
-import arrowRightIcon from '../../../assets/guide/guide-arrow-right.svg'
-import arrowDownIcon from '../../../assets/guide/guide-arrow-down.svg'
+// 아이콘은 테마에 따라 선 색을 바꾸도록 SVG 를 직접 그린다(색은 GuidePage.css).
+import CopyViewIcon from '../../../assets/guide/guide-copy-view.svg?react'
+import CopyApplyIcon from '../../../assets/guide/guide-copy-apply.svg?react'
+import ArrowRightIcon from '../../../assets/guide/guide-arrow-right.svg?react'
+import ArrowDownIcon from '../../../assets/guide/guide-arrow-down.svg?react'
 import lookupScreenshot from '../../../assets/guide/guide-lookup.jpg'
 import resultScreenshot from '../../../assets/guide/guide-result.jpg'
 
@@ -36,7 +38,7 @@ function CopyLink({ variant, label, url }) {
         <span className='guide-link__url'>{url}</span>
       </div>
       <span className='guide-link__icon'>
-        <img src={variant === 'view' ? copyViewIcon : copyApplyIcon} alt='' />
+        {variant === 'view' ? <CopyViewIcon /> : <CopyApplyIcon />}
       </span>
     </div>
   )
@@ -74,8 +76,12 @@ export function LookupFlowMockup() {
         </div>
       </div>
       <div className='guide-compare__arrow'>
-        <img className='guide-compare__arrow-right' src={arrowRightIcon} alt='' />
-        <img className='guide-compare__arrow-down' src={arrowDownIcon} alt='' />
+        <span className='guide-compare__arrow-right'>
+          <ArrowRightIcon />
+        </span>
+        <span className='guide-compare__arrow-down'>
+          <ArrowDownIcon />
+        </span>
       </div>
       <div className='guide-shot'>
         <span className='guide-shot__label'>조회 결과</span>

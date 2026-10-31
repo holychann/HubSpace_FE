@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-// 홈 화면의 라이트·다크 테마. 다크 시안은 홈에만 있어 다른 화면은 라이트로 둔다.
+// 홈·이용 방법·문의하기 화면의 라이트·다크 테마. 다크 시안은 이 화면들에만 있어 다른 화면은 라이트로 둔다.
 // 기본은 '자동'(기기 설정 prefers-color-scheme)이고, 푸터 스위치로 라이트·다크를 고르면 저장해 다음 방문에도 쓴다.
 const STORAGE_KEY = 'hubspace-home-theme'
 const DARK_QUERY = '(prefers-color-scheme: dark)'

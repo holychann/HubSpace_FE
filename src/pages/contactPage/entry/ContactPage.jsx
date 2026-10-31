@@ -4,6 +4,7 @@ import '../../homePage/entry/HomePage.css'
 import './ContactPage.css'
 import Header from '../../../components/header/Header'
 import { usePublicSession } from '../../homePage/utils/publicSession'
+import { useHomeTheme } from '../../homePage/utils/homeTheme'
 import useExpandMotion from '../../../utils/useExpandMotion'
 import ChevronIcon from '../../../assets/contact/contact-chevron.svg?react'
 
@@ -77,6 +78,8 @@ function FaqItem({ question, answer }) {
 // 홈의 스크롤 영역·버튼 스타일을 그대로 쓰려고 루트에 home 클래스를 함께 둔다.
 export default function ContactPage() {
   const { hasSession, handleStart } = usePublicSession()
+  // 홈과 같은 테마를 쓴다(기기 설정, 홈 푸터 스위치로 고른 값).
+  const { theme } = useHomeTheme()
   const emailRef = useRef(null)
 
   // 복사에 실패하면(권한 거부, http 등) 주소 글자를 선택해 두어 바로 직접 복사할 수 있게 한다.
@@ -100,7 +103,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className='home contact'>
+    <div className='home contact' data-theme={theme}>
       <Header hasSession={hasSession} onStart={handleStart} />
 
       <main className='contact__body'>

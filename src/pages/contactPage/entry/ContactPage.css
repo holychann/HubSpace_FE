@@ -255,3 +255,35 @@
     width: 100%;
   }
 }
+
+/* 다크 테마 (Figma '문의하기 · Dark'). 바탕·헤더·복사 버튼은 HomePage.css 의 홈 다크 규칙을 그대로 쓰고,
+   여기서는 문의하기에만 있는 요소를 칠한다. 색 값은 HomePage.css 의 --home-dark-* 와 같다. */
+.contact[data-theme='dark'] .contact__title,
+.contact[data-theme='dark'] .contact-faq__title,
+.contact[data-theme='dark'] .contact-email__title {
+  color: var(--home-dark-text);
+}
+
+.contact[data-theme='dark'] .contact__lead,
+.contact[data-theme='dark'] .contact-faq__icon,
+.contact[data-theme='dark'] .contact-faq__answer,
+.contact[data-theme='dark'] .contact-email__description {
+  color: var(--home-dark-text-secondary);
+}
+
+.contact[data-theme='dark'] .contact-faq__question,
+.contact[data-theme='dark'] .contact-email__email {
+  color: var(--home-dark-text-strong);
+}
+
+.contact[data-theme='dark'] .contact-faq__divider {
+  background-color: var(--home-dark-border-soft);
+}
+
+.contact[data-theme='dark'] .contact-faq__question:focus-visible {
+  outline-color: var(--home-dark-icon);
+}
+
+.home.contact[data-theme='dark'] .contact-email {
+  background-color: var(--home-dark-section);
+}

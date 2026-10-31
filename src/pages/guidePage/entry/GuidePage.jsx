@@ -4,6 +4,7 @@ import '../../homePage/entry/HomePage.css'
 import './GuidePage.css'
 import Header from '../../../components/header/Header'
 import { usePublicSession } from '../../homePage/utils/publicSession'
+import { useHomeTheme } from '../../homePage/utils/homeTheme'
 import MethodTabs from '../../homePage/component/MethodTabs'
 import FileIcon from '../../../assets/home/home-file.svg?react'
 import FormIcon from '../../../assets/home/home-form.svg?react'
@@ -102,11 +103,13 @@ const METHODS = [
 // 홈의 스크롤 영역·버튼 스타일을 그대로 쓰려고 루트에 home 클래스를 함께 둔다.
 export default function GuidePage() {
   const { hasSession, handleStart } = usePublicSession()
+  // 홈과 같은 테마를 쓴다(기기 설정, 홈 푸터 스위치로 고른 값).
+  const { theme } = useHomeTheme()
   const [activeIndex, setActiveIndex] = useState(0)
   const method = METHODS[activeIndex]
 
   return (
-    <div className={`home guide guide--${method.type}`}>
+    <div className={`home guide guide--${method.type}`} data-theme={theme}>
       <Header hasSession={hasSession} onStart={handleStart} />
 
       <main className='guide__body'>
