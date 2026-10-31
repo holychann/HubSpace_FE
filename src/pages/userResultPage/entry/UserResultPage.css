@@ -427,9 +427,10 @@ li[data-sonner-toast].user-result__syncToast
   color: var(--home-dark-text-muted);
 }
 
-/* 확인 아이콘: 활성 배지와 같은 차분한 초록. 경고 아이콘: 차분한 빨강 */
+/* 확인 아이콘: 활성 배지와 같은 차분한 초록. 원 배경은 어두운 그라데이션 위에서도 보이게 배지 면보다 밝게 둔다.
+   경고 아이콘: 차분한 빨강 */
 [data-theme='dark'] .result__status-icon--ok .result-check__background {
-  fill: var(--home-dark-positive-bg);
+  fill: #366450;
 }
 
 [data-theme='dark'] .result__status-icon--ok :is(.result-check__ring, .result-check__mark) {
