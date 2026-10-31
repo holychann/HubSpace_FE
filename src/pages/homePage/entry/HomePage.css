@@ -1501,26 +1501,10 @@
 }
 
 /* 다크 테마 (Figma 'Home v3 – Desktop · Dark', 변수 'Home v3 · Theme' 의 Dark 모드).
-   .home 의 data-theme 은 useHomeTheme 이 정한다(기본은 기기 설정, 푸터 스위치로 고를 수 있다). 다크 시안은 홈에만 있어 공통 헤더의 다크 색도 여기서 덮어쓴다.
+   .home 의 data-theme 은 useHomeTheme 이 정한다(기본은 기기 설정, 푸터 스위치로 고를 수 있다).
+   색 상수(--home-dark-*)는 palette.css, 공통 헤더의 다크 색은 Header.css 에 있다.
    만드는 과정 영상(lottie)은 아직 라이트용 그림 그대로 쓴다. */
 .home[data-theme='dark'] {
-  --home-dark-page: #101522;
-  --home-dark-section: #151d2c;
-  --home-dark-surface: #1c2638;
-  --home-dark-raised: #27334a;
-  --home-dark-control: #172031;
-  --home-dark-text: #e7ecff;
-  --home-dark-text-strong: #f5f7fc;
-  --home-dark-text-secondary: #b5bfd3;
-  --home-dark-text-muted: #9aa9c4;
-  --home-dark-placeholder: #8494b2;
-  --home-dark-border: #3a4861;
-  --home-dark-border-soft: #34425d;
-  --home-dark-primary: #4b63d4;
-  --home-dark-icon: #adb9f4;
-  --home-dark-success: #7cdcc7;
-  --home-dark-success-bg: #173b36;
-  --home-dark-shadow: rgb(0 0 0 / 0.3);
   background-color: var(--home-dark-page);
   color: var(--home-dark-text);
   color-scheme: dark;
@@ -1532,42 +1516,9 @@
   outline-color: var(--home-dark-icon);
 }
 
-/* 헤더 */
-.home[data-theme='dark'] .site-header {
-  background-color: rgb(16 21 34 / 0.88);
-}
-
 /* 로고 그림은 남색 한 가지라 흰색으로 바꿔 쓴다(Figma 'Logo · Dark'). */
-.home[data-theme='dark'] .site-header__logo img,
 .home[data-theme='dark'] .home-footer__logo {
   filter: brightness(0) invert(1);
-}
-
-.home[data-theme='dark'] .site-header__link {
-  color: var(--home-dark-text-secondary);
-}
-
-.home[data-theme='dark'] .site-header__link--account,
-.home[data-theme='dark'] .site-header__nickname,
-.home[data-theme='dark'] .site-header__menuItem {
-  color: var(--home-dark-text);
-}
-
-.home[data-theme='dark'] .site-header__divider {
-  background-color: var(--home-dark-border);
-}
-
-.home[data-theme='dark'] .site-header__menu {
-  border-color: var(--home-dark-border-soft);
-  background-color: var(--home-dark-raised);
-  box-shadow: 0 6px 20px var(--home-dark-shadow);
-}
-
-@media (hover: hover) {
-  .home[data-theme='dark'] .site-header__link:hover,
-  .home[data-theme='dark'] .site-header__link--account:hover {
-    color: var(--home-dark-text-strong);
-  }
 }
 
 /* 시작 버튼: 라이트의 검정 버튼을 뒤집어 밝은 바탕에 어두운 글자로 둔다. */
@@ -1680,10 +1631,14 @@
   }
 }
 
-.home[data-theme='dark'] .home-orbit__result,
-.home[data-theme='dark'] .home-closing__link {
+.home[data-theme='dark'] .home-orbit__result {
   background-color: var(--home-dark-success-bg);
   color: var(--home-dark-success);
+}
+
+.home[data-theme='dark'] .home-closing__link {
+  background-color: var(--home-dark-success-bg);
+  color: var(--home-dark-view-link);
 }
 
 /* 채팅 목록 */

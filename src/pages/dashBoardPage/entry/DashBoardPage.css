@@ -259,3 +259,60 @@
     font-size: 14px;
   }
 }
+
+/* 다크 테마 (Figma '대시보드 · Dark'). .adminLayout 의 data-theme 은 AdminLayout 이 대시보드에서만 정한다.
+   색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .dashBoard-header {
+  border-color: var(--home-dark-border-soft);
+  background: var(--home-dark-surface);
+  box-shadow: 0 6px 20px var(--home-dark-shadow);
+}
+
+[data-theme='dark'] .dashBoard-header__title,
+[data-theme='dark'] .dashBoard-emptyState__title {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .dashBoard-header__info,
+[data-theme='dark'] .dashBoard-eventList__message,
+[data-theme='dark'] .dashBoard-emptyState__description {
+  color: var(--home-dark-text-secondary);
+}
+
+/* '새 이벤트' 버튼: 남색 대신 연보라 면에 어두운 글자 (Figma 비교 시안 D) */
+[data-theme='dark'] .dashBoard-header .eventButton-button,
+[data-theme='dark'] .dashBoard-header .eventButton-button:hover:not(:disabled),
+[data-theme='dark'] .dashBoard-header .eventButton-button:active:not(:disabled) {
+  background: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .dashBoard-header .eventButton-button:hover:not(:disabled) {
+    box-shadow: 0 3px 10px rgb(173 185 244 / 0.24);
+  }
+}
+
+[data-theme='dark'] .dashBoard-header .eventButton-button:focus-visible {
+  outline-color: var(--home-dark-accent);
+}
+
+/* 빈 목록: 밝은 그라데이션 대신 카드 면 위에 홈 궤도와 같은 옅은 파랑·보라 빛 */
+[data-theme='dark'] .dashBoard-emptyState {
+  border-color: var(--home-dark-border-soft);
+  background:
+    radial-gradient(circle at top left, rgb(71 110 255 / 0.16) 0%, rgb(71 110 255 / 0) 32%),
+    radial-gradient(circle at top right, rgb(153 93 235 / 0.14) 0%, rgb(153 93 235 / 0) 30%),
+    var(--home-dark-surface);
+  box-shadow: 0 28px 50px var(--home-dark-shadow);
+}
+
+[data-theme='dark'] .dashBoard-emptyState__sheet {
+  border-color: var(--home-dark-border-soft);
+  background: var(--home-dark-raised);
+  box-shadow: 0 18px 30px var(--home-dark-shadow);
+}
+
+[data-theme='dark'] .dashBoard-emptyState__sheet span {
+  background: linear-gradient(90deg, rgb(173 185 244 / 0.4) 0%, rgb(173 185 244 / 0.14) 100%);
+}

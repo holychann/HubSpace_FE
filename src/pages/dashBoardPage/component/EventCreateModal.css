@@ -190,3 +190,64 @@
     transform: none;
   }
 }
+
+/* 다크 테마 (Figma '대시보드 · Dark' 새 이벤트 팝오버·하단 시트). 이 메뉴는 body 에 그려져
+   대시보드(.adminLayout)가 다크일 때만 함께 어둡게 한다. 색은 palette.css 의 --home-dark-* 다.
+   데스크탑 팝오버는 아래 카드와 구분되게 한 단계 밝은 면을 쓴다. */
+body:has(.adminLayout[data-theme='dark']) .createModal-content {
+  border-color: var(--home-dark-border-soft);
+  background: var(--home-dark-raised);
+  box-shadow: 0 12px 32px -4px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}
+
+body:has(.adminLayout[data-theme='dark']) .createModal-intro,
+body:has(.adminLayout[data-theme='dark']) .createModal-hint {
+  color: var(--home-dark-text-muted);
+}
+
+body:has(.adminLayout[data-theme='dark']) .createModal-option__title {
+  color: var(--home-dark-text-strong);
+}
+
+body:has(.adminLayout[data-theme='dark']) .createModal-option__description {
+  color: var(--home-dark-text-secondary);
+}
+
+/* 아이콘: 폼 링크는 보라, 나머지는 흐린 글자색 */
+body:has(.adminLayout[data-theme='dark']) .createModal-content svg path {
+  stroke: var(--home-dark-text-muted);
+}
+
+body:has(.adminLayout[data-theme='dark']) .createModal-option:first-child .createModal-option__icon svg path {
+  stroke: var(--home-dark-form);
+}
+
+@media (hover: hover) {
+  body:has(.adminLayout[data-theme='dark']) .createModal-option:hover .createModal-option__title {
+    color: var(--home-dark-accent);
+  }
+}
+
+body:has(.adminLayout[data-theme='dark']) .createModal-option:focus-visible .createModal-option__title {
+  color: var(--home-dark-accent);
+}
+
+body:has(.adminLayout[data-theme='dark']) .createModal-option:focus-visible,
+body:has(.adminLayout[data-theme='dark']) .createModal-close:focus-visible {
+  outline-color: var(--home-dark-text-muted);
+}
+
+body:has(.adminLayout[data-theme='dark']) .createModal-close:hover {
+  background: rgb(255 255 255 / 0.06);
+}
+
+@media (max-width: 767px) {
+  body:has(.adminLayout[data-theme='dark']) .createModal-overlay {
+    background: rgb(0 0 0 / 0.5);
+  }
+
+  body:has(.adminLayout[data-theme='dark']) .createModal-content {
+    background: var(--home-dark-surface);
+  }
+}

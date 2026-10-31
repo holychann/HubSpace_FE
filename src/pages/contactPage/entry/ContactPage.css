@@ -257,7 +257,7 @@
 }
 
 /* 다크 테마 (Figma '문의하기 · Dark'). 바탕·헤더·복사 버튼은 HomePage.css 의 홈 다크 규칙을 그대로 쓰고,
-   여기서는 문의하기에만 있는 요소를 칠한다. 색 값은 HomePage.css 의 --home-dark-* 와 같다. */
+   여기서는 문의하기에만 있는 요소를 칠한다. 색 값은 palette.css 의 --home-dark-* 다. */
 .contact[data-theme='dark'] .contact__title,
 .contact[data-theme='dark'] .contact-faq__title,
 .contact[data-theme='dark'] .contact-email__title {

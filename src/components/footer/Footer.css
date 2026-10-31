@@ -48,23 +48,23 @@
   }
 }
 
-/* 홈 다크 테마(이용 방법·문의하기). 푸터는 화면(.home) 바깥에 있어 그 화면이 다크일 때만 함께 어둡게 한다.
-   색은 HomePage.css 의 --home-dark-* 와 같다. */
-body:has(.home[data-theme='dark']) .footer {
+/* 다크 테마(이용 방법·문의하기·대시보드). 푸터는 화면 바깥에 있어 그 화면이 다크일 때만 함께 어둡게 한다.
+   색은 palette.css 의 --home-dark-* 와 같다. */
+body:has([data-theme='dark']) .footer {
   border-color: #34425d;
   background: rgb(16 21 34 / 0.6);
   box-shadow: 0 10px 24px rgb(0 0 0 / 0.3);
 }
 
-body:has(.home[data-theme='dark']) .footer__link {
+body:has([data-theme='dark']) .footer__link {
   color: #9aa9c4;
 }
 
-body:has(.home[data-theme='dark']) .footer__link:hover,
-body:has(.home[data-theme='dark']) .footer__link:focus-visible {
+body:has([data-theme='dark']) .footer__link:hover,
+body:has([data-theme='dark']) .footer__link:focus-visible {
   color: #e7ecff;
 }
 
-body:has(.home[data-theme='dark']) .footer__divider {
+body:has([data-theme='dark']) .footer__divider {
   color: #3a4861;
 }

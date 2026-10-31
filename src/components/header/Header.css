@@ -222,3 +222,46 @@
     transition: none;
   }
 }
+
+/* 다크 테마. 다크 시안이 있는 화면(홈·이용 방법·문의하기·대시보드)의 바깥 요소가 data-theme='dark' 일 때만 칠한다.
+   색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .site-header {
+  background-color: rgb(16 21 34 / 0.88);
+}
+
+/* 로고 그림은 남색 한 가지라 흰색으로 바꿔 쓴다(Figma 'Logo · Dark'). */
+[data-theme='dark'] .site-header__logo img {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme='dark'] .site-header__link {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .site-header__link--account,
+[data-theme='dark'] .site-header__nickname,
+[data-theme='dark'] .site-header__menuItem {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .site-header__divider {
+  background-color: var(--home-dark-border);
+}
+
+[data-theme='dark'] .site-header__menu {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-raised);
+  box-shadow: 0 6px 20px var(--home-dark-shadow);
+}
+
+[data-theme='dark'] .site-header a:focus-visible,
+[data-theme='dark'] .site-header button:focus-visible {
+  outline-color: var(--home-dark-icon);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .site-header__link:hover,
+  [data-theme='dark'] .site-header__link--account:hover {
+    color: var(--home-dark-text-strong);
+  }
+}

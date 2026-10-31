@@ -107,12 +107,13 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
               <Icon
                 name={event.isActive === true ? 'dashboard-active' : 'dashboard-disable'}
                 height={21}
-                className='eventItem-title__status'
+                // 다크 테마에서 배지 색을 상태별로 덮어쓰려고 상태를 클래스로도 남긴다.
+                className={`eventItem-title__status eventItem-title__status--${event.isActive === true ? 'active' : 'inactive'}`}
               />
               <Icon
                 name={event.eventType === 'FORM' ? 'dashboard-form' : 'dashboard-csv'}
                 height={21}
-                className='eventItem-title__format'
+                className={`eventItem-title__format eventItem-title__format--${event.eventType === 'FORM' ? 'form' : 'file'}`}
               />
             </div>
           </div>

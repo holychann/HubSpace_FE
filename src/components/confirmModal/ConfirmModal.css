@@ -205,3 +205,51 @@
     min-height: 44px;
   }
 }
+
+/* 다크 테마. 이 모달은 body 에 그려져, 다크 시안이 있는 대시보드(.adminLayout)가 다크일 때만 함께 어둡게 한다.
+   확인 버튼은 대시보드 '새 이벤트' 버튼과 같은 연보라 면을 쓴다. 색은 palette.css 의 --home-dark-* 다. */
+body:has(.adminLayout[data-theme='dark']) .confirmModal-overlay {
+  background: rgb(0 0 0 / 0.5);
+}
+
+body:has(.adminLayout[data-theme='dark']) .confirmModal-content {
+  background: var(--home-dark-surface);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+  color-scheme: dark;
+}
+
+body:has(.adminLayout[data-theme='dark']) .confirmModal-header__title,
+body:has(.adminLayout[data-theme='dark']) .confirmModal-header__info strong {
+  color: var(--home-dark-text);
+}
+
+body:has(.adminLayout[data-theme='dark']) .confirmModal-close,
+body:has(.adminLayout[data-theme='dark']) .confirmModal-header__info,
+body:has(.adminLayout[data-theme='dark']) .confirmModal-button--cancel {
+  color: var(--home-dark-text-secondary);
+}
+
+body:has(.adminLayout[data-theme='dark']) .confirmModal-button--cancel {
+  border-color: var(--home-dark-border);
+}
+
+body:has(.adminLayout[data-theme='dark']) .confirmModal-button--confirm {
+  background: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}
+
+body:has(.adminLayout[data-theme='dark']) .confirmModal-close:focus-visible,
+body:has(.adminLayout[data-theme='dark']) .confirmModal-button:focus-visible {
+  outline-color: var(--home-dark-accent);
+}
+
+@media (hover: hover) {
+  body:has(.adminLayout[data-theme='dark']) .confirmModal-button--cancel:hover:not(:disabled) {
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  body:has(.adminLayout[data-theme='dark']) .confirmModal-button--confirm:hover:not(:disabled) {
+    background: var(--home-dark-accent);
+    filter: brightness(1.06);
+  }
+}

@@ -211,3 +211,101 @@ a.eventItem-link__link {
     flex-shrink: 0;
   }
 }
+
+/* 다크 테마 (Figma '대시보드 · Dark'). 배지·아이콘은 SVG 를 직접 그리므로 그 안의 칠·선을 덮어쓴다.
+   배지는 다크에서 테두리를 빼고 면과 글자만 둔다. */
+[data-theme='dark'] .eventItem {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-surface);
+  box-shadow: 0 6px 20px var(--home-dark-shadow);
+}
+
+[data-theme='dark'] .eventItem-title__title,
+[data-theme='dark'] .eventItem-actionMenu__edit {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .eventItem-file {
+  color: var(--home-dark-text-muted);
+}
+
+[data-theme='dark'] .eventItem-info__info {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .eventItem-info__icon path,
+[data-theme='dark'] .eventItem-item__more path {
+  stroke: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .eventItem-item__more path {
+  fill: var(--home-dark-text-secondary);
+}
+
+/* 배지: 첫 사각형은 면, 둘째는 테두리, 나머지는 글자 */
+[data-theme='dark'] .eventItem-title__badges rect:nth-of-type(2) {
+  stroke: none;
+}
+
+[data-theme='dark'] .eventItem-title__status--active rect:first-of-type {
+  fill: var(--home-dark-positive-bg);
+}
+
+[data-theme='dark'] .eventItem-title__status--active :is(path, text) {
+  fill: var(--home-dark-positive);
+}
+
+[data-theme='dark'] .eventItem-title__status--inactive rect:first-of-type {
+  fill: var(--home-dark-raised);
+}
+
+[data-theme='dark'] .eventItem-title__status--inactive :is(path, text) {
+  fill: var(--home-dark-text-muted);
+}
+
+[data-theme='dark'] .eventItem-title__format--form rect:first-of-type {
+  fill: var(--home-dark-form-bg);
+}
+
+[data-theme='dark'] .eventItem-title__format--form :is(path, text) {
+  fill: var(--home-dark-form);
+}
+
+[data-theme='dark'] .eventItem-title__format--file rect:first-of-type {
+  fill: var(--home-dark-file-bg);
+}
+
+[data-theme='dark'] .eventItem-title__format--file :is(path, text) {
+  fill: var(--home-dark-file);
+}
+
+/* 링크 상자. 조회용 링크는 홈·이용 방법과 같은 어두운 청록 + 채도 낮춘 글자 */
+[data-theme='dark'] .eventItem-search {
+  background-color: var(--home-dark-success-bg);
+  color: var(--home-dark-view-link);
+}
+
+[data-theme='dark'] .eventItem-apply {
+  background-color: var(--home-dark-apply-bg);
+  color: var(--home-dark-apply);
+}
+
+[data-theme='dark'] .eventItem-link__copy path {
+  stroke: currentColor;
+}
+
+/* 더보기 메뉴 */
+[data-theme='dark'] .eventItem-actionMenu {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-raised);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.4);
+}
+
+[data-theme='dark'] .eventItem-actionMenu__delete {
+  color: var(--home-dark-danger);
+}
+
+[data-theme='dark'] .eventItem-actionMenu__edit:hover,
+[data-theme='dark'] .eventItem-actionMenu__delete:hover {
+  background-color: rgb(255 255 255 / 0.06);
+}

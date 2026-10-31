@@ -167,3 +167,52 @@
     width: 100%;
   }
 }
+
+/* 다크 테마 (대시보드). 확인 버튼은 '새 이벤트' 버튼과 같은 연보라 면을 쓴다. 색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .editTitleModal-overlay {
+  background: rgb(0 0 0 / 0.5);
+}
+
+[data-theme='dark'] .editTitleModal-content {
+  background: var(--home-dark-surface);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+}
+
+[data-theme='dark'] .editTitleModal-header__title {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .editTitleModal-close,
+[data-theme='dark'] .editTitleModal-header__info,
+[data-theme='dark'] .editTitleModal-button--cancel {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .editTitleModal-input {
+  border-color: var(--home-dark-border);
+  background-color: var(--home-dark-control);
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .editTitleModal-input:focus {
+  border-color: var(--home-dark-accent);
+  box-shadow: 0 0 0 3px rgb(173 185 244 / 0.2);
+}
+
+[data-theme='dark'] .editTitleModal-input::placeholder {
+  color: var(--home-dark-placeholder);
+}
+
+[data-theme='dark'] .editTitleModal-button--cancel {
+  border-color: var(--home-dark-border);
+}
+
+[data-theme='dark'] .editTitleModal-button--cancel:hover:not(:disabled) {
+  background: rgb(255 255 255 / 0.06);
+}
+
+[data-theme='dark'] .editTitleModal-button--submit,
+[data-theme='dark'] .editTitleModal-button--submit:hover:not(:disabled) {
+  background: var(--home-dark-accent);
+  color: var(--home-dark-on-accent);
+}

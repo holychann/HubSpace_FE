@@ -60,3 +60,40 @@
   /* 버튼- 종료*/
   --color-exit: #e70000;
 }
+
+/* 다크 테마 색 (Figma 변수 'Home v3 · Dark palette'). 홈·이용 방법·문의하기·대시보드의 다크 규칙이 같이 쓴다.
+   화면 바깥(body)에 그려지는 팝오버·모달에서도 쓸 수 있게 :root 에 둔다. 다크일 때만 쓰이는 값이다. */
+:root {
+  --home-dark-page: #101522;
+  --home-dark-section: #151d2c;
+  --home-dark-surface: #1c2638;
+  --home-dark-raised: #27334a;
+  --home-dark-control: #172031;
+  --home-dark-text: #e7ecff;
+  --home-dark-text-strong: #f5f7fc;
+  --home-dark-text-secondary: #b5bfd3;
+  --home-dark-text-muted: #9aa9c4;
+  --home-dark-placeholder: #8494b2;
+  --home-dark-border: #3a4861;
+  --home-dark-border-soft: #34425d;
+  --home-dark-primary: #4b63d4;
+  --home-dark-icon: #adb9f4;
+  --home-dark-success: #7cdcc7;
+  --home-dark-success-bg: #173b36;
+  /* 조회용 링크 글자·아이콘. 성공 초록보다 채도를 낮춰 형광처럼 보이지 않게 한다(대시보드와 같음). */
+  --home-dark-view-link: #94c5ba;
+  --home-dark-shadow: rgb(0 0 0 / 0.3);
+  /* 폼(보라)·파일(파랑)·활성(초록)·폼 링크(보라)·위험(빨강) */
+  --home-dark-form: #baa3ff;
+  --home-dark-form-bg: #241f3a;
+  --home-dark-file: #8fb0ff;
+  --home-dark-file-bg: #17233b;
+  --home-dark-positive: #8fc9a3;
+  --home-dark-positive-bg: #1a3127;
+  --home-dark-apply: #d6a8ff;
+  --home-dark-apply-bg: #2a1f3d;
+  --home-dark-danger: #ff8f8f;
+  /* 대시보드 '새 이벤트' 버튼(연보라 면 + 어두운 글자) */
+  --home-dark-accent: #adb9f4;
+  --home-dark-on-accent: #101522;
+}

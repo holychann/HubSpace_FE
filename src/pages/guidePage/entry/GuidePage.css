@@ -872,21 +872,21 @@
 }
 
 /* 다크 테마 (Figma '이용 방법 · Dark'). 바탕·헤더·탭·시작 버튼은 HomePage.css 의 홈 다크 규칙을 그대로 쓰고,
-   여기서는 이용 방법에만 있는 요소를 칠한다. 색 값은 HomePage.css 의 --home-dark-* 와 같다.
+   여기서는 이용 방법에만 있는 요소를 칠한다. 색 값은 palette.css 의 --home-dark-* 다.
    조회 화면 예시 사진은 실제 조회 화면(라이트)을 찍은 것이라 그대로 둔다. */
 .home.guide[data-theme='dark'] {
   --guide-border-soft: var(--home-dark-border-soft);
   --guide-link-muted: var(--home-dark-text-muted);
   --guide-accent-navy: var(--home-dark-icon);
-  --guide-danger: #ff8f8f;
-  --guide-form: #baa3ff;
-  --guide-form-bg: #241f3a;
-  --guide-file: #8fb0ff;
-  --guide-file-bg: #17233b;
-  --guide-positive: #6fe39a;
-  --guide-positive-bg: #163323;
-  --guide-apply: #d6a8ff;
-  --guide-apply-bg: #2a1f3d;
+  --guide-danger: var(--home-dark-danger);
+  --guide-form: var(--home-dark-form);
+  --guide-form-bg: var(--home-dark-form-bg);
+  --guide-file: var(--home-dark-file);
+  --guide-file-bg: var(--home-dark-file-bg);
+  --guide-positive: var(--home-dark-positive);
+  --guide-positive-bg: var(--home-dark-positive-bg);
+  --guide-apply: var(--home-dark-apply);
+  --guide-apply-bg: var(--home-dark-apply-bg);
 }
 
 /* 탭 아이콘 색. 홈은 구간이 --method-accent 를 정하지만 이용 방법에는 그 구간이 없다. */
@@ -1000,7 +1000,7 @@
 
 .guide[data-theme='dark'] .guide-link--view {
   background-color: var(--home-dark-success-bg);
-  color: var(--home-dark-success);
+  color: var(--home-dark-view-link);
 }
 
 .guide[data-theme='dark'] .guide-link--apply {
