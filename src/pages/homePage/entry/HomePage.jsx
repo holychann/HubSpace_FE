@@ -10,11 +10,42 @@ import HomeMethods from '../component/HomeMethods'
 import hubspaceLogo from '../../../assets/default/hubspace-logo.png'
 import CopyIcon from '../../../assets/home/home-copy.svg?react'
 import GoogleIcon from '../../../assets/home/home-google.svg?react'
+import SystemThemeIcon from '../../../assets/home/home-theme-system.svg?react'
+import LightThemeIcon from '../../../assets/home/home-theme-light.svg?react'
+import DarkThemeIcon from '../../../assets/home/home-theme-dark.svg?react'
 import { getStoredAccessToken } from '../../../utils/authStorage'
 import { usePublicSession } from '../utils/publicSession'
+import { useHomeTheme } from '../utils/homeTheme'
 import { recoverAuthSession } from '../../../apis/ApiClient'
 
 const CONTACT_PATH = '/contact'
+
+const THEME_OPTIONS = [
+  { value: 'system', label: '자동(기기 설정)', Icon: SystemThemeIcon },
+  { value: 'light', label: '라이트', Icon: LightThemeIcon },
+  { value: 'dark', label: '다크', Icon: DarkThemeIcon },
+]
+
+// 푸터의 화면 테마 스위치. 아이콘만 보이고 이름은 낭독기와 마우스를 올렸을 때 보인다.
+function ThemeSwitch({ preference, onChange }) {
+  return (
+    <div className='home-theme-switch' role='group' aria-label='화면 테마'>
+      {THEME_OPTIONS.map((option) => (
+        <button
+          key={option.value}
+          type='button'
+          className='home-theme-switch__option'
+          aria-label={option.label}
+          aria-pressed={preference === option.value}
+          title={option.label}
+          onClick={() => onChange(option.value)}
+        >
+          <option.Icon aria-hidden='true' />
+        </button>
+      ))}
+    </div>
+  )
+}
 
 // 첫 화면과 마지막 구간의 시작 버튼. 로그인 확인 중에는 같은 크기의 스켈레톤으로 두고 누를 수 없게 한다.
 // 확인 중에는 어느 문구가 될지 모르므로 더 긴 'Google 계정으로 시작하기'로 자리를 잡는다.
@@ -43,6 +74,7 @@ function StartButton({ hasSession, isCheckingSession, onClick }) {
 export default function HomePage() {
   const { hash, key: locationKey } = useLocation()
   const { hasSession, handleStart } = usePublicSession()
+  const { theme, preference, changePreference } = useHomeTheme()
   // 만료된 access 토큰이 남아 있으면 refresh 쿠키로 로그인이 이어질 수 있어, 그때만 서버에 확인한다.
   // 토큰이 아예 없으면 로그아웃 상태다(refresh 가 401 이면 토큰을 지운다). 서버에 묻지 않는다.
   // 확인하는 동안에도 홈은 바로 보이고, 헤더 오른쪽 끝만 스켈레톤으로 둔다.
@@ -72,7 +104,7 @@ export default function HomePage() {
   }, [hash, locationKey])
 
   return (
-    <div className='home'>
+    <div className='home' data-theme={theme}>
       <Header hasSession={hasSession} onStart={handleStart} isCheckingSession={checkingSession} />
 
       <main>
@@ -141,6 +173,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className='home-footer__meta'>
+            <ThemeSwitch preference={preference} onChange={changePreference} />
             <nav className='home-footer__links' aria-label='약관 및 문의'>
               <Link to={CONTACT_PATH} className='home-footer__link home-footer__link--contact'>
                 문의하기

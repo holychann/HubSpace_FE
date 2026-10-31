@@ -8,7 +8,7 @@
 |---|---|---|
 | 관리자 화면 | 대시보드, 이벤트 생성(CSV·폼), 이벤트 편집 | `AdminLayout` 안에서 회색 배경(`--color-background`) 위에 흰 카드 섹션을 쌓는다 |
 | 공개 화면 | 조회(`/search`), 결과(`/result`), 약관 | `GradientLayout`의 그라데이션 SVG 배경 위에 가운데 정렬된 좁은 카드(최대 411px) |
-| 홈 | 홈(`/`, 로그인 버튼 포함) | 흰 바탕의 소개 화면. 공통 헤더(`src/components/header`)와 자체 푸터를 쓰고, 공통 푸터는 붙이지 않는다. 첫 화면은 궤도 그림(`HomeOrbit`), 버튼은 알약 모양(`src/pages/homePage`) |
+| 홈 | 홈(`/`, 로그인 버튼 포함) | 흰 바탕의 소개 화면. 공통 헤더(`src/components/header`)와 자체 푸터를 쓰고, 공통 푸터는 붙이지 않는다. 첫 화면은 궤도 그림(`HomeOrbit`), 버튼은 알약 모양(`src/pages/homePage`). 홈만 다크 테마가 있다: 기본은 기기 설정을 따르고, 푸터의 자동·라이트·다크 스위치로 고르면 저장한다(`useHomeTheme`, 색은 `HomePage.css` 끝의 다크 블록) |
 | 문의하기 | 문의하기(`/contact`) | 공통 헤더(`src/components/header`)와 흰 바탕에 FAQ·이메일 문의 영역. 아래에는 공통 푸터를 붙인다(`src/pages/contactPage`) |
 | 이용 방법 | 이용 방법(`/guide`) | 공통 헤더와 흰 바탕에 Google Forms·파일 업로드 탭, 단계별 설명과 화면 예시. 화면 예시는 실제 화면을 단순하게 옮긴 그림이다. 아래에는 공통 푸터를 붙인다(`src/pages/guidePage`) |
 

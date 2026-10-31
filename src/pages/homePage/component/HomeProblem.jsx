@@ -24,7 +24,8 @@ const CHATS = [
   { name: '전*빈', preview: '명단 확인 가능할까요?', unread: 2 },
   { name: '홍*수', preview: '신청 마감 전에 넣었는데 됐나요?', unread: 1 },
   { name: '유*나', preview: '혹시 제 이름 있나요?', unread: 1 },]
-const AVATAR_COLORS = ['#d6e7ff', '#d3f4ea', '#e7e0ff', '#ffe1f4', '#fde9d2']
+// 아바타 색 이름. 실제 색은 라이트·다크 테마별로 HomePage.css 에 있다.
+const AVATAR_TONES = ['sky', 'mint', 'lavender', 'pink', 'peach']
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 
@@ -143,8 +144,7 @@ export default function HomeProblem() {
                 {CHATS.map((chat, index) => (
                   <li key={chat.name} className='home-chat__row'>
                     <span
-                      className='home-chat__avatar'
-                      style={{ backgroundColor: AVATAR_COLORS[index % AVATAR_COLORS.length] }}
+                      className={`home-chat__avatar home-chat__avatar--${AVATAR_TONES[index % AVATAR_TONES.length]}`}
                     />
                     <span className='home-chat__text'>
                       <span className='home-chat__name'>{chat.name}</span>

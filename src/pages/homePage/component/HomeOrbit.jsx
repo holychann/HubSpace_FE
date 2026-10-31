@@ -49,6 +49,7 @@ function OrbitDot({ radius, degree, color, size, checked }) {
           cx={x}
           cy={y}
           r={size / 2 - 1.5}
+          className={`home-orbit__dot home-orbit__dot--${color}`}
           fill={DOT_COLORS[color]}
           stroke='#ffffff'
           strokeWidth='3'
@@ -56,7 +57,7 @@ function OrbitDot({ radius, degree, color, size, checked }) {
         />
         {checked && (
           <g transform={`translate(${x + badgeOffset} ${y + badgeOffset}) scale(${badgeScale})`}>
-            <circle r='9' fill='#1c7a72' />
+            <circle className='home-orbit__badge' r='9' fill='#1c7a72' />
             <path
               d='M-3.5 0.2L-1.2 2.5L3.5 -2.2'
               fill='none'
@@ -112,18 +113,25 @@ export default function HomeOrbit() {
             <feGaussianBlur stdDeviation='60' />
           </filter>
           <filter id='home-orbit-dot-shadow' x='-50%' y='-50%' width='200%' height='200%'>
-            <feDropShadow dx='0' dy='6' stdDeviation='8' floodColor='#2d3b86' floodOpacity='0.1' />
+            <feDropShadow
+              className='home-orbit__dot-shadow'
+              dx='0'
+              dy='6'
+              stdDeviation='8'
+              floodColor='#2d3b86'
+              floodOpacity='0.1'
+            />
           </filter>
         </defs>
 
-        {/* 조회·로그인 화면 배경과 같은 하늘색·민트·분홍 빛 */}
+        {/* 조회·로그인 화면 배경과 같은 하늘색·민트·분홍 빛. 다크 테마 색은 HomePage.css 가 클래스로 덮어쓴다. */}
         <g filter='url(#home-orbit-glow)'>
-          <ellipse cx='440' cy='310' rx='280' ry='160' fill='#abd0ff' opacity='0.55' />
-          <ellipse cx='800' cy='340' rx='260' ry='150' fill='#bff3e4' opacity='0.6' />
-          <ellipse cx='880' cy='180' rx='160' ry='110' fill='#ffc7f2' opacity='0.35' />
+          <ellipse className='home-orbit__glow--sky' cx='440' cy='310' rx='280' ry='160' fill='#abd0ff' opacity='0.55' />
+          <ellipse className='home-orbit__glow--mint' cx='800' cy='340' rx='260' ry='150' fill='#bff3e4' opacity='0.6' />
+          <ellipse className='home-orbit__glow--pink' cx='880' cy='180' rx='160' ry='110' fill='#ffc7f2' opacity='0.35' />
         </g>
 
-        <g fill='none' stroke='#050064'>
+        <g className='home-orbit__rings' fill='none' stroke='#050064'>
           {RINGS.map((radius) => (
             <circle key={radius} cx={CENTER.x} cy={CENTER.y} r={radius} strokeOpacity='0.12' />
           ))}

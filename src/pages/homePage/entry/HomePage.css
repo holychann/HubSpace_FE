@@ -494,6 +494,26 @@
   border-radius: 50%;
 }
 
+.home-chat__avatar--sky {
+  background-color: #d6e7ff;
+}
+
+.home-chat__avatar--mint {
+  background-color: #d3f4ea;
+}
+
+.home-chat__avatar--lavender {
+  background-color: #e7e0ff;
+}
+
+.home-chat__avatar--pink {
+  background-color: #ffe1f4;
+}
+
+.home-chat__avatar--peach {
+  background-color: #fde9d2;
+}
+
 .home-chat__text {
   display: flex;
   flex: 1;
@@ -1025,6 +1045,49 @@
   }
 }
 
+/* 화면 테마 스위치(자동·라이트·다크). 푸터 글자와 같은 흐린 색으로 두어 눈에 띄지 않게 한다. */
+.home-theme-switch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgb(206 213 236 / 0.72);
+  border-radius: 999px;
+}
+
+.home-theme-switch__option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: #667196;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.home-theme-switch__option svg {
+  width: 16px;
+  height: 16px;
+}
+
+.home-theme-switch__option[aria-pressed='true'] {
+  background-color: var(--color-box-conditional);
+  color: var(--color-text);
+}
+
+@media (hover: hover) {
+  .home-theme-switch__option[aria-pressed='false']:hover {
+    color: var(--color-text);
+  }
+}
+
 /* 960px 이하: 단계는 아이콘 + 글 가로 배치, 마지막 구간은 세로로 쌓는다 */
 @media (max-width: 960px) {
   .home-steps__list {
@@ -1294,7 +1357,12 @@
     margin-top: 20px;
   }
 
-  /* 단계 이름은 낭독기에만 남기고, 화면에는 지금 단계 하나만 보인다. */
+  /* 단계 이름은 낭독기에만 남기고, 화면에는 지금 단계 하나만 보인다.
+     숨긴 이름이 홈 스크롤 영역 밖(문서 맨 아래)으로 빠져 문서가 따로 스크롤되지 않게 단계 안에 붙잡아 둔다. */
+  .home-methods__step {
+    position: relative;
+  }
+
   .home-methods__step-label {
     position: absolute;
     width: 1px;
@@ -1375,6 +1443,21 @@
   .home-footer__link--contact {
     display: inline-flex;
   }
+
+  /* 손가락으로 누르기 쉽게 칸을 키우고, 아래 링크 줄과 조금 띄운다. */
+  .home-theme-switch {
+    margin-bottom: 8px;
+  }
+
+  .home-theme-switch__option {
+    width: 44px;
+    height: 36px;
+  }
+
+  .home-theme-switch__option svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1385,6 +1468,7 @@
   .home-button,
   .home-orbit__button,
   .home-footer__link,
+  .home-theme-switch__option,
   .home-chat__rows {
     transition: none;
   }
@@ -1413,5 +1497,343 @@
   .home-orbit__satellite,
   .home-orbit__satellite-body {
     animation: none;
+  }
+}
+
+/* 다크 테마 (Figma 'Home v3 – Desktop · Dark', 변수 'Home v3 · Theme' 의 Dark 모드).
+   .home 의 data-theme 은 useHomeTheme 이 정한다(기본은 기기 설정, 푸터 스위치로 고를 수 있다). 다크 시안은 홈에만 있어 공통 헤더의 다크 색도 여기서 덮어쓴다.
+   만드는 과정 영상(lottie)은 아직 라이트용 그림 그대로 쓴다. */
+.home[data-theme='dark'] {
+  --home-dark-page: #101522;
+  --home-dark-section: #151d2c;
+  --home-dark-surface: #1c2638;
+  --home-dark-raised: #27334a;
+  --home-dark-control: #172031;
+  --home-dark-text: #e7ecff;
+  --home-dark-text-strong: #f5f7fc;
+  --home-dark-text-secondary: #b5bfd3;
+  --home-dark-text-muted: #9aa9c4;
+  --home-dark-placeholder: #8494b2;
+  --home-dark-border: #3a4861;
+  --home-dark-border-soft: #34425d;
+  --home-dark-primary: #4b63d4;
+  --home-dark-icon: #adb9f4;
+  --home-dark-success: #7cdcc7;
+  --home-dark-success-bg: #173b36;
+  --home-dark-shadow: rgb(0 0 0 / 0.3);
+  background-color: var(--home-dark-page);
+  color: var(--home-dark-text);
+  color-scheme: dark;
+}
+
+.home[data-theme='dark'] a:focus-visible,
+.home[data-theme='dark'] button:focus-visible,
+.home[data-theme='dark'] .home-orbit__button:focus-visible {
+  outline-color: var(--home-dark-icon);
+}
+
+/* 헤더 */
+.home[data-theme='dark'] .site-header {
+  background-color: rgb(16 21 34 / 0.88);
+}
+
+/* 로고 그림은 남색 한 가지라 흰색으로 바꿔 쓴다(Figma 'Logo · Dark'). */
+.home[data-theme='dark'] .site-header__logo img,
+.home[data-theme='dark'] .home-footer__logo {
+  filter: brightness(0) invert(1);
+}
+
+.home[data-theme='dark'] .site-header__link {
+  color: var(--home-dark-text-secondary);
+}
+
+.home[data-theme='dark'] .site-header__link--account,
+.home[data-theme='dark'] .site-header__nickname,
+.home[data-theme='dark'] .site-header__menuItem {
+  color: var(--home-dark-text);
+}
+
+.home[data-theme='dark'] .site-header__divider {
+  background-color: var(--home-dark-border);
+}
+
+.home[data-theme='dark'] .site-header__menu {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-raised);
+  box-shadow: 0 6px 20px var(--home-dark-shadow);
+}
+
+@media (hover: hover) {
+  .home[data-theme='dark'] .site-header__link:hover,
+  .home[data-theme='dark'] .site-header__link--account:hover {
+    color: var(--home-dark-text-strong);
+  }
+}
+
+/* 시작 버튼: 라이트의 검정 버튼을 뒤집어 밝은 바탕에 어두운 글자로 둔다. */
+.home[data-theme='dark'] .home-button--primary {
+  background-color: var(--home-dark-text-strong);
+  color: var(--home-dark-page);
+}
+
+@media (hover: hover) {
+  .home[data-theme='dark'] .home-button--primary:hover {
+    background-color: #dde3f0;
+  }
+}
+
+/* 첫 화면 */
+.home[data-theme='dark'] .home-hero__title,
+.home[data-theme='dark'] .home-hero__link {
+  color: var(--home-dark-text-strong);
+}
+
+.home[data-theme='dark'] .home-hero__solution {
+  color: var(--home-dark-text);
+}
+
+.home[data-theme='dark'] .home-hero__lead,
+.home[data-theme='dark'] .home-problem__lead,
+.home[data-theme='dark'] .home-chat__preview,
+.home[data-theme='dark'] .home-step__description,
+.home[data-theme='dark'] .home-methods__description,
+.home[data-theme='dark'] .home-methods__step-label,
+.home[data-theme='dark'] .home-closing__lead {
+  color: var(--home-dark-text-secondary);
+}
+
+/* 궤도 그림 */
+.home[data-theme='dark'] .home-orbit::after {
+  background: linear-gradient(to bottom, rgb(16 21 34 / 0), var(--home-dark-page));
+}
+
+.home[data-theme='dark'] .home-orbit__glow--sky {
+  fill: #476eff;
+  opacity: 0.31;
+}
+
+.home[data-theme='dark'] .home-orbit__glow--mint {
+  fill: #2ca98e;
+  opacity: 0.24;
+}
+
+.home[data-theme='dark'] .home-orbit__glow--pink {
+  fill: #995deb;
+  opacity: 0.2;
+}
+
+.home[data-theme='dark'] .home-orbit__rings {
+  stroke: #8ca2dc;
+}
+
+.home[data-theme='dark'] .home-orbit__rings > * {
+  stroke-opacity: 0.18;
+}
+
+.home[data-theme='dark'] .home-orbit__dot {
+  stroke: rgb(129 146 184 / 0.6);
+}
+
+.home[data-theme='dark'] .home-orbit__dot--sky {
+  fill: #31486d;
+}
+
+.home[data-theme='dark'] .home-orbit__dot--mint {
+  fill: #214d47;
+}
+
+.home[data-theme='dark'] .home-orbit__dot--lavender {
+  fill: #453861;
+}
+
+.home[data-theme='dark'] .home-orbit__dot--pink {
+  fill: #57384f;
+}
+
+.home[data-theme='dark'] .home-orbit__badge {
+  fill: #348b7a;
+}
+
+.home[data-theme='dark'] .home-orbit__dot-shadow {
+  flood-color: #000000;
+  flood-opacity: 0.22;
+}
+
+.home[data-theme='dark'] .home-orbit__search {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-surface);
+  box-shadow: 0 16px 40px var(--home-dark-shadow);
+}
+
+.home[data-theme='dark'] .home-orbit__divider,
+.home[data-theme='dark'] .home-steps__list::before {
+  background-color: var(--home-dark-border);
+}
+
+.home[data-theme='dark'] .home-orbit__button {
+  background-color: var(--home-dark-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home[data-theme='dark'] .home-orbit__button:hover {
+    background-color: #5d73de;
+  }
+}
+
+.home[data-theme='dark'] .home-orbit__result,
+.home[data-theme='dark'] .home-closing__link {
+  background-color: var(--home-dark-success-bg);
+  color: var(--home-dark-success);
+}
+
+/* 채팅 목록 */
+.home[data-theme='dark'] .home-chat {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-surface);
+  box-shadow: 0 24px 48px var(--home-dark-shadow);
+}
+
+.home[data-theme='dark'] .home-chat::after {
+  background: linear-gradient(to bottom, rgb(28 38 56 / 0), var(--home-dark-surface));
+}
+
+.home[data-theme='dark'] .home-chat__header {
+  border-bottom-color: var(--home-dark-border-soft);
+}
+
+.home[data-theme='dark'] .home-chat__total,
+.home[data-theme='dark'] .home-footer__note,
+.home[data-theme='dark'] .home-footer__link,
+.home[data-theme='dark'] .home-footer__copyright {
+  color: var(--home-dark-text-muted);
+}
+
+.home[data-theme='dark'] .home-chat__avatar--sky {
+  background-color: #31486d;
+}
+
+.home[data-theme='dark'] .home-chat__avatar--mint {
+  background-color: #214d47;
+}
+
+.home[data-theme='dark'] .home-chat__avatar--lavender {
+  background-color: #453861;
+}
+
+.home[data-theme='dark'] .home-chat__avatar--pink {
+  background-color: #57384f;
+}
+
+.home[data-theme='dark'] .home-chat__avatar--peach {
+  background-color: #5d4531;
+}
+
+.home[data-theme='dark'] .home-chat__badge {
+  background-color: var(--home-dark-primary);
+}
+
+/* 세 단계 */
+.home[data-theme='dark'] .home-steps,
+.home[data-theme='dark'] .home-closing__band {
+  background-color: var(--home-dark-section);
+}
+
+.home[data-theme='dark'] .home-step__number {
+  border-color: var(--home-dark-icon);
+  background-color: var(--home-dark-surface);
+}
+
+.home[data-theme='dark'] .home-step__icon,
+.home[data-theme='dark'] .home-step__label {
+  color: var(--home-dark-icon);
+}
+
+/* 두 방식. 폼은 Figma 다크 값, 파일(파랑)은 시안이 없어 폼과 같은 밝기로 맞췄다. */
+.home[data-theme='dark'] .home-methods--file {
+  --method-accent: #8fb0ff;
+  --method-tint: #17233b;
+}
+
+.home[data-theme='dark'] .home-methods--form {
+  --method-accent: #baa3ff;
+  --method-tint: #241f3a;
+}
+
+.home[data-theme='dark'] .home-methods__tabs {
+  background-color: var(--home-dark-control);
+}
+
+.home[data-theme='dark'] .home-methods__tabs::before {
+  background-color: var(--home-dark-raised);
+  box-shadow: 0 2px 8px var(--home-dark-shadow);
+}
+
+.home[data-theme='dark'] .home-methods__tab {
+  color: var(--home-dark-text-secondary);
+}
+
+.home[data-theme='dark'] .home-methods__tab svg {
+  color: var(--home-dark-placeholder);
+}
+
+.home[data-theme='dark'] .home-methods__tab[aria-selected='true'],
+.home[data-theme='dark'] .home-methods__step[aria-current='step'] .home-methods__step-label,
+.home[data-theme='dark'] .home-methods__current {
+  color: var(--home-dark-text);
+}
+
+.home[data-theme='dark'] .home-methods__tab[aria-selected='true'] svg {
+  color: var(--method-accent);
+}
+
+@media (hover: hover) {
+  .home[data-theme='dark'] .home-methods__tab[aria-selected='false']:hover {
+    color: var(--home-dark-text);
+  }
+}
+
+.home[data-theme='dark'] .home-methods__track {
+  background-color: var(--home-dark-border-soft);
+}
+
+/* 마지막 구간 */
+.home[data-theme='dark'] .home-closing__card {
+  border-color: var(--home-dark-border-soft);
+  background-color: var(--home-dark-surface);
+  box-shadow: 0 16px 40px var(--home-dark-shadow);
+}
+
+.home[data-theme='dark'] .home-closing__copy-icon {
+  background-color: var(--home-dark-surface);
+}
+
+/* 푸터 */
+.home[data-theme='dark'] .home-footer {
+  border-top-color: var(--home-dark-border-soft);
+}
+
+@media (hover: hover) {
+  .home[data-theme='dark'] .home-footer__link:hover,
+  .home[data-theme='dark'] .home-theme-switch__option[aria-pressed='false']:hover {
+    color: var(--home-dark-text);
+  }
+}
+
+.home[data-theme='dark'] .home-theme-switch {
+  border-color: var(--home-dark-border-soft);
+}
+
+.home[data-theme='dark'] .home-theme-switch__option {
+  color: var(--home-dark-text-muted);
+}
+
+.home[data-theme='dark'] .home-theme-switch__option[aria-pressed='true'] {
+  background-color: var(--home-dark-raised);
+  color: var(--home-dark-text);
+}
+
+@media (max-width: 767px) {
+  .home[data-theme='dark'] .home-orbit__search {
+    box-shadow: 0 11px 28px var(--home-dark-shadow);
   }
 }
