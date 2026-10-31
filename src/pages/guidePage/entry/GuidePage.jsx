@@ -152,7 +152,7 @@ export default function GuidePage() {
                   </div>
                   {/* 실제 화면을 옮긴 예시라 화면 낭독기에서는 숨긴다. 할 일은 왼쪽 글이 모두 설명한다. */}
                   <div className='guide-mockup' aria-hidden='true'>
-                    <step.Mockup />
+                    <step.Mockup theme={theme} />
                   </div>
                 </li>
               ))}

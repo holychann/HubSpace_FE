@@ -9,6 +9,9 @@ import ArrowRightIcon from '../../../assets/guide/guide-arrow-right.svg?react'
 import ArrowDownIcon from '../../../assets/guide/guide-arrow-down.svg?react'
 import lookupScreenshot from '../../../assets/guide/guide-lookup.jpg'
 import resultScreenshot from '../../../assets/guide/guide-result.jpg'
+// 다크 테마용은 같은 내용을 다크 조회 화면에서 같은 구도로 찍은 그림이다.
+import lookupDarkScreenshot from '../../../assets/guide/guide-lookup-dark.jpg'
+import resultDarkScreenshot from '../../../assets/guide/guide-result-dark.jpg'
 
 // 이용 방법 단계마다 옆에 두는 화면 예시 (Figma 'Components – 이용 방법' 의 Guide Mockup).
 // 실제 화면을 단순하게 옮긴 그림이라 누를 수 없고, 화면 낭독기에서는 GuidePage 가 통째로 숨긴다.
@@ -66,13 +69,16 @@ function EventCard({ type, title }) {
 }
 
 // 조회 화면 → 조회 결과. 데스크탑은 가로, 모바일은 세로로 놓고 화살표도 그에 맞춰 바꾼다.
-export function LookupFlowMockup() {
+// 스크린샷은 테마마다 따로 찍어 두었다.
+export function LookupFlowMockup({ theme }) {
+  const isDark = theme === 'dark'
+
   return (
     <div className='guide-compare'>
       <div className='guide-shot'>
         <span className='guide-shot__label'>조회 화면</span>
         <div className='guide-shot__frame guide-shot__frame--lookup'>
-          <img src={lookupScreenshot} alt='' loading='lazy' decoding='async' />
+          <img src={isDark ? lookupDarkScreenshot : lookupScreenshot} alt='' loading='lazy' decoding='async' />
         </div>
       </div>
       <div className='guide-compare__arrow'>
@@ -86,7 +92,7 @@ export function LookupFlowMockup() {
       <div className='guide-shot'>
         <span className='guide-shot__label'>조회 결과</span>
         <div className='guide-shot__frame guide-shot__frame--result'>
-          <img src={resultScreenshot} alt='' loading='lazy' decoding='async' />
+          <img src={isDark ? resultDarkScreenshot : resultScreenshot} alt='' loading='lazy' decoding='async' />
         </div>
       </div>
     </div>
