@@ -42,3 +42,14 @@
     font-size: 16px;
   }
 }
+
+/* 다크 테마. 로그인 확인 화면(AuthGate)과 같은 모양이다. 색은 palette.css 의 --home-dark-* 다. */
+.cookiePage[data-theme='dark'] {
+  --cookie-page-spinner-color: var(--home-dark-icon);
+  background: var(--home-dark-page);
+  color-scheme: dark;
+}
+
+.cookiePage[data-theme='dark'] .cookiePage-text {
+  color: var(--home-dark-text-secondary);
+}

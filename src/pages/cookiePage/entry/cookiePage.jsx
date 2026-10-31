@@ -7,10 +7,13 @@ import {
   hasPendingGoogleConsent,
 } from '../../../utils/googleConsentStorage'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
+import { useHomeTheme } from '../../homePage/utils/homeTheme'
 import './cookiePage.css'
 
 export default function CookiePage() {
   const navigate = useNavigate()
+  // 로그인한 뒤 거쳐 가는 화면이라, 앞뒤 화면(홈 → 대시보드)과 같은 테마로 보여 흰 화면이 끼지 않게 한다.
+  const { theme } = useHomeTheme()
 
   useEffect(() => {
     const exchangeToken = async () => {
@@ -42,11 +45,12 @@ export default function CookiePage() {
   }, [navigate])
 
   return (
-    <div className='cookiePage'>
+    <div className='cookiePage' data-theme={theme}>
       <div className='cookiePage-loading'>
         <LoadingSpinner
           className='cookiePage-spinner'
           size={48}
+          color='var(--cookie-page-spinner-color, var(--color-text))'
         />
         <p className='cookiePage-text'>로그인 중입니다...</p>
       </div>
