@@ -132,6 +132,60 @@
   cursor: pointer;
 }
 
+/* 계정 메뉴 맨 위의 테마 줄. 아래 메뉴 항목과 가는 선으로 나눈다. 스위치 모양은 홈 푸터와 같다. */
+.site-header__menuTheme {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 40px;
+  margin-bottom: 6px;
+  padding: 0 4px 6px 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__menuLabel {
+  font-size: 13px;
+  color: var(--color-text-additional);
+  white-space: nowrap;
+}
+
+.site-header__themeSwitch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgb(206 213 236 / 0.72);
+  border-radius: 999px;
+}
+
+.site-header__themeSwitch__option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: #667196;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.site-header__themeSwitch__option svg {
+  width: 16px;
+  height: 16px;
+}
+
+.site-header__themeSwitch__option[aria-pressed='true'] {
+  background-color: var(--color-box-conditional);
+  color: var(--color-text);
+}
+
 .site-header__menuItem:disabled {
   opacity: 0.6;
   cursor: default;
@@ -165,6 +219,10 @@
   .site-header__menuItem:hover:not(:disabled) {
     font-weight: var(--font-semibold);
   }
+
+  .site-header__themeSwitch__option[aria-pressed='false']:hover {
+    color: var(--color-text);
+  }
 }
 
 @media (max-width: 767px) {
@@ -188,6 +246,21 @@
 
   .site-header__menuItem {
     min-height: 44px;
+  }
+
+  /* 손가락으로 누르기 쉽게 홈 푸터의 모바일 스위치와 같은 크기로 키운다. */
+  .site-header__menuTheme {
+    min-height: 44px;
+  }
+
+  .site-header__themeSwitch__option {
+    width: 44px;
+    height: 36px;
+  }
+
+  .site-header__themeSwitch__option svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -218,7 +291,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-header__link {
+  .site-header__link,
+  .site-header__themeSwitch__option {
     transition: none;
   }
 }
@@ -254,6 +328,28 @@
   box-shadow: 0 6px 20px var(--home-dark-shadow);
 }
 
+[data-theme='dark'] .site-header__menuTheme {
+  border-bottom-color: var(--home-dark-border-soft);
+}
+
+[data-theme='dark'] .site-header__menuLabel {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .site-header__themeSwitch {
+  border-color: var(--home-dark-border);
+}
+
+[data-theme='dark'] .site-header__themeSwitch__option {
+  color: var(--home-dark-text-muted);
+}
+
+/* 메뉴 면이 raised 라 고른 칸은 그보다 한 단계 밝은 선 색으로 칠한다. */
+[data-theme='dark'] .site-header__themeSwitch__option[aria-pressed='true'] {
+  background-color: var(--home-dark-border);
+  color: var(--home-dark-text);
+}
+
 [data-theme='dark'] .site-header a:focus-visible,
 [data-theme='dark'] .site-header button:focus-visible {
   outline-color: var(--home-dark-icon);
@@ -263,5 +359,9 @@
   [data-theme='dark'] .site-header__link:hover,
   [data-theme='dark'] .site-header__link--account:hover {
     color: var(--home-dark-text-strong);
+  }
+
+  [data-theme='dark'] .site-header__themeSwitch__option[aria-pressed='false']:hover {
+    color: var(--home-dark-text);
   }
 }

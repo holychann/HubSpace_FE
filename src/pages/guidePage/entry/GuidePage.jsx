@@ -104,13 +104,18 @@ const METHODS = [
 export default function GuidePage() {
   const { hasSession, handleStart } = usePublicSession()
   // 홈과 같은 테마를 쓴다(기기 설정, 홈 푸터 스위치로 고른 값).
-  const { theme } = useHomeTheme()
+  const { theme, preference, changePreference } = useHomeTheme()
   const [activeIndex, setActiveIndex] = useState(0)
   const method = METHODS[activeIndex]
 
   return (
     <div className={`home guide guide--${method.type}`} data-theme={theme}>
-      <Header hasSession={hasSession} onStart={handleStart} />
+      <Header
+        hasSession={hasSession}
+        onStart={handleStart}
+        themePreference={preference}
+        onThemeChange={changePreference}
+      />
 
       <main className='guide__body'>
         <div className='guide__main'>

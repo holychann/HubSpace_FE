@@ -79,7 +79,7 @@ function FaqItem({ question, answer }) {
 export default function ContactPage() {
   const { hasSession, handleStart } = usePublicSession()
   // 홈과 같은 테마를 쓴다(기기 설정, 홈 푸터 스위치로 고른 값).
-  const { theme } = useHomeTheme()
+  const { theme, preference, changePreference } = useHomeTheme()
   const emailRef = useRef(null)
 
   // 복사에 실패하면(권한 거부, http 등) 주소 글자를 선택해 두어 바로 직접 복사할 수 있게 한다.
@@ -104,7 +104,12 @@ export default function ContactPage() {
 
   return (
     <div className='home contact' data-theme={theme}>
-      <Header hasSession={hasSession} onStart={handleStart} />
+      <Header
+        hasSession={hasSession}
+        onStart={handleStart}
+        themePreference={preference}
+        onThemeChange={changePreference}
+      />
 
       <main className='contact__body'>
         <div className='contact__main'>

@@ -2,12 +2,14 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import Skeleton from '../skeleton/Skeleton'
+import ThemeSwitch from '../themeSwitch/ThemeSwitch'
 import { useUserNickname } from './apis/fetchUserInfo'
 import { logout } from '../../apis/ApiClient'
 
 // 로그인 상태의 헤더 오른쪽 끝. 닉네임을 누르면 '내 대시보드'·'로그아웃' 메뉴가 열린다.
 // 대시보드에서는 '로그아웃'만 보이고, 닉네임을 불러오는 동안은 스켈레톤을 둔다.
-export default function AccountMenu() {
+// onThemeChange 가 있으면 맨 위에 화면 테마 스위치를 둔다. 테마를 골라도 메뉴는 닫지 않아 바뀐 화면을 바로 본다.
+export default function AccountMenu({ themePreference, onThemeChange }) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const { nickname, loading } = useUserNickname()
@@ -73,6 +75,18 @@ export default function AccountMenu() {
       </button>
       {isOpen && (
         <div className='site-header__menu' id={menuId}>
+          {onThemeChange && (
+            <div className='site-header__menuTheme'>
+              <span className='site-header__menuLabel' aria-hidden='true'>
+                테마
+              </span>
+              <ThemeSwitch
+                className='site-header__themeSwitch'
+                preference={themePreference}
+                onChange={onThemeChange}
+              />
+            </div>
+          )}
           {pathname !== '/dashboard' && (
             <Link to='/dashboard' className='site-header__menuItem' onClick={() => setIsOpen(false)}>
               내 대시보드

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import './HomePage.css'
 import '../../../components/skeleton/Skeleton.css'
 import Header from '../../../components/header/Header'
+import ThemeSwitch from '../../../components/themeSwitch/ThemeSwitch'
 import HomeOrbit from '../component/HomeOrbit'
 import HomeProblem from '../component/HomeProblem'
 import HomeSteps from '../component/HomeSteps'
@@ -10,42 +11,12 @@ import HomeMethods from '../component/HomeMethods'
 import hubspaceLogo from '../../../assets/default/hubspace-logo.png'
 import CopyIcon from '../../../assets/home/home-copy.svg?react'
 import GoogleIcon from '../../../assets/home/home-google.svg?react'
-import SystemThemeIcon from '../../../assets/home/home-theme-system.svg?react'
-import LightThemeIcon from '../../../assets/home/home-theme-light.svg?react'
-import DarkThemeIcon from '../../../assets/home/home-theme-dark.svg?react'
 import { getStoredAccessToken } from '../../../utils/authStorage'
 import { usePublicSession } from '../utils/publicSession'
 import { useHomeTheme } from '../utils/homeTheme'
 import { recoverAuthSession } from '../../../apis/ApiClient'
 
 const CONTACT_PATH = '/contact'
-
-const THEME_OPTIONS = [
-  { value: 'system', label: '자동(기기 설정)', Icon: SystemThemeIcon },
-  { value: 'light', label: '라이트', Icon: LightThemeIcon },
-  { value: 'dark', label: '다크', Icon: DarkThemeIcon },
-]
-
-// 푸터의 화면 테마 스위치. 아이콘만 보이고 이름은 낭독기와 마우스를 올렸을 때 보인다.
-function ThemeSwitch({ preference, onChange }) {
-  return (
-    <div className='home-theme-switch' role='group' aria-label='화면 테마'>
-      {THEME_OPTIONS.map((option) => (
-        <button
-          key={option.value}
-          type='button'
-          className='home-theme-switch__option'
-          aria-label={option.label}
-          aria-pressed={preference === option.value}
-          title={option.label}
-          onClick={() => onChange(option.value)}
-        >
-          <option.Icon aria-hidden='true' />
-        </button>
-      ))}
-    </div>
-  )
-}
 
 // 첫 화면과 마지막 구간의 시작 버튼. 로그인 확인 중에는 같은 크기의 스켈레톤으로 두고 누를 수 없게 한다.
 // 확인 중에는 어느 문구가 될지 모르므로 더 긴 'Google 계정으로 시작하기'로 자리를 잡는다.
@@ -105,7 +76,13 @@ export default function HomePage() {
 
   return (
     <div className='home' data-theme={theme}>
-      <Header hasSession={hasSession} onStart={handleStart} isCheckingSession={checkingSession} />
+      <Header
+        hasSession={hasSession}
+        onStart={handleStart}
+        isCheckingSession={checkingSession}
+        themePreference={preference}
+        onThemeChange={changePreference}
+      />
 
       <main>
         <section className='home-hero'>
@@ -173,7 +150,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className='home-footer__meta'>
-            <ThemeSwitch preference={preference} onChange={changePreference} />
+            <ThemeSwitch className='home-theme-switch' preference={preference} onChange={changePreference} />
             <nav className='home-footer__links' aria-label='약관 및 문의'>
               <Link to={CONTACT_PATH} className='home-footer__link home-footer__link--contact'>
                 문의하기
