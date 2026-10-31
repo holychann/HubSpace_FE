@@ -599,7 +599,8 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: var(--step-gap);
-  margin-top: 64px;
+  /* 번호 원이 작아 제목에 붙어 보이므로 다른 구간보다 넓게 띄운다. */
+  margin-top: 120px;
 }
 
 /* 첫 번째와 마지막 번호의 가운데를 잇는 선 */
@@ -1123,6 +1124,25 @@
     height: 24px;
   }
 
+  /* 데스크탑의 가로 선 대신, 아이콘 아래에서 다음 단계 아이콘 위까지(목록 행 간격 28px 포함) 세로 선으로 잇는다.
+     단계가 떠오르는 순서에 맞춰 위에서 아래로 그려진다. */
+  .home-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 52px;
+    left: 25.5px;
+    width: 1px;
+    height: calc(100% - 24px);
+    background-color: var(--color-border);
+    transform-origin: top center;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--step-index, 0) * 0.6s + 0.25s);
+  }
+
+  .home-steps--waiting .home-step::after {
+    transform: scaleY(0);
+  }
+
   .home-step__text {
     gap: 4px;
   }
@@ -1299,7 +1319,7 @@
   }
 
   .home-steps__list {
-    margin-top: 36px;
+    margin-top: 56px;
   }
 
   .home-methods {
@@ -1474,7 +1494,8 @@
   }
 
   .home-steps__list::before,
-  .home-step {
+  .home-step,
+  .home-step::after {
     transition: none;
   }
 
@@ -1617,7 +1638,8 @@
 }
 
 .home[data-theme='dark'] .home-orbit__divider,
-.home[data-theme='dark'] .home-steps__list::before {
+.home[data-theme='dark'] .home-steps__list::before,
+.home[data-theme='dark'] .home-step::after {
   background-color: var(--home-dark-border);
 }
 
