@@ -110,11 +110,12 @@ const previewClosedEvents = [
   },
   {
     id: 'preview-closed-005',
-    eventTitle: '1학기 MT 참가비 입금 확인',
+    // 해가 바뀐 종료 이벤트(모바일 연도 묶음 머리 확인용)
+    eventTitle: '2학기 MT 참가비 입금 확인',
     eventType: 'FILE',
     isActive: false,
-    createdAt: '2026-03-18T09:00:00',
-    closedAt: '2026-04-01T09:00:00',
+    createdAt: '2025-11-28T09:00:00',
+    closedAt: '2025-12-12T09:00:00',
     viewCount: 207,
     fileName: 'MT 참가자 입금 내역.csv',
   },

@@ -7,6 +7,7 @@
   --closedEvents-control: var(--color-box-conditional);
   --closedEvents-border: rgb(206 213 236 / 0.72);
   --closedEvents-line: #e6e9f4;
+  --closedEvents-header-bg: #f9fbff;
   --closedEvents-text-strong: var(--color-text-strong);
   --closedEvents-text-primary: var(--color-text);
   --closedEvents-text-secondary: var(--color-text-additional);
@@ -134,6 +135,10 @@
   height: 44px;
 }
 
+.closedEvents-yearRow {
+  display: none;
+}
+
 .closedEvents-visuallyHidden {
   position: absolute;
   width: 1px;
@@ -212,6 +217,32 @@
   .closedEvents-skeletonRow td {
     height: auto;
   }
+
+  .closedEvents-yearRow {
+    display: block;
+  }
+
+  /* 표 머리글(th) 기본 규칙보다 앞서도록 표 이름을 붙인다. */
+  .closedEvents-table .closedEvents-yearRow th {
+    display: block;
+    padding: 8px 18px;
+    border-bottom: none;
+    background-color: var(--closedEvents-header-bg);
+    text-align: left;
+    font-size: 12px;
+    font-weight: var(--font-medium);
+    color: var(--closedEvents-text-muted);
+  }
+
+  /* 표 패널은 펼친 메뉴가 잘리지 않게 넘침을 숨기지 않으므로, 맨 위 머리의 모서리를 패널에 맞춰 직접 둥글린다. */
+  .closedEvents-table .closedEvents-yearRow:first-child th {
+    border-radius: 13px 13px 0 0;
+  }
+
+  /* 묶음 머리 바로 아래 행은 머리 면이 경계가 되므로 위 선을 긋지 않는다. */
+  .closedEvents-yearRow + .closedEvent {
+    border-top: none;
+  }
 }
 
 /* 다크 테마 (Figma 'Closed Events A3 · Dark'). 색은 palette.css 의 --home-dark-* 다. */
@@ -222,6 +253,7 @@
   --closedEvents-control: var(--home-dark-control);
   --closedEvents-border: var(--home-dark-border-soft);
   --closedEvents-line: var(--home-dark-table-line);
+  --closedEvents-header-bg: var(--home-dark-table-header-bg);
   --closedEvents-text-strong: var(--home-dark-text-strong);
   --closedEvents-text-primary: var(--home-dark-text);
   --closedEvents-text-secondary: var(--home-dark-text-secondary);

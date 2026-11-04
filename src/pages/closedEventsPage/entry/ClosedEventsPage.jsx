@@ -2,8 +2,15 @@ import './ClosedEventsPage.css'
 import Skeleton from '../../../components/skeleton/Skeleton'
 import ClosedEventRow from '../component/ClosedEventRow'
 import { useFetchClosedEvents } from '../apis/fetchClosedEvents'
+import { formatEndDate } from '../utils/closedEventDate'
 
 const SKELETON_COUNT = 3
+
+// 모바일은 행에서 연도를 빼고, 종료 연도가 바뀔 때마다 묶음 머리를 한 번 보여준다. 데스크탑은 종료일 칸에 연도가 있어 숨긴다.
+const toYearLabel = (event) => {
+  const endDate = formatEndDate(event.closedAt)
+  return endDate ? `${endDate.year}년` : '종료일 없음'
+}
 
 // 종료된 이벤트 목록 (Figma '06 · 종료된 이벤트 목록' A3 · 최종).
 // 진행 중 목록(대시보드)과 헷갈리지 않게 카드 대신 표를 쓰고, 첫 열에 종료일을 둔다.
@@ -73,9 +80,19 @@ export default function ClosedEventsPage() {
               )}
               {!loading &&
                 !error &&
-                events.map((event) => (
-                  <ClosedEventRow key={event.id} event={event} onDeleted={removeEventLocally} />
-                ))}
+                events.flatMap((event, index) => {
+                  const row = <ClosedEventRow key={event.id} event={event} onDeleted={removeEventLocally} />
+                  const year = toYearLabel(event)
+                  if (index > 0 && toYearLabel(events[index - 1]) === year) return [row]
+                  return [
+                    <tr key={`year-${year}`} className='closedEvents-yearRow'>
+                      <th colSpan={6} scope='rowgroup'>
+                        {year}
+                      </th>
+                    </tr>,
+                    row,
+                  ]
+                })}
             </tbody>
           </table>
           {loading && (

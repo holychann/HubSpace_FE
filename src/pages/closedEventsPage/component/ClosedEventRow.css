@@ -1,6 +1,6 @@
 /* 종료 이벤트 표의 한 행 (Figma '06 · 종료된 이벤트 목록' A3 · 최종, 컴포넌트 Closed Event Row).
    색은 ClosedEventsPage.css 의 --closedEvents-* 변수를 쓴다. 데스크탑은 표, 767px 이하는 머리글 없이
-   종료일 + 제목·파일 + 형식·일수·조회 수를 한 덩어리로 묶는다. */
+   종료일 + 제목 + 조회 수만 남긴다. */
 .closedEvent td {
   padding: 20px 14px;
   vertical-align: middle;
@@ -178,17 +178,19 @@
   outline: none;
 }
 
+/* 모바일(Figma M2): 종료일(MM.DD) + 제목 + 조회 수만 보인다. 연도는 목록의 연도 묶음 머리가 보여주고,
+   파일명·형식·운영 기간은 좁은 화면에서 숨긴다. */
 @media (max-width: 767px) {
   .closedEvent {
     display: grid;
-    grid-template-columns: 48px auto auto minmax(0, 1fr) auto;
+    grid-template-columns: 50px minmax(0, 1fr) auto;
     grid-template-areas:
-      'end event event event actions'
-      'end type duration views actions';
-    column-gap: 10px;
-    row-gap: 4px;
+      'end event actions'
+      'end views actions';
+    column-gap: 14px;
+    row-gap: 3px;
     align-items: center;
-    padding: 16px 14px 16px 18px;
+    padding: 16px 12px 16px 18px;
     border-top: 1px solid var(--closedEvents-line);
   }
 
@@ -201,21 +203,21 @@
   .closedEvent td:last-child {
     padding: 0;
     border-top: none;
-    font-size: 12px;
   }
 
   .closedEvent-end {
     grid-area: end;
-    margin-right: 4px;
   }
 
   .closedEvent-end__date {
-    font-size: 17px;
+    font-size: 16px;
   }
 
-  .closedEvent-end__year {
-    margin-top: 1px;
-    font-size: 11px;
+  .closedEvent-end__year,
+  .closedEvent-event__file,
+  .closedEvent-type,
+  .closedEvent-duration {
+    display: none;
   }
 
   .closedEvent-event {
@@ -227,40 +229,12 @@
     font-size: 15px;
   }
 
-  .closedEvent-event__file {
-    margin-top: 2px;
-    font-size: 12px;
-  }
-
-  .closedEvent-type {
-    grid-area: type;
-  }
-
-  .closedEvent-type__dot {
-    margin-right: 6px;
-  }
-
-  .closedEvent-duration {
-    grid-area: duration;
-  }
-
-  .closedEvent-duration__days {
-    font-weight: var(--font-regular);
-  }
-
-  .closedEvent-duration__range {
-    display: none;
-  }
-
-  .closedEvent-views {
+  .closedEvent td.closedEvent-views {
     grid-area: views;
     text-align: left;
+    font-size: 13px;
     font-weight: var(--font-regular);
-    color: var(--closedEvents-text-secondary);
-  }
-
-  .closedEvent td.closedEvent-views {
-    font-size: 12px;
+    color: var(--closedEvents-text-muted);
   }
 
   .closedEvent-views__label {
