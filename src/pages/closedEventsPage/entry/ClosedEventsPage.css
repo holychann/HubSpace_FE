@@ -1,0 +1,234 @@
+/* 종료된 이벤트 목록 화면. 색 값은 Figma 'Home v3 · Theme' 변수(Light / Dark)와 같다.
+   대시보드보다 한 단계 밝은 바탕(background/section)에 흰 표 한 장을 둔다. */
+.closedEvents {
+  --closedEvents-page: var(--color-box-default);
+  --closedEvents-surface: var(--color-white);
+  --closedEvents-raised: var(--color-white);
+  --closedEvents-control: var(--color-box-conditional);
+  --closedEvents-border: rgb(206 213 236 / 0.72);
+  --closedEvents-line: #e6e9f4;
+  --closedEvents-text-strong: var(--color-text-strong);
+  --closedEvents-text-primary: var(--color-text);
+  --closedEvents-text-secondary: var(--color-text-additional);
+  --closedEvents-text-muted: #667196;
+  --closedEvents-file: var(--color-main);
+  --closedEvents-form: var(--color-button-form);
+  --closedEvents-danger: var(--color-exit);
+  --closedEvents-focus: #2d3b86;
+  --closedEvents-menu-shadow: rgb(0 0 0 / 0.12);
+
+  height: calc(100svh - var(--admin-header-height, 72px));
+  padding: 48px 24px 96px;
+  overflow-y: auto;
+  background-color: var(--closedEvents-page);
+  box-sizing: border-box;
+}
+
+.closedEvents-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.closedEvents-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.closedEvents-heading__title {
+  font-size: 28px;
+  font-weight: var(--font-semibold);
+  letter-spacing: -0.025em;
+  color: var(--closedEvents-text-strong);
+}
+
+.closedEvents-heading__count {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--closedEvents-text-secondary);
+}
+
+.closedEvents-panel {
+  border: 1px solid var(--closedEvents-border);
+  border-radius: 16px;
+  background-color: var(--closedEvents-surface);
+}
+
+.closedEvents-table {
+  width: 100%;
+  border-collapse: collapse;
+  /* 긴 제목·파일명이 열 폭을 밀지 않고 말줄임되게 열 폭을 고정한다. */
+  table-layout: fixed;
+}
+
+.closedEvents-table th {
+  padding: 14px;
+  border-bottom: 1px solid var(--closedEvents-line);
+  text-align: left;
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  color: var(--closedEvents-text-muted);
+}
+
+.closedEvents-table th:first-child {
+  padding-left: 32px;
+}
+
+.closedEvents-table th:last-child {
+  padding-right: 28px;
+}
+
+.closedEvents-table__end {
+  width: 104px;
+}
+
+.closedEvents-table__type {
+  width: 110px;
+}
+
+.closedEvents-table__duration {
+  width: 200px;
+}
+
+.closedEvents-table .closedEvents-table__views {
+  width: 90px;
+  text-align: right;
+}
+
+.closedEvents-table__actions {
+  width: 20px;
+}
+
+.closedEvents-message,
+.closedEvents-empty {
+  padding: 0 24px;
+  text-align: center;
+}
+
+.closedEvents-message {
+  height: 160px;
+  font-size: 14px;
+  color: var(--closedEvents-text-secondary);
+}
+
+.closedEvents-empty {
+  height: 260px;
+}
+
+.closedEvents-empty__title {
+  font-size: 17px;
+  font-weight: var(--font-medium);
+  color: var(--closedEvents-text-secondary);
+}
+
+.closedEvents-empty__description {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--closedEvents-text-muted);
+}
+
+.closedEvents-skeletonRow td {
+  height: 44px;
+}
+
+.closedEvents-visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 767px) {
+  .closedEvents {
+    padding: 32px 24px 48px;
+  }
+
+  .closedEvents-inner {
+    gap: 20px;
+  }
+
+  .closedEvents-heading {
+    gap: 4px;
+  }
+
+  .closedEvents-heading__title {
+    font-size: 24px;
+  }
+
+  .closedEvents-heading__count {
+    font-size: 14px;
+  }
+
+  .closedEvents-panel {
+    border-radius: 14px;
+  }
+
+  /* 모바일은 표 머리글 대신 행 안에 앞말을 붙이므로, 머리글은 화면 낭독기에만 남긴다. */
+  .closedEvents-table,
+  .closedEvents-table tbody {
+    display: block;
+  }
+
+  .closedEvents-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .closedEvents-table tbody > tr:not(.closedEvent) {
+    display: block;
+  }
+
+  .closedEvents-message,
+  .closedEvents-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .closedEvents-empty {
+    height: 200px;
+  }
+
+  .closedEvents-empty__title {
+    font-size: 15px;
+  }
+
+  .closedEvents-empty__description {
+    font-size: 13px;
+  }
+
+  .closedEvents-skeletonRow td {
+    height: auto;
+  }
+}
+
+/* 다크 테마 (Figma 'Closed Events A3 · Dark'). 색은 palette.css 의 --home-dark-* 다. */
+[data-theme='dark'] .closedEvents {
+  --closedEvents-page: var(--home-dark-section);
+  --closedEvents-surface: var(--home-dark-surface);
+  --closedEvents-raised: var(--home-dark-raised);
+  --closedEvents-control: var(--home-dark-control);
+  --closedEvents-border: var(--home-dark-border-soft);
+  --closedEvents-line: var(--home-dark-table-line);
+  --closedEvents-text-strong: var(--home-dark-text-strong);
+  --closedEvents-text-primary: var(--home-dark-text);
+  --closedEvents-text-secondary: var(--home-dark-text-secondary);
+  --closedEvents-text-muted: var(--home-dark-text-muted);
+  --closedEvents-file: var(--home-dark-file);
+  --closedEvents-form: var(--home-dark-form);
+  --closedEvents-danger: var(--home-dark-danger);
+  --closedEvents-focus: var(--home-dark-accent);
+  --closedEvents-menu-shadow: rgb(0 0 0 / 0.4);
+}

@@ -1,0 +1,273 @@
+/* 종료 이벤트 표의 한 행 (Figma '06 · 종료된 이벤트 목록' A3 · 최종, 컴포넌트 Closed Event Row).
+   색은 ClosedEventsPage.css 의 --closedEvents-* 변수를 쓴다. 데스크탑은 표, 767px 이하는 머리글 없이
+   종료일 + 제목·파일 + 형식·일수·조회 수를 한 덩어리로 묶는다. */
+.closedEvent td {
+  padding: 20px 14px;
+  vertical-align: middle;
+  border-top: 1px solid var(--closedEvents-line);
+  font-size: 14px;
+  color: var(--closedEvents-text-secondary);
+}
+
+.closedEvent:first-child td {
+  border-top: none;
+}
+
+.closedEvent td:first-child {
+  padding-left: 32px;
+}
+
+.closedEvent td:last-child {
+  padding-right: 28px;
+}
+
+.closedEvent-end__date {
+  display: block;
+  font-size: 20px;
+  font-weight: var(--font-bold);
+  line-height: 1.3;
+  color: var(--closedEvents-text-primary);
+}
+
+.closedEvent-end__year {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--closedEvents-text-muted);
+}
+
+.closedEvent-event__title,
+.closedEvent-event__file {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.closedEvent-event__title {
+  font-size: 16px;
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+  color: var(--closedEvents-text-strong);
+}
+
+.closedEvent-event__file {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--closedEvents-text-muted);
+}
+
+.closedEvent-type {
+  white-space: nowrap;
+}
+
+.closedEvent-type__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.closedEvent-type__dot--file {
+  background-color: var(--closedEvents-file);
+}
+
+.closedEvent-type__dot--form {
+  background-color: var(--closedEvents-form);
+}
+
+.closedEvent-duration__days {
+  display: block;
+  font-weight: var(--font-medium);
+}
+
+.closedEvent-duration__range {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--closedEvents-text-muted);
+}
+
+.closedEvent-views {
+  text-align: right;
+  font-size: 15px;
+  font-weight: var(--font-medium);
+  color: var(--closedEvents-text-strong);
+  white-space: nowrap;
+}
+
+.closedEvent-views__label {
+  display: none;
+}
+
+.closedEvent-actions__inner {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.closedEvent-actions__more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: -6px -6px -6px 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.closedEvent-actions__more path {
+  fill: var(--closedEvents-text-secondary);
+  stroke: var(--closedEvents-text-secondary);
+}
+
+.closedEvent-actions__more:focus-visible {
+  outline: 2px solid var(--closedEvents-focus);
+  outline-offset: 1px;
+}
+
+.closedEvent-actions__more:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+@media (hover: hover) {
+  .closedEvent-actions__more:hover:not(:disabled) {
+    background-color: var(--closedEvents-control);
+  }
+}
+
+.closedEvent-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: -8px;
+  z-index: 30;
+  min-width: 120px;
+  padding: 6px;
+  border: 1px solid var(--closedEvents-border);
+  border-radius: 8px;
+  background-color: var(--closedEvents-raised);
+  box-shadow: 0 6px 20px var(--closedEvents-menu-shadow);
+  box-sizing: border-box;
+}
+
+.closedEvent-menu__item {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+  font-size: 13px;
+  color: var(--closedEvents-text-primary);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.closedEvent-menu__item--danger {
+  color: var(--closedEvents-danger);
+}
+
+.closedEvent-menu__item:hover,
+.closedEvent-menu__item:focus-visible {
+  background-color: var(--closedEvents-control);
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  .closedEvent {
+    display: grid;
+    grid-template-columns: 48px auto auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'end event event event actions'
+      'end type duration views actions';
+    column-gap: 10px;
+    row-gap: 4px;
+    align-items: center;
+    padding: 16px 14px 16px 18px;
+    border-top: 1px solid var(--closedEvents-line);
+  }
+
+  .closedEvent:first-child {
+    border-top: none;
+  }
+
+  .closedEvent td,
+  .closedEvent td:first-child,
+  .closedEvent td:last-child {
+    padding: 0;
+    border-top: none;
+    font-size: 12px;
+  }
+
+  .closedEvent-end {
+    grid-area: end;
+    margin-right: 4px;
+  }
+
+  .closedEvent-end__date {
+    font-size: 17px;
+  }
+
+  .closedEvent-end__year {
+    margin-top: 1px;
+    font-size: 11px;
+  }
+
+  .closedEvent-event {
+    grid-area: event;
+    min-width: 0;
+  }
+
+  .closedEvent-event__title {
+    font-size: 15px;
+  }
+
+  .closedEvent-event__file {
+    margin-top: 2px;
+    font-size: 12px;
+  }
+
+  .closedEvent-type {
+    grid-area: type;
+  }
+
+  .closedEvent-type__dot {
+    margin-right: 6px;
+  }
+
+  .closedEvent-duration {
+    grid-area: duration;
+  }
+
+  .closedEvent-duration__days {
+    font-weight: var(--font-regular);
+  }
+
+  .closedEvent-duration__range {
+    display: none;
+  }
+
+  .closedEvent-views {
+    grid-area: views;
+    text-align: left;
+    font-weight: var(--font-regular);
+    color: var(--closedEvents-text-secondary);
+  }
+
+  .closedEvent td.closedEvent-views {
+    font-size: 12px;
+  }
+
+  .closedEvent-views__label {
+    display: inline;
+  }
+
+  .closedEvent-actions {
+    grid-area: actions;
+  }
+}

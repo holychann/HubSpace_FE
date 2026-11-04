@@ -61,3 +61,13 @@ test('없는 샘플이나 지원하지 않는 경로는 오류를 돌려준다',
     await assert.rejects(getLocalPreviewPublicGet(url), /로컬 미리보기 응답이 없는 요청/)
   }
 })
+
+test('종료 목록은 종료된 샘플 이벤트만 종료 시각과 함께 돌려준다', async () => {
+  const { count, events } = await getLocalPreviewPrivateGet('/v1/events/closed')
+  assert.equal(count, events.length)
+  assert.ok(events.length > 0)
+  for (const event of events) {
+    assert.equal(event.isActive, false)
+    assert.match(event.closedAt, /^\d{4}-\d{2}-\d{2}T/)
+  }
+})

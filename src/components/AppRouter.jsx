@@ -3,6 +3,7 @@ import AdminLayout from './layout/AdminLayout'
 import HomePage from '../pages/homePage/entry/HomePage'
 import CookiePage from '../pages/cookiePage/entry/cookiePage'
 import DashBoardPage from '../pages/dashBoardPage/entry/DashBoardPage'
+import ClosedEventsPage from '../pages/closedEventsPage/entry/ClosedEventsPage'
 import CsvCreatePage from '../pages/csvCreatePage/entry/CsvCreatePage'
 import CsvDetailPage from '../pages/csvDetailPage/entry/CsvDetailPage'
 import FormCreatePage from '../pages/formCreatePage/entry/FormCreatePage'
@@ -58,6 +59,7 @@ export const AppRouter = createBrowserRouter([
             ),
             children: [
               { path: 'dashboard', element: <DashBoardPage /> },
+              { path: 'dashboard/closed', element: <ClosedEventsPage /> },
               { path: 'newcsv', element: <CsvCreatePage /> },
               { path: 'newform', element: <FormCreatePage /> },
               { path: 'editcsv/:id', element: <CsvDetailPage /> },

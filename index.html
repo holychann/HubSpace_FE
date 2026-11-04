@@ -22,7 +22,7 @@
       // 저장 키·판단 방법은 src/pages/homePage/utils/homeTheme.js, 주소 목록은 다크 시안이 있는 화면과 같아야 한다.
       // 앱이 처음 그려지면 App.jsx 가 이 색을 걷고, 이후에는 global.css 의 html:has([data-theme='dark']) 가 정한다.
       ;(function () {
-        var darkPaths = ['/', '/guide', '/contact', '/search', '/result', '/cookie', '/dashboard', '/newcsv', '/newform']
+        var darkPaths = ['/', '/guide', '/contact', '/search', '/result', '/cookie', '/dashboard', '/dashboard/closed', '/newcsv', '/newform']
         var path = location.pathname.replace(/(.)\/$/, '$1')
         if (darkPaths.indexOf(path) < 0) return
         var stored = null

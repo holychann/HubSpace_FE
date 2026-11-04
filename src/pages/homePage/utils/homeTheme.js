@@ -42,6 +42,6 @@ export function useHomeTheme() {
   return { theme, preference, changePreference }
 }
 
-// 관리 화면 중 다크 시안이 있는 주소(대시보드·이벤트 생성). 이벤트 수정 화면은 라이트로 둔다.
+// 관리 화면 중 다크 시안이 있는 주소(대시보드·종료된 이벤트·이벤트 생성). 이벤트 수정 화면은 라이트로 둔다.
 // AdminLayout 과 로그인 확인 화면(AuthGate)이 함께 쓴다.
-export const ADMIN_DARK_PATHS = ['/dashboard', '/newcsv', '/newform']
+export const ADMIN_DARK_PATHS = ['/dashboard', '/dashboard/closed', '/newcsv', '/newform']

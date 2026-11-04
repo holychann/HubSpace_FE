@@ -66,6 +66,60 @@ const previewEvents = [
   },
 ]
 
+// 종료된 이벤트 목록(/dashboard/closed) 확인용. 서버처럼 생성 최신순이고 시각에는 시간대가 없다.
+const previewClosedEvents = [
+  {
+    id: 'preview-closed-001',
+    eventTitle: '중간고사 간식 행사 수령 확인',
+    eventType: 'FILE',
+    isActive: false,
+    createdAt: '2026-10-14T09:00:00',
+    closedAt: '2026-10-24T18:20:00',
+    viewCount: 128,
+    fileName: '간식행사 신청자 명단.xlsx',
+  },
+  {
+    id: 'preview-closed-002',
+    eventTitle: '컴퓨터정보공학부 학생회비 납부 여부 조회',
+    eventType: 'FILE',
+    isActive: false,
+    createdAt: '2026-09-01T10:00:00',
+    closedAt: '2026-10-10T23:59:00',
+    viewCount: 312,
+    fileName: '2026학년도 1학기 컴퓨터정보공학부 학생회비 납부자 최종 명단 (환불자 제외, 9월 30일 기준) v2.csv',
+  },
+  {
+    id: 'preview-closed-003',
+    eventTitle: '2026 신입생 OT 조 배정 확인',
+    eventType: 'FORM',
+    isActive: false,
+    createdAt: '2026-08-20T09:00:00',
+    closedAt: '2026-09-05T12:00:00',
+    viewCount: 1284,
+    formUrl: 'https://forms.google.com/example-ot-group',
+  },
+  {
+    id: 'preview-closed-004',
+    eventTitle: '축제 부스 운영진 배정 조회',
+    eventType: 'FORM',
+    isActive: false,
+    createdAt: '2026-05-02T09:00:00',
+    closedAt: '2026-05-20T09:00:00',
+    viewCount: 431,
+    formUrl: 'https://forms.google.com/example-festival-booth',
+  },
+  {
+    id: 'preview-closed-005',
+    eventTitle: '1학기 MT 참가비 입금 확인',
+    eventType: 'FILE',
+    isActive: false,
+    createdAt: '2026-03-18T09:00:00',
+    closedAt: '2026-04-01T09:00:00',
+    viewCount: 207,
+    fileName: 'MT 참가자 입금 내역.csv',
+  },
+]
+
 // 파일 변경 화면 확인용 FILE 이벤트 상세. 실제 API 처럼 { success, data } 로 감싼다.
 const previewFileDetails = {
   'preview-file-002': {
@@ -117,6 +171,13 @@ export const getLocalPreviewPrivateGet = (url) => {
     return Promise.resolve({
       count: previewEvents.length,
       events: previewEvents.map((event) => ({ ...event })),
+    })
+  }
+
+  if (url === '/v1/events/closed') {
+    return Promise.resolve({
+      count: previewClosedEvents.length,
+      events: previewClosedEvents.map((event) => ({ ...event })),
     })
   }
 
