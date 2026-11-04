@@ -79,7 +79,7 @@
 }
 
 .closedEvents-table th:last-child {
-  padding-right: 28px;
+  padding-right: 16px;
 }
 
 .closedEvents-table__end {
@@ -99,8 +99,9 @@
   text-align: right;
 }
 
+/* 칸 폭은 안쪽 여백을 포함한다(reset.css 의 border-box): 왼쪽 14 + 케밥 버튼 44 + 오른쪽 16 */
 .closedEvents-table__actions {
-  width: 20px;
+  width: 74px;
 }
 
 .closedEvents-message,
