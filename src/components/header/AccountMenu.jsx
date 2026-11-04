@@ -6,8 +6,8 @@ import ThemeSwitch from '../themeSwitch/ThemeSwitch'
 import { useUserNickname } from './apis/fetchUserInfo'
 import { logout } from '../../apis/ApiClient'
 
-// 로그인 상태의 헤더 오른쪽 끝. 닉네임을 누르면 '내 대시보드'·'로그아웃' 메뉴가 열린다.
-// 대시보드에서는 '로그아웃'만 보이고, 닉네임을 불러오는 동안은 스켈레톤을 둔다.
+// 로그인 상태의 헤더 오른쪽 끝. 닉네임을 누르면 '내 대시보드'·'종료된 이벤트'·'로그아웃' 메뉴가 열린다.
+// 지금 보고 있는 화면으로 가는 항목은 숨기고, 닉네임을 불러오는 동안은 스켈레톤을 둔다.
 // onThemeChange 가 있으면 맨 위에 화면 테마 스위치를 둔다. 테마를 골라도 메뉴는 닫지 않아 바뀐 화면을 바로 본다.
 export default function AccountMenu({ themePreference, onThemeChange }) {
   const { pathname } = useLocation()
@@ -90,6 +90,11 @@ export default function AccountMenu({ themePreference, onThemeChange }) {
           {pathname !== '/dashboard' && (
             <Link to='/dashboard' className='site-header__menuItem' onClick={() => setIsOpen(false)}>
               내 대시보드
+            </Link>
+          )}
+          {pathname !== '/dashboard/closed' && (
+            <Link to='/dashboard/closed' className='site-header__menuItem' onClick={() => setIsOpen(false)}>
+              종료된 이벤트
             </Link>
           )}
           <button
