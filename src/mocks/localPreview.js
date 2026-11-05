@@ -190,6 +190,16 @@ export const getLocalPreviewPrivateGet = (url) => {
   return Promise.reject(new Error(`로컬 미리보기 응답이 없는 요청입니다: ${url}`))
 }
 
+// 대시보드 이벤트 종료 확인용. 샘플 데이터는 바꾸지 않아, 새로고침하면 종료한 카드가 다시 보인다.
+export const getLocalPreviewPrivatePost = (url) => {
+  const match = url.match(/^\/v1\/events\/([^/]+)\/close$/)
+  if (match && previewEvents.some((event) => event.id === match[1])) {
+    return Promise.resolve({ success: true })
+  }
+
+  return Promise.reject(new Error(`로컬 미리보기 응답이 없는 요청입니다: ${url}`))
+}
+
 export const getLocalPreviewPublicGet = (url) => {
   const request = new URL(url, 'http://hubspace.local')
   const match = request.pathname.match(/^\/v1\/events\/([^/]+)\/(summary|search)$/)

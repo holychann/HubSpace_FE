@@ -1,6 +1,7 @@
 import api from '../apis/ApiClient.js'
 import {
   getLocalPreviewPrivateGet,
+  getLocalPreviewPrivatePost,
   getLocalPreviewPublicGet,
   isLocalPreviewMode,
 } from '../mocks/localPreview.js'
@@ -19,7 +20,9 @@ export const apiGetPrivate = (url, config = {}) =>
     ? getLocalPreviewPrivateGet(url)
     : api.get(url, { ...config, requireAuth: true })
 export const apiPostPrivate = (url, data, config = {}) =>
-  api.post(url, data, { ...config, requireAuth: true })
+  isLocalPreviewMode && /^\/v1\/events\/preview-[^/]+\/close$/.test(url)
+    ? getLocalPreviewPrivatePost(url)
+    : api.post(url, data, { ...config, requireAuth: true })
 export const apiPutPrivate = (url, data, config = {}) =>
   api.put(url, data, { ...config, requireAuth: true })
 export const apiPatchPrivate = (url, data, config = {}) =>

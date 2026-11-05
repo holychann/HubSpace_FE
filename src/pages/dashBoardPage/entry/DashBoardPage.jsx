@@ -73,6 +73,7 @@ export default function DashBoardPage() {
               event={event}
               onEditTitle={setEditingEvent}
               onDeleted={removeEventLocally}
+              onClosed={removeEventLocally}
             />
           ))}
       </div>

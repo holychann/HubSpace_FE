@@ -4,16 +4,20 @@ import { formatDate, makeSearchUrl } from '../utils/formatStrings'
 import { Icon } from '../../../components/icon/Icon'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { apiDeletePrivate } from '../../../utils/ApiUtil'
+import { apiDeletePrivate, apiPostPrivate } from '../../../utils/ApiUtil'
 import ConfirmModal from '../../../components/confirmModal/ConfirmModal'
 import { toFileNameLabel, UNKNOWN_FILE_NAME } from '../../../utils/fileNameLabel'
 
-export default function EventItem({ event, onEditTitle, onDeleted }) {
+export default function EventItem({ event, onEditTitle, onDeleted, onClosed }) {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
-  // 확인 버튼을 연속으로 눌러도 삭제 요청은 한 번만 보낸다.
+  const [isClosing, setIsClosing] = useState(false)
+  const [isCloseConfirmOpen, setIsCloseConfirmOpen] = useState(false)
+  // 확인 버튼을 연속으로 눌러도 삭제·종료 요청은 한 번만 보낸다.
   const isDeletingRef = useRef(false)
+  const isClosingRef = useRef(false)
+  const isBusy = isDeleting || isClosing
   const actionMenuRef = useRef(null)
   const navigate = useNavigate()
   const canEditDataset = event.eventType === 'FILE' && event.isActive === true
@@ -96,6 +100,48 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
     }
   }
 
+  const handleCloseClick = () => {
+    setIsActionMenuOpen(false)
+    setIsCloseConfirmOpen(true)
+  }
+
+  const handleCloseConfirmClose = () => setIsCloseConfirmOpen(false)
+
+  // 실패하면 모달을 닫아, 다시 시도할 때 확인을 새로 받게 한다.
+  const finishCloseWithError = (message) => {
+    toast.error(message, { duration: 2000 })
+    isClosingRef.current = false
+    setIsClosing(false)
+    setIsCloseConfirmOpen(false)
+  }
+
+  const handleCloseEvent = async () => {
+    if (isClosingRef.current) return
+
+    try {
+      isClosingRef.current = true
+      setIsClosing(true)
+      const res = await apiPostPrivate(`/v1/events/${event.id}/close`)
+      const isSuccess = res?.isSuccess ?? res?.success ?? false
+
+      if (!isSuccess) {
+        finishCloseWithError(res?.message || '이벤트 종료에 실패했습니다.')
+        return
+      }
+
+      toast.success('이벤트가 종료되었습니다!', {
+        duration: 1000,
+      })
+      setIsCloseConfirmOpen(false)
+      onClosed(event.id)
+    } catch (err) {
+      console.error('이벤트 종료 실패:', err)
+      finishCloseWithError(
+        err?.response?.data?.message || err?.message || '이벤트 종료에 실패했습니다.',
+      )
+    }
+  }
+
   return (
     <div className='eventItem'>
       <div className='eventItem-header'>
@@ -145,7 +191,7 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
                 type='button'
                 className='eventItem-actionMenu__edit'
                 onClick={handleEditTitle}
-                disabled={isDeleting}
+                disabled={isBusy}
               >
                 이름 수정
               </button>
@@ -154,16 +200,24 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
                   type='button'
                   className='eventItem-actionMenu__edit'
                   onClick={handleEditDataset}
-                  disabled={isDeleting}
+                  disabled={isBusy}
                 >
                   파일 변경
                 </button>
               )}
               <button
                 type='button'
+                className='eventItem-actionMenu__edit'
+                onClick={handleCloseClick}
+                disabled={isBusy}
+              >
+                이벤트 종료
+              </button>
+              <button
+                type='button'
                 className='eventItem-actionMenu__delete'
                 onClick={handleDeleteClick}
-                disabled={isDeleting}
+                disabled={isBusy}
               >
                 {isDeleting ? '삭제 중...' : '이벤트 삭제'}
               </button>
@@ -215,6 +269,23 @@ export default function EventItem({ event, onEditTitle, onDeleted }) {
         isProcessing={isDeleting}
         processingText='삭제 중...'
         variant='danger'
+      />
+
+      <ConfirmModal
+        isOpen={isCloseConfirmOpen}
+        title='이벤트를 종료할까요?'
+        description={
+          <>
+            ‘<strong>{event.eventTitle}</strong>’
+            <br />
+            조회 링크가 닫히며, 다시 열 수 없습니다.
+          </>
+        }
+        confirmText='종료'
+        onConfirm={handleCloseEvent}
+        onClose={handleCloseConfirmClose}
+        isProcessing={isClosing}
+        processingText='종료 중...'
       />
     </div>
   )
