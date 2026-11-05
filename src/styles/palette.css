@@ -103,4 +103,16 @@
   /* 대시보드 '새 이벤트' 버튼(연보라 면 + 어두운 글자) */
   --home-dark-accent: #adb9f4;
   --home-dark-on-accent: #101522;
+  /* 대시보드 이벤트 카드(면 #1c2638) 위의 조회용·폼 링크 상자 (Figma 09 D안).
+     라이트처럼 면은 카드에 살짝 물든 정도(카드 대비 1.1~1.2)로 두고, 선명한 글자·아이콘으로 구분한다. */
+  --home-dark-card-view-bg: #19383a;
+  --home-dark-card-view-link: #8fe3d2;
+  --home-dark-card-apply-bg: #29264a;
+  --home-dark-card-apply-link: #cdb9ff;
+  /* 같은 카드의 배지(활성·비활성·폼·파일) 면. 링크 상자와 같은 방식으로 카드에 살짝 물든 정도만 두고,
+     글자는 공용 positive·text-muted·form·file 색을 그대로 쓴다. */
+  --home-dark-card-file-bg: #1b2f4f;
+  --home-dark-card-active-bg: #1a3a2e;
+  --home-dark-card-inactive-bg: #263247;
+  --home-dark-card-form-bg: #29264a;
 }

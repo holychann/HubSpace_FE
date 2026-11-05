@@ -243,7 +243,7 @@
 }
 
 [data-theme='dark'] .eventItem-title__status--active rect:first-of-type {
-  fill: var(--home-dark-positive-bg);
+  fill: var(--home-dark-card-active-bg);
 }
 
 [data-theme='dark'] .eventItem-title__status--active :is(path, text) {
@@ -251,7 +251,7 @@
 }
 
 [data-theme='dark'] .eventItem-title__status--inactive rect:first-of-type {
-  fill: var(--home-dark-raised);
+  fill: var(--home-dark-card-inactive-bg);
 }
 
 [data-theme='dark'] .eventItem-title__status--inactive :is(path, text) {
@@ -259,7 +259,7 @@
 }
 
 [data-theme='dark'] .eventItem-title__format--form rect:first-of-type {
-  fill: var(--home-dark-form-bg);
+  fill: var(--home-dark-card-form-bg);
 }
 
 [data-theme='dark'] .eventItem-title__format--form :is(path, text) {
@@ -267,22 +267,22 @@
 }
 
 [data-theme='dark'] .eventItem-title__format--file rect:first-of-type {
-  fill: var(--home-dark-file-bg);
+  fill: var(--home-dark-card-file-bg);
 }
 
 [data-theme='dark'] .eventItem-title__format--file :is(path, text) {
   fill: var(--home-dark-file);
 }
 
-/* 링크 상자. 조회용 링크는 홈·이용 방법과 같은 어두운 청록 + 채도 낮춘 글자 */
+/* 링크 상자. 면은 카드에 살짝 물든 정도로 두고 글자 색으로 구분한다(라이트와 같은 방식) */
 [data-theme='dark'] .eventItem-search {
-  background-color: var(--home-dark-success-bg);
-  color: var(--home-dark-view-link);
+  background-color: var(--home-dark-card-view-bg);
+  color: var(--home-dark-card-view-link);
 }
 
 [data-theme='dark'] .eventItem-apply {
-  background-color: var(--home-dark-apply-bg);
-  color: var(--home-dark-apply);
+  background-color: var(--home-dark-card-apply-bg);
+  color: var(--home-dark-card-apply-link);
 }
 
 [data-theme='dark'] .eventItem-link__copy path {
