@@ -7,10 +7,30 @@ import EventButton from '../../../components/eventButton/EventButton'
 import { useFetchEvents } from '../apis/fetchEvents'
 import EventItemSkeleton from '../component/EventItemSkeleton'
 import Skeleton from '../../../components/skeleton/Skeleton'
+import { Icon } from '../../../components/icon/Icon'
+import { useNavigate } from 'react-router-dom'
 
 const SKELETON_COUNT = 3
 
+const CREATE_METHODS = [
+  {
+    type: 'form',
+    path: '/newform',
+    icon: 'create-event-link',
+    title: 'Google Forms 생성',
+    description: '구글폼 응답으로 시작',
+  },
+  {
+    type: 'file',
+    path: '/newcsv',
+    icon: 'create-event-upload',
+    title: '파일 업로드',
+    description: 'CSV · TSV 파일로 시작',
+  },
+]
+
 export default function DashBoardPage() {
+  const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const createButtonRef = useRef(null)
   const closeCreateModal = useCallback(() => setIsModalOpen(false), [])
@@ -49,18 +69,27 @@ export default function DashBoardPage() {
         )}
         {!loading && !error && events.length === 0 && (
           <div className='dashBoard-emptyState'>
-            <div className='dashBoard-emptyState__visual' aria-hidden='true'>
-              <div className='dashBoard-emptyState__orb dashBoard-emptyState__orb--large'></div>
-              <div className='dashBoard-emptyState__orb dashBoard-emptyState__orb--small'></div>
-              <div className='dashBoard-emptyState__sheet'>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-            <div className='dashBoard-emptyState__title'>아직 등록된 이벤트가 없습니다</div>
-            <div className='dashBoard-emptyState__description'>
-              새 이벤트를 생성하면 조회 링크와 신청 링크를 한 곳에서 관리할 수 있습니다.
+            <div className='dashBoard-emptyState__title'>아직 이벤트가 없어요</div>
+            <div className='dashBoard-emptyState__description'>만들 방식을 골라 바로 시작하세요.</div>
+            {/* 새 이벤트 메뉴(EventCreateModal)와 같은 두 갈래를 빈 자리에서 바로 고른다. */}
+            <div className='dashBoard-emptyState__methods'>
+              {CREATE_METHODS.map((method) => (
+                <button
+                  key={method.path}
+                  type='button'
+                  className={`dashBoard-emptyMethod dashBoard-emptyMethod--${method.type}`}
+                  onClick={() => navigate(method.path)}
+                >
+                  <span className='dashBoard-emptyMethod__icon' aria-hidden='true'>
+                    <Icon name={method.icon} width={24} height={24} focusable='false' />
+                  </span>
+                  <span className='dashBoard-emptyMethod__copy'>
+                    <span className='dashBoard-emptyMethod__title'>{method.title}</span>
+                    <span className='dashBoard-emptyMethod__description'>{method.description}</span>
+                  </span>
+                  <Icon name='create-event-chevron' width={20} height={20} aria-hidden='true' focusable='false' />
+                </button>
+              ))}
             </div>
           </div>
         )}
