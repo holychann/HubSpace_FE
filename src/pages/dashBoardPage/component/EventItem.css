@@ -113,6 +113,23 @@
   flex-shrink: 0;
 }
 
+/* 아이콘은 currentColor 라 링크 상자 글자색(조회용 청록, 다크는 카드 전용 색)을 따른다.
+   Figma 처럼 복사 아이콘과 16px 떨어지게 오른쪽 여백을 4px 더 둔다. */
+.eventItem-link__qr {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-right: 4px;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+.eventItem-link__qr:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 .eventItem-link__copy,
 .eventItem-item__more {
   cursor: pointer;

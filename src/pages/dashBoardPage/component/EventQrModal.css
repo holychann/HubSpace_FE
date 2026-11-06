@@ -1,0 +1,48 @@
+/* 조회 링크 QR 모달 (Figma 대시보드 '10 · 조회 링크 QR 코드'). 틀·버튼·다크 색은 ConfirmModal 것을 그대로 쓴다. */
+.eventQrModal .confirmModal-button {
+  gap: 6px;
+}
+
+.eventQrModal__buttonLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 복사 아이콘은 조회용 청록이 박혀 있어 버튼 글자색을 따르게 한다. */
+.eventQrModal__buttonIcon path {
+  stroke: currentColor;
+}
+
+.eventQrModal__area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  padding: 32px;
+  border-radius: 16px;
+  background-color: var(--color-box-conditional);
+}
+
+/* 흰 바탕은 이미지에 들어 있는 QR 바깥 여백이다. 테마와 상관없이 흰색으로 둔다. */
+.eventQrModal__code {
+  display: block;
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+}
+
+.eventQrModal__code--loading {
+  background-color: #ffffff;
+}
+
+@media (max-width: 480px) {
+  .eventQrModal__area {
+    margin-top: 24px;
+    padding: 24px;
+  }
+}
+
+body:has(.adminLayout[data-theme='dark']) .eventQrModal__area {
+  background-color: var(--home-dark-control);
+}

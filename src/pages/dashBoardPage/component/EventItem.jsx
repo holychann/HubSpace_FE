@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { apiDeletePrivate, apiPostPrivate } from '../../../utils/ApiUtil'
 import ConfirmModal from '../../../components/confirmModal/ConfirmModal'
 import { toFileNameLabel, UNKNOWN_FILE_NAME } from '../../../utils/fileNameLabel'
+import EventQrModal from './EventQrModal'
 
 export default function EventItem({ event, onEditTitle, onDeleted, onClosed }) {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
@@ -14,6 +15,7 @@ export default function EventItem({ event, onEditTitle, onDeleted, onClosed }) {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [isCloseConfirmOpen, setIsCloseConfirmOpen] = useState(false)
+  const [isQrOpen, setIsQrOpen] = useState(false)
   // 확인 버튼을 연속으로 눌러도 삭제·종료 요청은 한 번만 보낸다.
   const isDeletingRef = useRef(false)
   const isClosingRef = useRef(false)
@@ -231,6 +233,14 @@ export default function EventItem({ event, onEditTitle, onDeleted, onClosed }) {
             <div className='eventItem-link__title'>조회용 링크</div>
             <div className='eventItem-link__link'>{makeSearchUrl(event.id)}</div>
           </div>
+          <button
+            type='button'
+            className='eventItem-link__qr'
+            aria-label='QR 코드 보기'
+            onClick={() => setIsQrOpen(true)}
+          >
+            <Icon name='button-qr-search' height={16} />
+          </button>
           <Icon
             name='button-copy-search'
             height={12}
@@ -286,6 +296,14 @@ export default function EventItem({ event, onEditTitle, onDeleted, onClosed }) {
         onClose={handleCloseConfirmClose}
         isProcessing={isClosing}
         processingText='종료 중...'
+      />
+
+      <EventQrModal
+        isOpen={isQrOpen}
+        eventTitle={event.eventTitle}
+        url={makeSearchUrl(event.id)}
+        onCopy={() => handleCopyUrl(makeSearchUrl(event.id))}
+        onClose={() => setIsQrOpen(false)}
       />
     </div>
   )

@@ -5,6 +5,8 @@ import buttonAlert from '../../assets/button/button-alert.svg?react'
 import buttonFileSheet from '../../assets/button/button-file-sheet.svg?react'
 import buttonMore from '../../assets/button/button-more.svg?react'
 import buttonUpload from '../../assets/button/button-upload.svg?react'
+import buttonQrSearch from '../../assets/button/button-qr-search.svg?react'
+import buttonDownload from '../../assets/button/button-download.svg?react'
 
 /* dashboard 대시보드 사용 아이콘 */
 import dashboardActive from '../../assets/dashboard/dashboard-active.svg?react'
@@ -32,6 +34,8 @@ export const IconMap = {
   'button-file-sheet': buttonFileSheet,
   'button-more': buttonMore,
   'button-upload': buttonUpload,
+  'button-qr-search': buttonQrSearch,
+  'button-download': buttonDownload,
   'dashboard-active': dashboardActive,
   'dashboard-csv': dashboardCsv,
   'dashboard-date': dashboardDate,

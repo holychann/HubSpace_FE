@@ -11,6 +11,8 @@ export default function ConfirmModal({
   confirmText,
   onConfirm,
   onClose,
+  // 왼쪽 버튼이 닫기 대신 다른 동작(예: 링크 복사)을 할 때만 넘긴다.
+  onCancel,
   isProcessing = false,
   processingText,
   variant = 'default',
@@ -125,7 +127,7 @@ export default function ConfirmModal({
             ref={cancelButtonRef}
             type='button'
             className='confirmModal-button confirmModal-button--cancel'
-            onClick={handleClose}
+            onClick={onCancel ?? handleClose}
             disabled={isProcessing}
           >
             {cancelText}
