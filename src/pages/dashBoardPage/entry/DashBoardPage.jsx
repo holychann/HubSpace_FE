@@ -10,7 +10,7 @@ import Skeleton from '../../../components/skeleton/Skeleton'
 import { Icon } from '../../../components/icon/Icon'
 import { useNavigate } from 'react-router-dom'
 
-const SKELETON_COUNT = 3
+const SKELETON_COUNT = 2
 
 const CREATE_METHODS = [
   {
