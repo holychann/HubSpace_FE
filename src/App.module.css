@@ -45,6 +45,16 @@
   color: inherit;
 }
 
+/* 다크 테마 (Figma '토스트 · 다크모드' D1). 토스트는 화면 밖(.app 바로 아래)에 그려지므로
+   떠 있는 화면에 다크 data-theme 이 있는지로 고른다. 닫기 버튼도 같은 변수를 쓴다. */
+body:has([data-theme='dark']) .toast[data-sonner-toast][data-styled='true'] {
+  --normal-bg: var(--home-dark-raised);
+  --normal-border: var(--home-dark-border);
+  --normal-text: var(--home-dark-text-secondary);
+  --gray2: var(--home-dark-border-soft);
+  box-shadow: 0 4px 12px var(--home-dark-shadow);
+}
+
 @media (max-width: 600px) {
   .toaster[data-sonner-toaster][data-x-position='center'] {
     left: 50%;

@@ -461,3 +461,9 @@ li[data-sonner-toast].user-result__syncToast
 [data-theme='dark'] .user-result__backButton:focus-visible {
   outline-color: var(--home-dark-accent);
 }
+
+/* Google Forms 반영 지연 안내 토스트: 면·글자색은 App.module.css 의 다크 토스트 변수를 따르고,
+   그림자만 어두운 바탕에서 보이게 진하게 한다. 위쪽 흰 안쪽 선은 다크에서 줄처럼 보여 뺀다. */
+body:has([data-theme='dark']) li[data-sonner-toast][data-type='info'].user-result__syncToast {
+  box-shadow: 0 20px 48px rgb(0 0 0 / 0.4);
+}
