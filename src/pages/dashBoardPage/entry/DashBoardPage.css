@@ -14,8 +14,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* 이벤트 생성 화면과 같은 폭(좌우 80px, 최대 960px). 아래 이벤트 목록도 같은 폭을 쓴다. */
   width: calc(100% - 160px);
-  max-width: 1120px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 28px 32px;
   border: 1px solid rgba(189, 198, 231, 0.42);
@@ -72,7 +73,7 @@
 }
 
 .dashBoard-eventList {
-  padding: 32px max(84px, calc((100% - 1112px) / 2)) 12px;
+  padding: 32px max(80px, calc((100% - 960px) / 2)) 12px;
   display: flex;
   flex-direction: column;
   gap: 14px;
