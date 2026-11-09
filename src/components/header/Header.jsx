@@ -10,6 +10,7 @@ import Skeleton from '../skeleton/Skeleton'
 // 로고는 logoTo(기본 홈)로 이동한다.
 // onThemeChange 를 주면(다크 시안이 있는 화면) 계정 메뉴에 테마 스위치를 둔다.
 // 모바일에서는 '이용 방법'만 숨긴다. 홈 첫 화면에 같은 링크가 있고, '문의하기'는 다른 길이 없어 남긴다.
+// logoOnly 면(신청자가 보는 조회·결과 화면) 메뉴 없이 같은 자리·크기의 로고만 바탕 없이 둔다.
 export default function Header({
   hasSession,
   onStart,
@@ -17,33 +18,36 @@ export default function Header({
   logoTo = '/',
   themePreference,
   onThemeChange,
+  logoOnly = false,
 }) {
   return (
-    <header className='site-header'>
+    <header className={`site-header${logoOnly ? ' site-header--logoOnly' : ''}`}>
       <div className='site-header__inner'>
         <Link to={logoTo} className='site-header__logo'>
           <img src={hubspaceLogo} alt='HubSpace' />
         </Link>
-        <nav className='site-header__nav' aria-label='주요 메뉴'>
-          <NavLink to='/guide' className='site-header__link site-header__link--page site-header__link--guide'>
-            이용 방법
-          </NavLink>
-          <NavLink to='/contact' className='site-header__link site-header__link--page'>
-            문의하기
-          </NavLink>
-          <span className='site-header__divider' aria-hidden='true' />
-          {isCheckingSession ? (
-            <span className='site-header__nickname'>
-              <Skeleton width={72} height={14} />
-            </span>
-          ) : hasSession ? (
-            <AccountMenu themePreference={themePreference} onThemeChange={onThemeChange} />
-          ) : (
-            <button type='button' className='site-header__link site-header__link--account' onClick={onStart}>
-              로그인
-            </button>
-          )}
-        </nav>
+        {!logoOnly && (
+          <nav className='site-header__nav' aria-label='주요 메뉴'>
+            <NavLink to='/guide' className='site-header__link site-header__link--page site-header__link--guide'>
+              이용 방법
+            </NavLink>
+            <NavLink to='/contact' className='site-header__link site-header__link--page'>
+              문의하기
+            </NavLink>
+            <span className='site-header__divider' aria-hidden='true' />
+            {isCheckingSession ? (
+              <span className='site-header__nickname'>
+                <Skeleton width={72} height={14} />
+              </span>
+            ) : hasSession ? (
+              <AccountMenu themePreference={themePreference} onThemeChange={onThemeChange} />
+            ) : (
+              <button type='button' className='site-header__link site-header__link--account' onClick={onStart}>
+                로그인
+              </button>
+            )}
+          </nav>
+        )}
       </div>
     </header>
   )

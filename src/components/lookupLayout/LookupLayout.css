@@ -1,50 +1,72 @@
 .gradient-layout.lookup-layout {
-  --lookup-top-padding: 20px;
+  /* 맨 위 로고 헤더(Header logoOnly) 높이. 본문이 헤더 밑으로 들어가지 않게 위 여백을 이만큼 둔다. */
+  --lookup-header-height: 56px;
+  --lookup-top-padding: var(--lookup-header-height);
   --lookup-bottom-padding: clamp(88px, 20svh, 280px);
   --lookup-row-gap: 32px;
   --lookup-action-max-width: 379px;
-  --lookup-reference-height: max(0px, calc(100svh - var(--lookup-top-padding) - var(--lookup-bottom-padding) - var(--lookup-row-gap) - 52px));
   display: grid;
-  grid-template-rows: minmax(0, 1fr) 52px;
   row-gap: var(--lookup-row-gap);
   justify-content: stretch;
   justify-items: center;
   align-items: stretch;
-  min-height: 0;
-  height: 100svh;
+  min-height: 100svh;
+  height: auto;
   padding: 20px;
   padding-top: var(--lookup-top-padding);
   padding-bottom: var(--lookup-bottom-padding);
-  overflow: hidden;
+  overflow: visible;
+}
+
+/*
+ * 조회 화면은 높이를 화면에 고정하지 않는다. 고정하면 입력칸이 많거나 화면이 낮을 때
+ * 제목~입력칸이 안쪽 스크롤 영역이 되어 따로 끌려 움직이고, 조회하기 버튼은 그 아래에 떨어져 보인다.
+ * 내용이 짧으면 최소 높이 안에서 가운데에 놓이고, 길면 페이지가 늘어나 스크롤된다.
+ */
+.gradient-layout.lookup-layout--query {
+  grid-template-rows: 1fr;
+  row-gap: 0;
 }
 
 .gradient-layout.lookup-layout--result {
   position: relative;
   grid-template-rows: auto 52px;
   align-content: start;
-  min-height: 100svh;
+}
+
+/* 결과 화면이 숨겨 그리는 조회 내용(.lookup-layout__reference)은 화면 높이 안에서 가운데를 잰다. */
+.lookup-layout__query {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.lookup-layout--query .lookup-layout__query {
   height: auto;
   overflow: visible;
+}
+
+.lookup-layout__query-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 56px;
+  width: 100%;
+  margin-block: auto;
 }
 
 .lookup-layout__content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.lookup-layout__content > * {
   flex-shrink: 0;
-  margin-block: auto;
-}
-
-.lookup-layout__query,
-.lookup-layout__query-group {
-  display: contents;
+  width: 100%;
 }
 
 .lookup-layout__aligned-content {
@@ -57,36 +79,21 @@
 .lookup-layout__reference {
   position: absolute;
   inset: 0;
-  height: var(--lookup-reference-height);
+  height: calc(100svh - var(--lookup-top-padding) - var(--lookup-bottom-padding));
   visibility: hidden;
   pointer-events: none;
-}
-
-.lookup-layout__reference .lookup-layout__content {
-  height: 100%;
-}
-
-.lookup-layout__reference .lookup-layout__actions {
-  display: none;
 }
 
 .lookup-layout__aligned-body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: var(--lookup-logo-offset, 0px);
+  padding-top: var(--lookup-content-offset, 0px);
   box-sizing: border-box;
 }
 
 .lookup-layout__aligned-content:not([data-aligned]) .lookup-layout__aligned-body {
   visibility: hidden;
-}
-
-.lookup-layout__logo {
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-  width: var(--lookup-logo-width, 100%);
 }
 
 .lookup-layout__result-content {
@@ -100,10 +107,6 @@
 
 .gradient-layout.lookup-layout--centered {
   row-gap: 0;
-}
-
-.lookup-layout--centered .lookup-layout__logo > * {
-  margin-bottom: 0;
 }
 
 .lookup-layout--centered .lookup-layout__result-content {
@@ -123,10 +126,14 @@
 
 @media (min-width: 768px) {
   .gradient-layout.lookup-layout {
-    --lookup-top-padding: 40px;
+    --lookup-header-height: 72px;
     --lookup-bottom-padding: clamp(88px, 14svh, 280px);
     --lookup-action-max-width: 411px;
     padding-inline: 40px;
+  }
+
+  .lookup-layout__query-group {
+    gap: 64px;
   }
 
   .lookup-layout--centered .lookup-layout__result-content {
@@ -143,69 +150,8 @@
 
 @media (max-height: 600px) {
   .gradient-layout.lookup-layout {
-    --lookup-top-padding: 16px;
+    --lookup-top-padding: var(--lookup-header-height);
     --lookup-bottom-padding: 76px;
     --lookup-row-gap: 20px;
-  }
-}
-
-@media (max-width: 1023px) {
-  /*
-   * 조회 화면은 높이를 화면에 고정하지 않는다. 고정하면 입력칸이 많거나 화면이 낮을 때
-   * 조회하기 버튼이 안쪽 스크롤 영역 아래로 잘려, 아래 여백이 비어 있어도 버튼이 보이지 않는다.
-   * 내용이 짧으면 최소 높이 안에서 가운데에 놓이고, 길면 페이지가 늘어나 스크롤된다.
-   */
-  .gradient-layout.lookup-layout--query {
-    grid-template-rows: 1fr;
-    row-gap: 0;
-    height: auto;
-    min-height: 100svh;
-    overflow: visible;
-  }
-
-  .lookup-layout--query .lookup-layout__query {
-    height: auto;
-    overflow: visible;
-  }
-
-  .lookup-layout__query {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-
-  .lookup-layout__query-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-    gap: 56px;
-    width: 100%;
-    margin-block: auto;
-  }
-
-  .lookup-layout__query-group > .lookup-layout__content {
-    height: auto;
-    overflow: visible;
-    flex-shrink: 0;
-  }
-
-  .lookup-layout__reference {
-    height: calc(100svh - var(--lookup-top-padding) - var(--lookup-bottom-padding));
-  }
-
-  .lookup-layout__reference .lookup-layout__actions {
-    display: block;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .lookup-layout__query-group {
-    gap: 64px;
   }
 }

@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 
 import { fetchUserSearch } from '../apis/fetchUserSearch'
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner'
-import UserDetailContent, { UserDetailLogo } from '../../userDetailPage/component/UserDetailContent'
+import UserDetailContent from '../../userDetailPage/component/UserDetailContent'
 import AnimatedCheck from '../../../components/animatedCheck/AnimatedCheck'
 import AlertIcon from '../../../assets/result/result-alert.svg?react'
 
@@ -119,7 +119,7 @@ export default function UserResultPage() {
   )
 
   const layoutAlignment = eventDetail
-    ? { reference: <UserDetailContent eventDetail={eventDetail} measurement />, logo: <UserDetailLogo /> }
+    ? { reference: <UserDetailContent eventDetail={eventDetail} measurement /> }
     : {}
 
   // 로딩 중

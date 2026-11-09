@@ -365,3 +365,15 @@
     color: var(--home-dark-text);
   }
 }
+
+/* 조회·결과 화면(Figma '헤더 로고 시안'): 그라데이션 바탕 위에 로고만 둔다.
+   바탕을 가리지 않게 칠과 흐림을 빼고, 화면 맨 위에 겹쳐 놓아 본문 배치(grid)에 끼어들지 않게 한다. */
+.site-header.site-header--logoOnly {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}

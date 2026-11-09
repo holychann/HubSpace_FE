@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from 'react'
 import GradientLayout from '../gradientLayout/GradientLayout'
 import './LookupLayout.css'
 
-export default function LookupLayout({ children, action, reference, logo, centerContent = false }) {
+export default function LookupLayout({ children, action, reference, centerContent = false }) {
   const className = [
     'lookup-layout',
     !reference && 'lookup-layout--query',
@@ -14,7 +14,7 @@ export default function LookupLayout({ children, action, reference, logo, center
     <GradientLayout className={className}>
       {reference ? (
         <>
-          <AlignedLookupContent reference={reference} logo={logo}>
+          <AlignedLookupContent reference={reference}>
             {children}
           </AlignedLookupContent>
           <div className='lookup-layout__actions'>{action}</div>
@@ -37,7 +37,7 @@ function QueryLookupContent({ children, action, contentRef }) {
   )
 }
 
-function AlignedLookupContent({ children, reference, logo }) {
+function AlignedLookupContent({ children, reference }) {
   const frameRef = useRef(null)
   const referenceRef = useRef(null)
   const referenceContentRef = useRef(null)
@@ -46,11 +46,10 @@ function AlignedLookupContent({ children, reference, logo }) {
     const frame = frameRef.current
     const referenceContent = referenceContentRef.current.firstElementChild
     const updateAlignment = () => {
-      // 조회 화면과 같은 중앙 정렬을 측정해, 본문 길이와 무관하게 로고 위치를 유지한다.
+      // 조회 화면과 같은 중앙 정렬을 측정해, 본문 길이와 무관하게 결과가 조회 제목 자리에서 시작하게 한다.
       const referenceBounds = referenceContent.getBoundingClientRect()
       const offset = referenceBounds.top - frame.getBoundingClientRect().top
-      frame.style.setProperty('--lookup-logo-offset', `${offset}px`)
-      frame.style.setProperty('--lookup-logo-width', `${referenceBounds.width}px`)
+      frame.style.setProperty('--lookup-content-offset', `${offset}px`)
       frame.dataset.aligned = 'true'
     }
 
@@ -73,7 +72,6 @@ function AlignedLookupContent({ children, reference, logo }) {
         <QueryLookupContent contentRef={referenceContentRef}>{reference}</QueryLookupContent>
       </div>
       <div className='lookup-layout__aligned-body'>
-        <div className='lookup-layout__logo'>{logo}</div>
         <div className='lookup-layout__result-content'>{children}</div>
       </div>
     </div>
