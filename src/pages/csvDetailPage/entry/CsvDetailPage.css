@@ -374,3 +374,100 @@
     width: 100%;
   }
 }
+
+/* 다크 테마 (Figma '13 · 파일 변경 페이지 · Light / Dark'). .adminLayout 의 data-theme 은 AdminLayout 이 정한다.
+   색은 palette.css 의 --home-dark-* 다. 업로드·컬럼 선택·미리보기는 각 공통 컴포넌트의 다크 규칙을 쓴다. */
+[data-theme='dark'] .csvDetail-title,
+[data-theme='dark'] .csvDetail-summary__title,
+[data-theme='dark'] .csvDetail-summary__value,
+[data-theme='dark'] .csvDetail-status__title {
+  color: var(--home-dark-text);
+}
+
+[data-theme='dark'] .csvDetail-summary,
+[data-theme='dark'] .csvDetail-status {
+  background-color: var(--home-dark-surface);
+}
+
+[data-theme='dark'] .csvDetail-summary__label,
+[data-theme='dark'] .csvDetail-status__message,
+[data-theme='dark'] .csvDetail-actions__hint {
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .csvDetail-summary__copy:hover {
+  background-color: var(--home-dark-raised);
+}
+
+/* 복사 아이콘은 선 색이 SVG 에 박혀 있어 path 를 덮어쓴다. */
+[data-theme='dark'] .csvDetail-summary__copy path {
+  stroke: var(--home-dark-text-secondary);
+}
+
+/* 조회용 칩은 생성 화면의 선택 칩과 같은 색이다. 표시용 칩과는 면 색이 거의 같아 글자색으로 구분된다. */
+[data-theme='dark'] .csvDetail-summary__chip {
+  background-color: var(--home-dark-file-bg);
+  color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .csvDetail-summary__chip--display {
+  background-color: var(--home-dark-control);
+  color: var(--home-dark-text-secondary);
+}
+
+[data-theme='dark'] .csvDetail-summary__none {
+  color: var(--home-dark-placeholder);
+}
+
+[data-theme='dark'] .csvDetail-alert {
+  border-color: rgb(255 143 143 / 0.3);
+  background: rgb(255 143 143 / 0.1);
+}
+
+[data-theme='dark'] .csvDetail-alert__message {
+  color: var(--home-dark-danger);
+}
+
+[data-theme='dark'] .csvDetail-alert__refresh {
+  border-color: rgb(255 143 143 / 0.45);
+  background-color: var(--home-dark-surface);
+  color: var(--home-dark-danger);
+}
+
+[data-theme='dark'] .csvDetail-alert__refresh:hover:not(:disabled) {
+  background-color: var(--home-dark-raised);
+}
+
+/* 라이트의 남색 테두리를 그대로 뒤집으면 흰 테두리가 너무 강해, 다크의 선택된 입력칸과 같은 테두리 색을 쓴다. */
+[data-theme='dark'] .csvDetail-secondaryButton {
+  border-color: var(--home-dark-border-strong);
+  background-color: var(--home-dark-surface);
+  color: var(--home-dark-text);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .csvDetail-secondaryButton:hover:not(:disabled) {
+    background-color: var(--home-dark-raised);
+  }
+}
+
+/* 불러오기 실패·변경 불가 카드의 '다시 시도'(EventButton 기본 모양). 다른 다크 화면에는 이 모양의 버튼이 없어 여기서만 맞춘다. */
+[data-theme='dark'] .csvDetail-status .eventButton-button {
+  border-color: rgb(173 185 244 / 0.4);
+  background: transparent;
+  color: var(--home-dark-icon);
+}
+
+[data-theme='dark'] .csvDetail-status .eventButton-button:hover:not(:disabled),
+[data-theme='dark'] .csvDetail-status .eventButton-button:active:not(:disabled) {
+  border-color: rgb(173 185 244 / 0.6);
+  background-color: rgb(173 185 244 / 0.08);
+  box-shadow: none;
+}
+
+[data-theme='dark'] .csvDetail-summary__copy:focus-visible,
+[data-theme='dark'] .csvDetail-alert__refresh:focus-visible,
+[data-theme='dark'] .csvDetail-secondaryButton:focus-visible,
+[data-theme='dark'] .csvDetail-status .eventButton-button:focus-visible {
+  outline-color: var(--home-dark-accent);
+}

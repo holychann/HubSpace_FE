@@ -5,7 +5,7 @@ import { authRefresher, handleAuthFailure, recoverAuthSession } from '../../apis
 import { getAuthEventName, hasValidSession } from '../../utils/authStorage'
 import { AuthUnavailableError } from '../../utils/authRefresh'
 import { isLocalPreviewMode } from '../../mocks/localPreview'
-import { ADMIN_DARK_PATHS, useHomeTheme } from '../../pages/homePage/utils/homeTheme'
+import { hasAdminDarkDesign, useHomeTheme } from '../../pages/homePage/utils/homeTheme'
 import './AuthGate.css'
 
 function AuthChecking({ theme }) {
@@ -33,7 +33,7 @@ export default function AuthGate({ children }) {
   // 확인 화면도 들어가려는 관리 화면과 같은 테마로 보여, 다크 화면 사이에 흰 화면이 끼지 않게 한다.
   const { pathname } = useLocation()
   const { theme } = useHomeTheme()
-  const gateTheme = ADMIN_DARK_PATHS.includes(pathname) ? theme : 'light'
+  const gateTheme = hasAdminDarkDesign(pathname) ? theme : 'light'
 
   useEffect(() => {
     if (phase !== 'checking') return undefined

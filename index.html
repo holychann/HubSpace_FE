@@ -24,7 +24,8 @@
       ;(function () {
         var darkPaths = ['/', '/guide', '/contact', '/search', '/result', '/cookie', '/dashboard', '/dashboard/closed', '/newcsv', '/newform']
         var path = location.pathname.replace(/(.)\/$/, '$1')
-        if (darkPaths.indexOf(path) < 0) return
+        // 파일 변경 화면(/editcsv/이벤트 ID)은 주소 앞부분으로 가린다.
+        if (darkPaths.indexOf(path) < 0 && path.indexOf('/editcsv/') !== 0) return
         var stored = null
         try {
           stored = localStorage.getItem('hubspace-home-theme')

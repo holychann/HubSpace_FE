@@ -42,6 +42,11 @@ export function useHomeTheme() {
   return { theme, preference, changePreference }
 }
 
-// 관리 화면 중 다크 시안이 있는 주소(대시보드·종료된 이벤트·이벤트 생성). 이벤트 수정 화면은 라이트로 둔다.
-// AdminLayout 과 로그인 확인 화면(AuthGate)이 함께 쓴다.
-export const ADMIN_DARK_PATHS = ['/dashboard', '/dashboard/closed', '/newcsv', '/newform']
+// 관리 화면 중 다크 시안이 있는 주소(대시보드·종료된 이벤트·이벤트 생성). 폼 이벤트 수정 화면은 라이트로 둔다.
+const ADMIN_DARK_PATHS = ['/dashboard', '/dashboard/closed', '/newcsv', '/newform']
+
+// AdminLayout 과 로그인 확인 화면(AuthGate)이 함께 쓴다. 파일 변경 화면은 주소 끝에 이벤트 ID 가 붙어 앞부분으로 가린다.
+// 주소를 바꾸면 index.html 의 첫 화면 바탕 스크립트도 함께 바꾼다.
+export function hasAdminDarkDesign(pathname) {
+  return ADMIN_DARK_PATHS.includes(pathname) || pathname.startsWith('/editcsv/')
+}
