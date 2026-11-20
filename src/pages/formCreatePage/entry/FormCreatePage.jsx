@@ -9,7 +9,6 @@ import {
   GOOGLE_PERMISSION_REQUIRED_CODE,
 } from '../apis/createFormEvent'
 import CreateNotice from '../../../components/createNotice/CreateNotice'
-import EventCreateConfirmModal from '../../../components/eventCreateConfirmModal/EventCreateConfirmModal'
 import GooglePermissionModal from '../component/GooglePermissionModal'
 import {
   consumeGoogleConsentDraft,
@@ -37,7 +36,6 @@ export default function FormCreatePage() {
   const [eventTitle, setEventTitle] = useState('')
   const [selectedFields, setSelectedFields] = useState(['', '', ''])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [isPermissionModalOpen, setIsPermissionModalOpen] = useState(false)
 
   const navigate = useNavigate()
@@ -63,7 +61,7 @@ export default function FormCreatePage() {
     const consentStatus = new URLSearchParams(location.search).get('googleConsent')
 
     if (consentStatus === 'success') {
-      toast.success('Google 권한 설정을 확인했습니다. 입력 완료를 다시 눌러주세요.')
+      toast.success('Google 권한 설정을 확인했습니다. 이벤트 생성을 다시 눌러주세요.')
       navigate('/newform', { replace: true })
     } else if (consentStatus === 'denied') {
       toast.error('Google 권한이 허용되지 않아 폼을 생성할 수 없습니다.')
@@ -87,21 +85,14 @@ export default function FormCreatePage() {
     setSelectedFields(nextFields)
   }
 
-  // 입력값을 검사한 뒤 최종 확인 화면을 띄운다. 생성 요청은 확인 화면의 '이벤트 생성'에서 시작한다.
-  const handleOpenConfirm = () => {
+  // 입력값을 검사한 뒤 바로 생성 요청을 보낸다. 실패하면 입력값을 유지해 바로 다시 시도할 수 있게 한다.
+  const handleCreateForm = async () => {
     if (isSubmitting) return
 
     if (!isValid) {
       toast.error('이벤트 관리명과 필드를 2개 이상, 중복 없이 입력해주세요.', { duration: 2000 })
       return
     }
-
-    setIsConfirmOpen(true)
-  }
-
-  // 실패하면 확인 화면을 열어둔 채 입력값을 유지해 바로 다시 시도할 수 있게 한다.
-  const handleCreateForm = async () => {
-    if (isSubmitting) return
 
     try {
       setIsSubmitting(true)
@@ -115,7 +106,6 @@ export default function FormCreatePage() {
       navigate('/dashboard')
     } catch (err) {
       if (err?.errorCode === GOOGLE_PERMISSION_REQUIRED_CODE) {
-        setIsConfirmOpen(false)
         setIsPermissionModalOpen(true)
         return
       }
@@ -201,28 +191,13 @@ export default function FormCreatePage() {
         <div className='formCreate-button'>
           <EventButton
             variant='navy'
-            text='입력 완료'
-            onClick={handleOpenConfirm}
+            text={isSubmitting ? '생성 중...' : '이벤트 생성'}
+            onClick={handleCreateForm}
             disabled={isSubmitting}
+            aria-busy={isSubmitting}
           />
         </div>
       </div>
-
-      <EventCreateConfirmModal
-        isOpen={isConfirmOpen}
-        method='form'
-        rows={[
-          { label: '이벤트 이름', value: trimmedTitle },
-          { label: '조회 항목', value: validFields.join(', ') },
-        ]}
-        notice={{
-          main: '조회 항목의 이름을 유지해주세요.\n이름을 바꾸면 정상적인 조회가 되지 않을 수 있습니다.',
-          sub: '질문 타입, 직접 추가한 질문, 폼 제목과 설명은 변경할 수 있습니다.',
-        }}
-        isProcessing={isSubmitting}
-        onConfirm={handleCreateForm}
-        onClose={() => setIsConfirmOpen(false)}
-      />
 
       <GooglePermissionModal
         isOpen={isPermissionModalOpen}

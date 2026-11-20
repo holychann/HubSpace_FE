@@ -9,7 +9,6 @@ import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { createFileEvent } from '../apis/createFileEvent'
 import CreateNotice from '../../../components/createNotice/CreateNotice'
-import EventCreateConfirmModal from '../../../components/eventCreateConfirmModal/EventCreateConfirmModal'
 
 const FileCreateGuide = lazy(() => import('../component/FileCreateGuide'))
 
@@ -105,7 +104,6 @@ export default function CsvCreatePage() {
   const [rowCount, setRowCount] = useState(0)
   const [uploadedFileName, setUploadedFileName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [isReading, setIsReading] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   // 연속으로 파일을 첨부하면 마지막 파일의 읽기 결과만 반영한다.
@@ -185,9 +183,8 @@ export default function CsvCreatePage() {
      화면 전체 드래그 업로드
   ========================= */
   // 드롭은 서버에 보내지 않고 첨부만 한다. 폴더와 여러 파일은 받지 않는다.
-  // 최종 확인 화면이 열려 있는 동안에도 받지 않는다. 확인 중인 파일이 뒤에서 바뀌지 않게 하기 위해서다.
   const handleWindowDrop = useEffectEvent((dataTransfer) => {
-    if (isSubmitting || isConfirmOpen) return
+    if (isSubmitting) return
 
     const { files, items } = dataTransfer
     if (files.length === 0) return
@@ -205,7 +202,7 @@ export default function CsvCreatePage() {
     parseHeaderFromFile(files[0])
   })
 
-  const isDropBlocked = useEffectEvent(() => isSubmitting || isConfirmOpen)
+  const isDropBlocked = useEffectEvent(() => isSubmitting)
 
   useEffect(() => {
     // 하위 요소 사이를 이동할 때마다 enter/leave 가 쌍으로 발생하므로 깊이를 세어 오버레이 깜빡임을 막는다.
@@ -256,8 +253,8 @@ export default function CsvCreatePage() {
     }
   }, [])
 
-  // 입력값을 검사한 뒤 최종 확인 화면을 띄운다. 생성 요청은 확인 화면의 '이벤트 생성'에서 시작한다.
-  const handleOpenConfirm = () => {
+  // 입력값을 검사한 뒤 바로 생성 요청을 보낸다. 실패하면 입력값을 유지해 바로 다시 시도할 수 있게 한다.
+  const handleCreateCsv = async () => {
     if (isSubmitting || isReading) return
 
     if (!trimmedTitle) {
@@ -275,13 +272,6 @@ export default function CsvCreatePage() {
       })
       return
     }
-
-    setIsConfirmOpen(true)
-  }
-
-  // 실패하면 확인 화면을 열어둔 채 입력값을 유지해 바로 다시 시도할 수 있게 한다.
-  const handleCreateCsv = async () => {
-    if (isSubmitting) return
 
     try {
       setIsSubmitting(true)
@@ -365,34 +355,13 @@ export default function CsvCreatePage() {
         <div className='csvCreate-action'>
           <EventButton
             variant='navy'
-            text='입력 완료'
-            onClick={handleOpenConfirm}
+            text={isSubmitting ? '생성 중...' : '이벤트 생성'}
+            onClick={handleCreateCsv}
             disabled={isReading || isSubmitting}
+            aria-busy={isSubmitting}
           />
         </div>
       </div>
-
-      <EventCreateConfirmModal
-        isOpen={isConfirmOpen}
-        method='file'
-        rows={[
-          { label: '이벤트 이름', value: trimmedTitle },
-          { label: '첨부 파일', value: uploadedFileName },
-          { label: '데이터 수', value: `${rowCount.toLocaleString('ko-KR')}개` },
-          { label: '조회 항목', value: validFields.join(', ') },
-          {
-            label: '결과 표시 항목',
-            value: selectedColumns.length ? selectedColumns.join(', ') : '선택 안 함',
-          },
-        ]}
-        notice={{
-          main: '선택한 항목만 서버에 저장됩니다.\n선택하지 않은 항목은 저장되지 않습니다.',
-          sub: '값에 쉼표가 있다면 TSV 파일을 사용해주세요.\n생성 후에도 새 파일로 교체할 수 있습니다.',
-        }}
-        isProcessing={isSubmitting}
-        onConfirm={handleCreateCsv}
-        onClose={() => setIsConfirmOpen(false)}
-      />
     </div>
   )
 }
