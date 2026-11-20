@@ -194,7 +194,7 @@ export default function FormCreatePage() {
             text={isSubmitting ? '생성 중...' : '이벤트 생성'}
             onClick={handleCreateForm}
             disabled={isSubmitting}
-            aria-busy={isSubmitting}
+            isLoading={isSubmitting}
           />
         </div>
       </div>

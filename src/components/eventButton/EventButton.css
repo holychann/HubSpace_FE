@@ -95,6 +95,21 @@
   opacity: 1;
 }
 
+/* 확인 모달 버튼과 같은 스피너. 스피너 기본 바깥 여백은 지운다. */
+.eventButton--navy .eventButton-button {
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.eventButton-button__spinner {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.eventButton-button__spinner .loadingSpinner {
+  margin: 0;
+}
+
 @media (max-width: 767px) {
   .eventButton--navy,
   .eventButton--navy .eventButton-button {

@@ -358,7 +358,7 @@ export default function CsvCreatePage() {
             text={isSubmitting ? '생성 중...' : '이벤트 생성'}
             onClick={handleCreateCsv}
             disabled={isReading || isSubmitting}
-            aria-busy={isSubmitting}
+            isLoading={isSubmitting}
           />
         </div>
       </div>
